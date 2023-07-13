@@ -20,6 +20,48 @@ export default function UserProfile({ userProfile, imageBaseUrl }: any) {
     localStorage.clear();
   };
 
+  const ProfileImage = () => {
+    return userProfile?.photo_uri !== "null" && userProfile?.photo_uri ? (
+      userProfile?.photo_uri.includes("googleusercontent") ? (
+        <img
+          src={`${userProfile?.photo_uri}`}
+          alt="Selected file preview"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      ) : (
+        <img
+          src={`${imageBaseUrl}${userProfile?.photo_uri}`}
+          alt="Selected file preview"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      )
+    ) : (
+      <div
+        style={{
+          background:
+            "linear-gradient(268.03deg, #5961F8 -0.66%, #5961F8 -0.65%, #497DEC 22.41%, #15D8C5 100%, #15D8C5 100%)",
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+          fontSize: "23px",
+          textTransform: "capitalize",
+        }}
+      >
+        {userProfile?.name?.charAt(0)}
+      </div>
+    );
+  };
   return (
     <div>
       <Button
@@ -38,45 +80,7 @@ export default function UserProfile({ userProfile, imageBaseUrl }: any) {
           }}
           id="offcanvasBottomLabel"
         >
-          {userProfile?.photo_uri ? (
-            userProfile?.photo_uri?.includes("googleusercontent") ? (
-              <img
-                src={`${userProfile?.photo_uri}`}
-                alt="Selected file preview"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            ) : (
-              <img
-                src={`${imageBaseUrl}${userProfile?.photo_uri}`}
-                alt="Selected file preview"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            )
-          ) : (
-            <div
-              style={{
-                background:
-                  "linear-gradient(268.03deg, #5961F8 -0.66%, #5961F8 -0.65%, #497DEC 22.41%, #15D8C5 100%, #15D8C5 100%)",
-                color: "white",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-                fontSize: "16px",
-              }}
-            >
-              {userProfile?.name?.charAt(0)}
-            </div>
-          )}
+          <ProfileImage />
         </div>
       </Button>
 
@@ -105,46 +109,7 @@ export default function UserProfile({ userProfile, imageBaseUrl }: any) {
                 overflow: "hidden",
               }}
             >
-              {userProfile?.photo_uri ? (
-                userProfile?.photo_uri?.includes("googleusercontent") ? (
-                  <img
-                    src={`${userProfile?.photo_uri}`}
-                    alt="Selected file preview"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                ) : (
-                  <img
-                    src={`${imageBaseUrl}${userProfile?.photo_uri}`}
-                    alt="Selected file preview"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                )
-              ) : (
-                <div
-                  style={{
-                    background:
-                      "linear-gradient(268.03deg, #5961F8 -0.66%, #5961F8 -0.65%, #497DEC 22.41%, #15D8C5 100%, #15D8C5 100%)",
-                    color: "white",
-                    display: "flex",
-                    justifyContent: "center", 
-                    alignItems: "center",
-                    width: "100%",
-                    height: "100%",
-                    fontSize: "30px",
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {userProfile?.name?.charAt(0)}
-                </div>
-              )}
+              <ProfileImage />
             </div>
             <div>
               <h4 className="mb-0">

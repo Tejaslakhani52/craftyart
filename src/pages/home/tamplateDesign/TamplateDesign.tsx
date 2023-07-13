@@ -4,6 +4,9 @@ import Skeleton from "react-loading-skeleton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import TemplateModel from "../../allTemplate/components/tempateModal/TemplateModel";
+import { useSelector } from "react-redux";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 export const ImageComponent = ({
   temp,
@@ -35,14 +38,14 @@ export const ImageComponent = ({
             ? "background_light_green padding_10 min_h_240"
             : "h_auto"
         } gallery_img position-relative`}
-        style={{ display: isLoadedImage ? "flex" : "none" }}
+        style={{ display: "flex" }}
         onClick={() => {
-          const newPath = `p/${temp.id_name}`;
+          const newPath = `/templates/p/${temp.id_name}`;
           window.history.pushState({}, "", newPath);
           setOpen(true);
         }}
       >
-        <a
+        {/* <a
           className="text-decoration-none"
           href="javscript:;"
           data-bs-target="#templateModal"
@@ -55,6 +58,7 @@ export const ImageComponent = ({
                 : `img_width_187px border_radius`
             }  `}
             src={temp?.template_thumb}
+            crossOrigin="anonymous"
             alt={temp?.template_name}
             onLoad={handleImageLoad}
             style={{
@@ -65,10 +69,40 @@ export const ImageComponent = ({
               )}px`,
               width: "100%",
             }}
-          />
-        </a>
+          /> */}
 
-        {item.is_premium ? (
+        <div
+          className={`${
+            item.category_id < 0
+              ? "no_width"
+              : "img_width_187px border_radius  background_light_green"
+          }`}
+          style={{
+            height:
+              item.category_id > 0
+                ? `${calculateHeight(temp?.width, temp?.height, multiSize)}px`
+                : "",
+            width: "100%",
+          }}
+          // style={{
+          //   height: isNotFix
+          //     ? `${calculateHeight(item?.width, item?.height, height)}px`
+          //     : "",
+          //   width: "auto",
+          // }}
+        >
+          <LazyLoadImage
+            src={temp?.template_thumb}
+            alt={temp?.template_name}
+            height={100}
+            width={100}
+            effect="blur"
+            style={{ width: "100%", height: "100%" }}
+          />
+          {/* </a> */}
+        </div>
+
+        {temp.is_premium ? (
           <div className="pricing_option">
             <a className="pricing_icon text-decoration-none">
               <i className="fa-solid fa-crown text-warning" />
@@ -78,7 +112,7 @@ export const ImageComponent = ({
           <div></div>
         )}
       </div>
-      <div
+      {/* <div
         className={`${
           item.category_id < 0
             ? "background_light_green padding_10 min_h_240"
@@ -96,7 +130,7 @@ export const ImageComponent = ({
             )}px`,
           } as any
         }
-      ></div>
+      ></div> */}
 
       <TemplateModel
         open={open}
@@ -169,9 +203,7 @@ export const MainComponent = ({
         style={{ paddingBottom: "10px", position: "relative" }}
       >
         <div className="section_title_main d-flex justify-content-between align-items-center pb-3">
-          <h3 className="section_title mb-0">
-            {item.category_name} ({item.template_model.length})
-          </h3>
+          <h3 className="section_title mb-0">{item.category_name}</h3>
 
           <a
             onClick={() => navigate(`/templates/${item?.id_name}`)}
@@ -226,9 +258,12 @@ export const MainComponent = ({
   );
 };
 
-export default function TamplateDesign({ templates, isloading }: any) {
+export default function TamplateDesign({ isloading }: any) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  const templates = useSelector((state: any) => state.apiData.templatesData);
+  console.log("templatesccccc: ", templates);
+
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -276,7 +311,7 @@ export default function TamplateDesign({ templates, isloading }: any) {
           </p>
         </div>
 
-        {isloading ? (
+        {templates?.length < 1 ? (
           <div style={{ padding: "0 20px", overflow: "hidden" }}>
             {new Array(10).fill("#497dec26").map((data, index) => (
               <div

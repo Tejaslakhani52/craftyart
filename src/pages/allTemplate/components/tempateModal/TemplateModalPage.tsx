@@ -1,7 +1,7 @@
 import { Skeleton } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import api from "../../../../services/api";
 import TemplateModel from "./TemplateModel";
 
@@ -12,9 +12,12 @@ export interface DialogTitleProps {
 }
 
 export default function TemplateModelPage({ mainId }: any) {
+  const token = localStorage.getItem("userProfile");
+  const navigate = useNavigate();
   const location = useLocation();
   const currentPathname = location.pathname;
   const { slug } = useParams();
+  console.log("slug: ", slug);
   const [finalData, setfinalData] = React.useState<any>([]);
   const [isloading, setIsloading] = useState<boolean>(false);
   const [showingData, setshowingData] = useState<any>([]);
@@ -82,6 +85,7 @@ export default function TemplateModelPage({ mainId }: any) {
           response.data.lastIndexOf("}") + 1
         );
         const getData = JSON.parse(jsonString);
+
         setIsloading(false);
         setshowingData(getData);
         window.scrollTo(0, 0);
@@ -143,6 +147,7 @@ export default function TemplateModelPage({ mainId }: any) {
                                 src={
                                   showingData?.url + showingData?.template_thumb
                                 }
+                                crossOrigin="anonymous"
                                 alt="templateinsta"
                                 style={{ objectFit: "contain" }}
                               />
@@ -177,24 +182,47 @@ export default function TemplateModelPage({ mainId }: any) {
                         <h5 className="fw-normal my-3">
                           {showingData?.category_size}
                         </h5>
-                        <p
-                          className="use_template_btn d-none d-lg-block"
-                          onClick={() => {
-                            window.open(
-                              `https://editor.craftyartapp.com/${showingData?.id_name}`
-                            );
-                          }}
-                        >
-                          <a
-                            href="javscript:;"
-                            className="text-decoration-none text-white"
+                        {showingData?.is_premium && !token ? (
+                          <button
+                            type="button"
+                            className="use_template_btn d-none d-lg-block"
+                            data-bs-toggle="modal"
+                            data-bs-target="#loginModal"
+                            role="button"
+                            style={{ border: "none" }}
                           >
-                            {showingData?.is_premium && (
+                            <a
+                              href="javscript:;"
+                              className="text-decoration-none text-white"
+                            >
                               <i className="fa-solid fa-crown text-warning pe-2" />
-                            )}
-                            <span> Use this Template</span>
-                          </a>
-                        </p>
+
+                              <span> Use this Template</span>
+                            </a>
+                          </button>
+                        ) : (
+                          <p
+                            className="use_template_btn d-none d-lg-block"
+                            onClick={() => {
+                              if (showingData?.is_premium) {
+                                navigate("/pricePlans");
+                              } else
+                                window.open(
+                                  `https://editor.craftyartapp.com/${showingData?.id_name}`
+                                );
+                            }}
+                          >
+                            <a
+                              href="javscript:;"
+                              className="text-decoration-none text-white"
+                            >
+                              {showingData?.is_premium && (
+                                <i className="fa-solid fa-crown text-warning pe-2" />
+                              )}
+                              <span> Use this Template</span>
+                            </a>
+                          </p>
+                        )}
                         <p className="mb-3">
                           <span className="pe-2">
                             <img
@@ -342,6 +370,7 @@ export default function TemplateModelPage({ mainId }: any) {
                                       ? " no_width "
                                       : `img_width_187px border_radius this_template_width`
                                   }  `}
+                                  crossOrigin="anonymous"
                                   src={item?.template_thumb}
                                   alt={item?.template_name}
                                   // onLoad={handleImageLoad}

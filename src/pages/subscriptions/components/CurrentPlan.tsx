@@ -135,7 +135,10 @@ export default function CurrentPlan({ userSubscription }: any) {
                                     {item?.status === "Active" ? (
                                       <i className="fa-solid fa-check" />
                                     ) : (
-                                      <i className="fa-solid fa-xmark"></i>
+                                      <i
+                                        className="fa-solid fa-xmark"
+                                        style={{ color: "red" }}
+                                      ></i>
                                     )}
                                   </a>
                                 </td>

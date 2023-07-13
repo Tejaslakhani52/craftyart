@@ -335,3 +335,55 @@ html {
   height: 170px;
   position: absolute;
 }
+
+.breadcrumb_nav span {
+  font-weight: 500;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.breadcrumb_nav .navigate:hover {
+  color: #497dec;
+}
+
+.not_found_page {
+  height: auto;
+}
+
+.inner_not_found {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: white;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back_box {
+  text-align: center;
+}
+
+.w_100 {
+  width: 100%;
+}
+
+.w_fit {
+  width: fit-content;
+}
+
+.brd_10 {
+  border-radius: 10px;
+}
+
+.lazy-load-image-background {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.max_w_120 {
+  max-width: 150px;
+}

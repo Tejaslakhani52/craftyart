@@ -1,10 +1,12 @@
-import { Skeleton } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { CatDataRoot } from "../../interfaces/CatDataObject";
 import TemplateModel from "../../pages/allTemplate/components/tempateModal/TemplateModel";
-import api from "../../services/api";
-import { consoleShow } from "../../commonFunction/console";
+import { useDispatch, useSelector } from "react-redux";
+import { searchLoading } from "../../redux/reducer/dataReducer";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 export interface DialogTitleProps {
   id: string;
@@ -12,21 +14,35 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
+function calculateHeight(width: number, height: number, newWidth: number) {
+  return (height / width) * newWidth;
+}
+
 export default function SearchBox() {
   const navigate = useNavigate();
-  const mainId = -1;
+  const dispatch = useDispatch();
   const location = useLocation();
   const currentPathname = location.pathname;
   const { name } = useParams();
+  const modifiedName = name?.replace(/-/g, " ");
+
   const { id } = useParams();
-  const [value, setValue] = useState<any>(name);
+  console.log("id: ", currentPathname);
+  const [value, setValue] = useState<any>(modifiedName);
   const [finalData, setfinalData] = React.useState<any>([]);
-  const [isloading, setIsloading] = useState<boolean>(false);
-  const [showingData, setshowingData] = useState<any>([]);
+  console.log("finalData: ", finalData);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  // const [uniqueApiData, setUniqueApiData] = useState<any>([]);
   const [open, setOpen] = useState(false);
   const [dataPass, setDataPaas] = useState({});
+  const [page, setPage] = useState<number>(1);
+  console.log("page: ", page);
+  const [templates, setTemplates] = useState<CatDataRoot>();
+
+  const searchLoadingValue = useSelector(
+    (state: any) => state.data.searchLoading
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -62,58 +78,28 @@ export default function SearchBox() {
         return 150;
     }
   }, [screenWidth]);
-  const rowHeight = useMemo(() => {
-    switch (true) {
-      case screenWidth > 991:
-        return `500px`;
-      default:
-        return "auto";
-    }
-  }, [screenWidth]);
 
-  // const fetchData = React.useCallback(async () => {
-  //   const newImages = await api.getSearchData({
-  //     key: "qwfsegxdhbxfjhncf",
-  //     app_id: 1,
-  //     cat_id: id,
-  //     keywords: name as any,
-  //     device: 0,
-  //     refWidth: 1080,
-  //     refHeight: 1080,
-  //     page: 1,
-  //     debug: "debug",
-  //   });
-  //   setfinalData(newImages);
-  //   console.log("newImages: ", newImages);
-  //   setIsloading(false);
-  // }, []);
-  // useEffect(() => {
-  //   fetchData();
-  //   setIsloading(true);
-  // }, [name, id]);
+  const replaceURL = (url: string) => {
+    const modifiedURL = url.replace(/%20/g, "-");
+    console.log("modifiedURL: ", modifiedURL);
+    navigate(modifiedURL);
+  };
 
-  const getSearchList = () => {
-    // const formData = new FormData();
+  useEffect(() => {
+    replaceURL(currentPathname);
+  }, [currentPathname]);
 
-    // formData.append("key", "qwfsegxdhbxfjhncf");
-    // formData.append("app_id", "1");
-    // formData.append("cat_id", id as any);
-    // formData.append("keywords", name as any);
-    // formData.append("device", "0");
-    // formData.append("refWidth", "1080");
-    // formData.append("refHeight", "1080");
-    // formData.append("page", "1");
-    // formData.append("debug", "debug");
+  const getSearchList = (pages: number) => {
     axios
       .post("https://story.craftyartapp.com/search-template", {
         key: "qwfsegxdhbxfjhncf",
         app_id: "1",
-        cat_id: id?.toString() ?? "0",
+        cat_id: id?.toString() ?? "-1",
         keywords: value?.toString(),
         device: "0",
         refWidth: "1080",
         refHeight: "1080",
-        page: "1",
+        page: pages,
         debug: "debug",
       })
       .then((response: any) => {
@@ -122,20 +108,65 @@ export default function SearchBox() {
           response.data.lastIndexOf("}") + 1
         );
         const getData = JSON.parse(jsonString);
-        setfinalData(getData);
-        consoleShow("getSearchList", getData);
-        setIsloading(false);
-      });
+        setTemplates(getData);
+        const newItems = getData?.datas;
+        if (pages === 1) {
+          setfinalData(newItems);
+          setPage(2);
+        } else {
+          setfinalData((prevData: any) => [...prevData, ...newItems]);
+          setPage((prevPage) => prevPage + 1);
+        }
+
+        dispatch(searchLoading(false));
+      })
+      .catch((error: any) => console.log("error: ", error));
   };
 
   useEffect(() => {
-    getSearchList();
-    setIsloading(true);
-  }, [name, id]);
+    getSearchList(page);
+    dispatch(searchLoading(true));
+  }, []);
 
-  window.addEventListener("popstate", function (event) {
-    setOpen(false);
-  });
+  useEffect(() => {
+    let debounceTimer: any;
+
+    const handleScroll = () => {
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+      }
+
+      debounceTimer = setTimeout(() => {
+        const { scrollTop, clientHeight, scrollHeight } =
+          document.documentElement;
+        const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+
+        if (distanceFromBottom < 1200 && !searchLoadingValue) {
+          getSearchList(page);
+        }
+      }, 700);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [page, searchLoadingValue]);
+
+  // useEffect(() => {
+  //   const uniqueApiDatas = Object.values(
+  //     finalData.reduce((uniqueItems: any, item: any) => {
+  //       if (!uniqueItems[item.template_id]) {
+  //         uniqueItems[item.template_id] = item;
+  //       }
+  //       return uniqueItems;
+  //     }, {})
+  //   );
+
+  //   const sortedApiData = uniqueApiDatas; // Reverse the array
+
+  //   setUniqueApiData(sortedApiData);
+  // }, [finalData]);
 
   return (
     <div>
@@ -154,71 +185,67 @@ export default function SearchBox() {
                   <div className="d-none d-lg-block serachbar_position">
                     <div
                       className="search_input d-flex align-items-center"
-                      // onKeyPress={(e) =>
-                      //   e.key === "Enter" &&
-                      //   value &&
-                      //   (id && id !== "latest" && id !== "trending"
-                      //     ? navigate(`/templates/${id}/${value}`)
-                      //     : navigate(`/${value}`))
-                      // }
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
-                          value &&
-                            (id && id !== "latest" && id !== "trending"
-                              ? window.history.replaceState(
-                                  { replace: true },
-                                  "",
-                                  `/templates/${id}/${value}`
-                                )
-                              : window.history.replaceState(
-                                  { replace: true },
-                                  "",
-                                  `/${value}`
-                                ));
-                          getSearchList();
-                          setIsloading(true);
+                          const modifiedValue = value.replace(/ /g, "-");
+                          console.log("modifiedValue: ", modifiedValue);
+                          if (value !== "") {
+                            if (id && id !== "latest" && id !== "trending") {
+                              window.history.replaceState(
+                                { replace: true },
+                                "",
+                                `/templates/${id}/${modifiedValue}`
+                              );
+                            } else {
+                              window.history.replaceState(
+                                { replace: true },
+                                "",
+                                `/s/${modifiedValue}`
+                              );
+                            }
+                            getSearchList(1);
+                            dispatch(searchLoading(true));
+                          } else {
+                            dispatch(searchLoading(false));
+                          }
                         }
                       }}
-
-                      //  window.history.replaceState({}, "", `/p/${item.id_name}`);
-                      // onKeyPress={(e) => {
-                      //   if (e.key === "Enter") {
-                      //     getSearchList();
-                      //     setIsloading(true);
-                      //   }
-                      // }}
                     >
                       <input
                         type="search"
                         value={value}
-                        placeholder="Search instagram posts"
+                        placeholder="Search posts"
                         className="border-0 bg-transparent w-100 h-100 fs-5"
                         onChange={(e) => setValue(e.target.value)}
                       />
                       <i
                         className="fa-solid fa-magnifying-glass color_green1 fs-6"
                         onClick={() => {
-                          value &&
-                            (id && id !== "latest" && id !== "trending"
+                          const modifiedValue = value.replace(/ /g, "-");
+                          if (value !== "") {
+                            id && id !== "latest" && id !== "trending"
                               ? window.history.replaceState(
                                   { replace: true },
                                   "",
-                                  `/templates/${id}/${value}`
+                                  `/templates/${id}/${modifiedValue}`
                                 )
                               : window.history.replaceState(
                                   { replace: true },
                                   "",
-                                  `/${value}`
-                                ));
-                          getSearchList();
-                          setIsloading(true);
+                                  `/s/${modifiedValue}`
+                                );
+                            getSearchList(1);
+                            dispatch(searchLoading(true));
+                          } else {
+                            dispatch(searchLoading(false));
+                          }
                         }}
                         style={{ cursor: "pointer" }}
                       />
                     </div>
                   </div>
                 </div>
-                {isloading ? (
+                {searchLoadingValue ? (
                   <main className="main">
                     <span className="loader"></span>
                   </main>
@@ -233,7 +260,7 @@ export default function SearchBox() {
                         minHeight: "70px",
                       }}
                     >
-                      {finalData?.datas?.length > 0 ? (
+                      {finalData?.length > 0 ? (
                         <h3 className="mb-0 text-center">
                           The template you found
                         </h3>
@@ -250,20 +277,6 @@ export default function SearchBox() {
                           <h3> No templates found</h3>
                         </div>
                       )}
-
-                      {/* <p
-                        className="use_template_btn d-none d-lg-block"
-                        style={{ width: "150px", cursor: "pointer" }}
-                        onClick={() =>
-                          currentPathname?.includes("templates")
-                            ? navigate(`/templates/${id}`, { replace: true })
-                            : navigate("/", { replace: true })
-                        }
-                      >
-                        <i className="fa-solid fa-arrow-left-long pe-2"></i>
-
-                        <span>Back</span>
-                      </p> */}
                     </div>
 
                     <div
@@ -273,7 +286,7 @@ export default function SearchBox() {
                         placeItems: "center",
                       }}
                     >
-                      {finalData?.datas?.map((item: any, index: number) => {
+                      {finalData?.map((item: any, index: number) => {
                         function calculateHeight(
                           width: number,
                           height: number,
@@ -291,33 +304,32 @@ export default function SearchBox() {
                               setTimeout(() => {
                                 setOpen(true);
                               }, 200);
-                              const newPath = `p/${item.id_name}`;
+
+                              const newPath = `/templates/p/${item?.id_name}`;
                               window.history.pushState({}, "", newPath);
                             }}
                           >
                             <div
                               className={`${
                                 id && id !== "latest" && id !== "trending"
-                                  ? "h_auto"
-                                  : "background_light_green padding_10 min_h_240"
+                                  ? "h_auto background_light_green w_fit brd_10"
+                                  : "background_light_green padding_10 min_h_240 brd_10"
                               } gallery_img position-relative`}
                               style={{
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
                               }}
-                              // style={{ display: isLoadedImage ? "flex" : "none" }}
-                              // onClick={() => setOpen(true)}
                             >
-                              <img
+                              {/* <img
                                 className={`${
-                                  mainId < 0
-                                    ? " no_width "
-                                    : `img_width_187px border_radius this_template_width`
+                                  id && id !== "latest" && id !== "trending"
+                                    ? "img_width_187px border_radius this_template_width "
+                                    : `no_width`
                                 }  `}
+                                crossOrigin="anonymous"
                                 src={item?.template_thumb}
                                 alt={item?.template_name}
-                                // onLoad={handleImageLoad}
                                 style={{
                                   height: `${calculateHeight(
                                     item?.width,
@@ -325,7 +337,34 @@ export default function SearchBox() {
                                     height
                                   )}px`,
                                 }}
-                              />
+                              /> */}
+                              <div
+                                className={`${
+                                  id && id !== "latest" && id !== "trending"
+                                    ? "img_width_187px border_radius this_template_width"
+                                    : "no_width max_w_120"
+                                }`}
+                                style={{
+                                  height:
+                                    id && id !== "latest" && id !== "trending"
+                                      ? `${calculateHeight(
+                                          item?.width,
+                                          item?.height,
+                                          height
+                                        )}px`
+                                      : "",
+                                  width: "auto",
+                                }}
+                              >
+                                <LazyLoadImage
+                                  src={item?.template_thumb}
+                                  alt={item?.template_name}
+                                  height={100}
+                                  width={100}
+                                  effect="blur"
+                                  style={{ width: "100%", height: "100%" }}
+                                />
+                              </div>
 
                               {item.is_premium ? (
                                 <div className="pricing_option">
@@ -346,6 +385,29 @@ export default function SearchBox() {
                           </div>
                         );
                       })}
+                      {templates && !templates?.isLastPage ? (
+                        new Array(multiSize)
+                          .fill("#497dec26")
+                          .map((item, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                backgroundColor: "#497dec26",
+                                borderRadius: "10px",
+                                marginBottom: "61px",
+                                height: `${calculateHeight(
+                                  finalData[0]?.width,
+                                  finalData[0]?.height,
+                                  height
+                                )}px`,
+                              }}
+                              className={`${id ? "" : "min_h_240"}
+                              } skeleton-loader img_width_187px this_template_width`}
+                            ></div>
+                          ))
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 )}
@@ -358,7 +420,7 @@ export default function SearchBox() {
         open={open}
         setOpen={setOpen}
         templateData={dataPass}
-        templates={finalData?.datas ?? []}
+        templates={finalData ?? []}
         screenWidth={screenWidth}
         mainId={"-1"}
         currentPathname={currentPathname}

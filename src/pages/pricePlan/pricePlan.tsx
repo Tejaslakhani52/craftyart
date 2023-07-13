@@ -72,6 +72,9 @@ export default function PricePlan() {
         // const a = JSON.stringify(response?.data);
         // setpricePlaneData(getData?.subs);
         // setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log("errors: ", error);
       });
     axios
       .post("https://story.craftyartapp.com/my-payment/stripe", {

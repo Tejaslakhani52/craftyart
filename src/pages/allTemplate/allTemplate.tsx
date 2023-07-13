@@ -1,18 +1,28 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { consoleShow } from "../../commonFunction/console";
 import Creation from "../../components/creationOffcanvas/Creation";
 import CustomeSize from "../../components/footer/customeSize/CustomeSize";
 import Profile from "../../components/profile/Profile";
 import SmallScreen from "../../components/smallScreenBottom/SmallScreen";
 import Templete from "./components/templeteSection/Template";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 export default function AllTemplate() {
   const navigate = useNavigate();
-  const [value, setValue] = useState<any>();
-  const [id, setId] = useState<any>();
   const { categoryId } = useParams();
-  consoleShow("categoryId: ", categoryId);
+  console.log("categoryId: ", categoryId);
+  const [value, setValue] = useState<any>("");
+
+  const handleSearch = () => {
+    const modifiedValue = value.replace(/ /g, "-");
+    if (value) {
+      if (categoryId && categoryId !== "latest" && categoryId !== "trending") {
+        navigate(`/templates/${categoryId}/${modifiedValue}`);
+      } else {
+        navigate(`/s/${modifiedValue}`);
+      }
+    }
+  };
 
   return (
     <div>
@@ -22,7 +32,7 @@ export default function AllTemplate() {
         <Creation />
         <CustomeSize />
       </div>
-      {/* =============== ALL TEMPLATE SECTION ================= */}
+
       <section className="all_template">
         <div className="all_template_inner px-3">
           <div className="all_template_heading text-center d-flex justify-content-center align-items-center h-100 flex-column">
@@ -41,15 +51,11 @@ export default function AllTemplate() {
           </div>
         </div>
       </section>
-      {/* ============ INSTAGRAM POST TEMPALTE ==============*/}
 
       <section className="insta_post_template py-4">
         <div className="container-fluid">
           <div className="insta_tempalte">
             <div className="d-flex justify-content-between flex-wrap">
-              {/* <LargeSreenFilter />
-              <SmallSCreenFilter /> */}
-
               <div
                 className="insta_template_left template_left_width px-0 px-lg-2"
                 style={{ border: "none", width: "100%" }}
@@ -57,47 +63,37 @@ export default function AllTemplate() {
                 <div className="d-none d-lg-block serachbar_position">
                   <div
                     className="search_input d-flex align-items-center"
-                    onKeyPress={(e) =>
-                      e.key === "Enter" &&
-                      value &&
-                      (categoryId &&
-                      categoryId !== "latest" &&
-                      categoryId !== "trending"
-                        ? navigate(`/templates/${categoryId}/${value}`)
-                        : navigate(`/${value}`))
-                    }
+                    onKeyPress={(e) => {
+                      e.key === "Enter" && handleSearch();
+                    }}
                   >
                     <input
                       type="search"
                       value={value}
-                      placeholder="Search instagram posts"
+                      placeholder="Search posts"
                       className="border-0 bg-transparent w-100 h-100 fs-5"
                       onChange={(e) => setValue(e.target.value)}
                     />
                     <i
                       className="fa-solid fa-magnifying-glass color_green1 fs-6"
-                      onClick={() =>
-                        value &&
-                        (categoryId &&
-                        categoryId !== "latest" &&
-                        categoryId !== "trending"
-                          ? navigate(`/templates/${categoryId}/${value}`)
-                          : navigate(`/${value}`))
-                      }
+                      onClick={handleSearch}
                       style={{ cursor: "pointer" }}
                     />
                   </div>
                 </div>
-                {/* =========== BREADCRUMB ========= style={{"--bs-breadcrumb-divider":"'>'"}}*/}
                 <div className="d-none d-lg-block">
                   <nav
                     aria-label="breadcrumb"
-                    className="pt-4 breadcrumb_nav"
-                  ></nav>
+                    className="pt-4 breadcrumb_nav pb-3"
+                  >
+                    <span className="navigate" onClick={() => navigate("/")}>
+                      Home
+                    </span>
+                    <KeyboardArrowRightIcon sx={{ opacity: "0.5" }} />
+                    <span>{categoryId}</span>
+                  </nav>
                 </div>
-                {/* ========== TEMPLATE SECTION ====== */}
-                <Templete setId={setId} />
-                {/* ====================== TEMPLATE MODAL ================= */}
+                <Templete />
               </div>
             </div>
           </div>

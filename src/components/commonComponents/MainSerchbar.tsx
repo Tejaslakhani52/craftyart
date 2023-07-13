@@ -1,12 +1,25 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { searchLoading } from "../../redux/reducer/dataReducer";
 
 export default function MainSerchbar({ value, setValue }: any) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <div
       className="search_input d-flex align-items-center "
-      onKeyPress={(e) => e.key === "Enter" && value && navigate(`/${value}`)}
+      onKeyPress={(e) => {
+        const modifiedValue = value.replace(/ /g, "-");
+
+        if (e.key === "Enter") {
+          if (value) {
+            navigate(`s/${modifiedValue}`);
+          }
+
+          dispatch(searchLoading(true));
+        }
+      }}
     >
       <input
         type="search"
@@ -15,13 +28,16 @@ export default function MainSerchbar({ value, setValue }: any) {
         className="border-0 bg-transparent w-100 "
         onChange={(e) => setValue(e.target.value)}
       />
-      {/* <i class="fa-solid fa-magnifying-glass color_green1 font_size_14"></i> */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={20}
         height={20}
         viewBox="0 0 24 24"
-        onClick={() => value && navigate(`/${value}`)}
+        onClick={() => {
+          const modifiedValue = value.replace(/ /g, "-");
+          value && navigate(`s/${modifiedValue}`);
+          dispatch(searchLoading(true));
+        }}
         style={{ cursor: "pointer" }}
       >
         <path

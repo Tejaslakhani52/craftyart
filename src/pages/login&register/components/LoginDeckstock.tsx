@@ -79,7 +79,7 @@ export default function LoginDeckstock() {
                         className="text-decoration-none text-black"
                       >
                         <img
-                          src="assets/images/Icons/googleicon.png"
+                          src="../../assets/images/Icons/googleicon.png"
                           className="img-fluid"
                           alt="gooleicon"
                         />
@@ -102,7 +102,7 @@ export default function LoginDeckstock() {
                         className="text-decoration-none text-black"
                       >
                         <img
-                          src="assets/images/Icons/mailicon.png"
+                          src="../../assets/images/Icons/mailicon.png"
                           className="img-fluid"
                           alt="mailicon"
                         />
@@ -131,7 +131,7 @@ export default function LoginDeckstock() {
                         className="text-decoration-none text-black"
                       >
                         <img
-                          src="assets/images/Icons/mobileicon.png"
+                          src="../../assets/images/Icons/mobileicon.png"
                           className="img-fluid"
                           alt="mobileicon"
                         />
@@ -181,7 +181,7 @@ export default function LoginDeckstock() {
             <div className="modal-body">
               <div className="register_header text-center">
                 <img
-                  src="assets/images/Icons/carftlogo.svg"
+                  src="../../assets/images/Icons/carftlogo.svg"
                   className="modal_logo"
                 />
                 <h5 className="mb-0 text-black-50">Carfty Art</h5>
@@ -297,7 +297,7 @@ export default function LoginDeckstock() {
             <div className="modal-body">
               <div className="register_header text-center">
                 <img
-                  src="assets/images/Icons/carftlogo.svg"
+                  src="../../assets/images/Icons/carftlogo.svg"
                   className="modal_logo"
                   alt="carftylogo"
                 />
@@ -324,7 +324,7 @@ export default function LoginDeckstock() {
             <div className="modal-body py-2">
               <div className="register_header text-center">
                 <img
-                  src="assets/images/Icons/carftlogo.svg"
+                  src="../../assets/images/Icons/carftlogo.svg"
                   className="modal_logo"
                   alt="carftyicon"
                 />

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { faqsList } from "./faqsList/faqsList";
 
 export default function FAQs() {
+  const [moreItems, setMoreItems] = useState<boolean>(false);
   return (
     <>
       <div className="faq_main my-4 py-3">
@@ -173,7 +174,10 @@ export default function FAQs() {
                     </div>
                   </div>
                 </div>
-                <div className="more_accordion_items">
+                <div
+                  className="more_accordion_items"
+                  style={{ display: moreItems ? "block" : "none" }}
+                >
                   <div className="accordion-item">
                     <h2 className="accordion-header" id="headingEight">
                       <button
@@ -561,12 +565,7 @@ export default function FAQs() {
                         data-bs-parent="#accordionExample"
                       >
                         <div className="accordion-body">
-                          <p className="mb-0">
-                            You can create a variety of graphics with an online
-                            graphic design tool, such as advertisements, logos,
-                            business cards, posters, and more. You can also
-                            create vector illustrations and edit photos.
-                          </p>
+                          <p className="mb-0">{item?.value}</p>
                         </div>
                       </div>
                     </div>
@@ -574,12 +573,12 @@ export default function FAQs() {
                 </div>
               </div>
             </div>
-            <div className="text-center my-3">
-              <a
-                className="register_btn text-decoration-none d-inline-block px-4 fs-6 rounded-3 viewmoreless_button"
-                href="javascript:;"
-              >
-                View more
+            <div
+              className="text-center my-3"
+              onClick={() => setMoreItems(!moreItems)}
+            >
+              <a className="register_btn text-decoration-none d-inline-block px-4 fs-6 rounded-3 ">
+                {moreItems ? "View less " : "View more"}
               </a>
             </div>
           </div>

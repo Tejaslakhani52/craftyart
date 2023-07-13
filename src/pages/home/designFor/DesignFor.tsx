@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 interface MyComponentProps {
@@ -9,15 +10,15 @@ interface MyComponentProps {
   isloading: boolean;
 }
 export default function DesignFor({
-  templates,
   isloading,
 }: MyComponentProps): JSX.Element {
   const navigate = useNavigate();
+  const templates = useSelector((state: any) => state.apiData.templatesData);
 
   const [showMore, setShowMore] = useState<any>(false);
   return (
     <>
-      {isloading ? (
+      {templates?.length < 1 ? (
         <div
           style={{
             gap: "10px",
@@ -85,7 +86,7 @@ export default function DesignFor({
             </a>
           </div>
           <div className="d-flex align-items-center flex-wrap overflow-hidden show-data-app  ">
-            {isloading ? (
+            {templates?.length < 1 ? (
               <div
                 style={{
                   gap: "20px",

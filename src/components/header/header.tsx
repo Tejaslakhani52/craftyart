@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginGoogle from "../../pages/login&register/components/commonComponents/LoginGoogle";
 import LoginRegister from "../../pages/login&register/loginRegister";
 import api from "../../services/api";
-import BigLogo from "../../style/images/Icons/craftyart_logo.png";
+import BigLogo from "../../assets/images/Icons/craftyart_main_logo.png";
 import SmallLogo from "../../style/images/Icons/craftysmall.png";
 import MainSerchbar from "../commonComponents/MainSerchbar";
 import UserProfile from "./components/UserProfile";
@@ -18,6 +18,7 @@ export default function Header() {
   const [imageBaseUrl, setImageBaseUrl] = useState<any>(null);
   const getData = localStorage.getItem("userProfile");
   console.log("getData: ", getData);
+
   useEffect(() => {
     const getData = localStorage.getItem("userProfile");
     setuId(getData);
@@ -380,7 +381,7 @@ export default function Header() {
                             className="text-decoration-none text-black"
                           >
                             <img
-                              src="assets/images/Icons/googleicon.png"
+                              src="../../assets/images/Icons/googleicon.png"
                               alt="googleicon"
                               className="img-fluid"
                             />

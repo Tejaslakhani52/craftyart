@@ -1,7 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Banner(props: any) {
+  const navigate = useNavigate();
   return (
     <>
       <Box
@@ -50,6 +52,7 @@ export default function Banner(props: any) {
               padding: "5px 10px",
               borderRadius: "4px",
             }}
+            onClick={() => navigate("/")}
           >
             <Typography
               sx={{

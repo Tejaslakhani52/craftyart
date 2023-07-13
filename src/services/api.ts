@@ -9,7 +9,7 @@ class ApiService {
 
   constructor() {
     this.base = axios.create({
-      baseURL: "https://craftyverse.in/templates/api/",
+      baseURL: "https://panel.craftyartapp.com/templates/api/",
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -18,7 +18,7 @@ class ApiService {
     });
 
     this.base2 = axios.create({
-      baseURL: "https://craftyverse.in/payment/",
+      baseURL: "https://panel.craftyartapp.com/payment/",
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -32,6 +32,7 @@ class ApiService {
     user_id: string;
     name: string;
     email: string;
+    photo_uri: any;
     login_type: string;
     device_id: any;
     utm_medium: string;

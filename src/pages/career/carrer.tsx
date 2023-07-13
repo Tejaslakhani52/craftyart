@@ -9,9 +9,12 @@ export default function Career(): JSX.Element {
         <div className="small_screen_footer_link position-relative">
           <div className="d-flex justify-content-between">
             <div className="bottom_footer_link">
-              <Link to="/" className="d-flex flex-column align-items-center text-decoration-none active">
-                  <i className="fa-sharp fa-solid fa-house fs-5" />
-                  <span>Home</span>
+              <Link
+                to="/"
+                className="d-flex flex-column align-items-center text-decoration-none active"
+              >
+                <i className="fa-sharp fa-solid fa-house fs-5" />
+                <span>Home</span>
               </Link>
             </div>
             <div className="bottom_footer_link">
@@ -442,7 +445,12 @@ export default function Career(): JSX.Element {
                   >
                     Apply
                   </a> */}
-                  <Link to="/successfull" className="w-100 register_btn text-decoration-none login_modal_open">Apply</Link>
+                  <Link
+                    to="/successfull"
+                    className="w-100 register_btn text-decoration-none login_modal_open"
+                  >
+                    Apply
+                  </Link>
                 </div>
                 <div className="mb-3">
                   <a

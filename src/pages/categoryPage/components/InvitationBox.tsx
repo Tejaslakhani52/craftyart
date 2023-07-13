@@ -87,7 +87,11 @@ export default function InvitationBox() {
                   setTimeout(() => {
                     setOpen(true);
                   }, 200);
-                  window.history.replaceState({}, "", `/p/${item.id_name}`);
+                  window.history.replaceState(
+                    {},
+                    "",
+                    `/templates/p/${item.id_name}`
+                  );
                 }}
               >
                 <img
@@ -117,7 +121,11 @@ export default function InvitationBox() {
                   setTimeout(() => {
                     setOpen(true);
                   }, 200);
-                  window.history.replaceState({}, "", `/p/${item.id_name}`);
+                  window.history.replaceState(
+                    {},
+                    "",
+                    `/templates/p/${item.id_name}`
+                  );
                 }}
               >
                 <img

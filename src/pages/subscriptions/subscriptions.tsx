@@ -403,7 +403,9 @@ export default function Subscriptions() {
                           }}
                         />
                       )}
-                      {userProfile?.photo_uri && !removeImage ? (
+                      {userProfile?.photo_uri !== "null" &&
+                      userProfile?.photo_uri &&
+                      !removeImage ? (
                         userProfile?.photo_uri.includes("googleusercontent") ? (
                           <img
                             src={`${userProfile?.photo_uri}`}

@@ -124,6 +124,7 @@ const PhoneLogin = () => {
       user_id: userData?.uid,
       name: "craftyart",
       email: userData?.phoneNumber,
+      photo_uri: "",
       login_type: "Number",
       device_id: "",
       utm_medium: "craftyart",
@@ -178,7 +179,7 @@ const PhoneLogin = () => {
                 className="text-decoration-none text-black"
               >
                 <img
-                  src="assets/images/Icons/mailicon.png"
+                  src="../../assets/images/Icons/mailicon.png"
                   className="img-fluid"
                   alt="mailicon"
                 />
@@ -191,7 +192,7 @@ const PhoneLogin = () => {
                 onClick={handleGoogleLogin}
               >
                 <img
-                  src="assets/images/Icons/googleicon.png"
+                  src="../../assets/images/Icons/googleicon.png"
                   className="img-fluid"
                   alt="googleicon"
                 />

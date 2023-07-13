@@ -24,7 +24,8 @@ const auth: any = getAuth();
 
 export default function LoginGoogle() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState<any>({});
+  const [userData, setUserData] = useState<any>({ photo_uri: null });
+  console.log("userData: ", userData);
 
   const location = useLocation();
   const currentPathname = location.pathname;
@@ -58,6 +59,7 @@ export default function LoginGoogle() {
       user_id: userData?.uid,
       name: userData?.displayName,
       email: userData?.email,
+      photo_uri: userData?.photoURL,
       login_type: "google",
       device_id: "",
       utm_medium: "craftyart",

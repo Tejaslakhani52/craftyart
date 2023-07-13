@@ -1,21 +1,14 @@
-import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import logo1 from "../../assets/images/logo1.svg";
-import logo2 from "../../assets/images/logo2.svg";
-import logo3 from "../../assets/images/logo3.svg";
-// import logoGroup from "../../assets/images/happyRes.svg";
+import { Box, Typography } from "@mui/material";
+ import { useNavigate } from "react-router-dom";
 import logoGroup from "../../assets/images/Grouplogo.png";
-import stunning from "../../assets/images/stunningLogo.png";
 import custome from "../../assets/images/customLogos.png";
 import mainLogo from "../../assets/images/logoMainGroup.png";
 import mark from "../../assets/images/rightMarks.svg";
-import api from "../../services/api";
-import LogoBox from "./components/LogoBox";
-import { useNavigate } from "react-router-dom";
-import GetTemplates from "./components/GetTemplates";
-import FAQs from "../faqs/faqs";
-import FaqsBox from "./components/Faqs";
+import stunning from "../../assets/images/stunningLogo.png";
 import Banner from "./components/Banner";
+import FaqsBox from "./components/Faqs";
+import GetTemplates from "./components/GetTemplates";
+import LogoBox from "./components/LogoBox";
 
 export const MarkText = ({ text }: any) => {
   return (
@@ -29,6 +22,7 @@ export const MarkText = ({ text }: any) => {
 };
 
 export const CustomeButton = ({ text }: any) => {
+  const navigate = useNavigate();
   return (
     <button
       style={{
@@ -44,6 +38,7 @@ export const CustomeButton = ({ text }: any) => {
         borderRadius: "4px",
         marginLeft: "40px",
       }}
+      onClick={() => navigate("/")}
     >
       <Typography
         sx={{

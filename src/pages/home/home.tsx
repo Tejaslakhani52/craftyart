@@ -12,11 +12,12 @@ import SmallScreen from "../../components/smallScreenBottom/SmallScreen";
 import Creation from "../../components/creationOffcanvas/Creation";
 import CustomeSize from "../../components/footer/customeSize/CustomeSize";
 import axios from "axios";
+import { templatesData } from "../../redux/reducer/apiDataReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home(): JSX.Element {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [templates, setTemplates] = useState<AllDataRoot>();
-  console.log("templates: ", templates);
 
   const [isloading, setIsloading] = React.useState(true);
 
@@ -32,22 +33,11 @@ export default function Home(): JSX.Element {
       count: 0,
     });
     setTemplates(newImages);
+    console.log("newImages: ", newImages);
+    dispatch(templatesData(newImages));
     setIsloading(false);
   }, [templates]);
 
-  // useEffect(() => {
-  //   const handlePopstate = () => {
-  //     if (window.location.pathname === "/") {
-  //       window.history.pushState({}, "", "/"); // Prevent going back further
-  //     }
-  //   };
-
-  //   window.addEventListener("popstate", handlePopstate);
-
-  //   return () => {
-  //     window.removeEventListener("popstate", handlePopstate);
-  //   };
-  // }, []);
   return (
     <>
       <div className="small_fixed_footer d-bock d-sm-none">
@@ -62,8 +52,4 @@ export default function Home(): JSX.Element {
       <Waiting />
     </>
   );
-
-  function InlineWrapperWithMargin({ children }: PropsWithChildren<unknown>) {
-    return <span style={{ marginRight: "0.5rem" }}>{children}</span>;
-  }
 }

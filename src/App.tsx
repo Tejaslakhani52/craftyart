@@ -40,6 +40,11 @@ import SearchBox from "./components/commonComponents/SearchedTemplate";
 import LogoPage from "./pages/categoryPage/LogoPage";
 import InvitationPage from "./pages/categoryPage/InvitationPage";
 
+import store from "./store";
+// import Sitemap from "./sitemap";
+import { Provider, useSelector } from "react-redux";
+import NotFound from "./pages/NotFound";
+
 const PrivateWrapper = () => {
   const token = localStorage.getItem("userProfile");
   return token ? <Outlet /> : <Navigate to="/" />;
@@ -63,8 +68,20 @@ function App() {
     }
   }, []);
 
+  // const generateSitemap = require("./sitemapGenerator");
+
+  // // Call the generateSitemap function
+  // generateSitemap().then((sitemap: any) => {
+  //   // Write the generated sitemap to a file
+  //   fs.writeFileSync("./public/sitemap.xml", sitemap.toString());
+  // });
+
+  // useEffect(() => {
+  //   generateSitemap();
+  // }, []);
+
   return (
-    <>
+    <Provider store={store}>
       <Header />
       <Toaster />
       <Routes>
@@ -74,7 +91,6 @@ function App() {
         <Route path="/faqs" element={<FAQs />} />
         <Route path="/templates/:categoryId" element={<AllTemplate />} />
         <Route path="/navigate/:categoryId" element={<AllTemplate />} />
-        <Route path="/p/:slug" element={<TemplateModelPage />} />
         <Route path="/templates/p/:slug" element={<TemplateModelPage />} />
         <Route path="/invoice" element={<Invoice />} />
         <Route path="/pricePlans" element={<PricePlan />} />
@@ -85,7 +101,7 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/career" element={<Career />} />
         <Route path="/templates/:id/:name" element={<SearchBox />} />
-        <Route path="/:name" element={<SearchBox />} />
+        <Route path="s/:name" element={<SearchBox />} />
         <Route path="/logos" element={<LogoPage />} />
         <Route path="/invitation" element={<InvitationPage />} />
 
@@ -95,10 +111,11 @@ function App() {
 
         <Route path="/successfull" element={<Successful />} />
         <Route path="/subTemplate" element={<SubTemplates />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <ChatBox />
       <Footer />
-    </>
+    </Provider>
   );
 }
 

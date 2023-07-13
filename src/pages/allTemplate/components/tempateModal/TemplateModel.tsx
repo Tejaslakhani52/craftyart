@@ -78,10 +78,11 @@ export default function TemplateModel({
   mainId,
   currentPathname,
 }: any) {
+  console.log("currentPathname: ", currentPathname);
+  const token = localStorage.getItem("userProfile");
   const navigate = useNavigate();
 
   const [finalData, setfinalData] = React.useState<any>([]);
-  console.log("finalData: ", finalData);
   const [page, setPage] = React.useState<number>(0);
   const [isloading, setIsloading] = useState<boolean>(true);
   const [showingData, setshowingData] = useState<any>(templateData);
@@ -95,6 +96,8 @@ export default function TemplateModel({
     setOpen(false);
     navigate(-1);
   };
+
+  // useEffect(() => {}, []);
 
   const handleShowing = (item: any) => {
     setshowingData(item);
@@ -156,19 +159,6 @@ export default function TemplateModel({
     }
   }, [screenWidth]);
 
-  // const fetchData = async () => {
-  //   const templates_ = await api.getCategoryDatas({
-  //     debug_key: "debug",
-  //     cat_id: showingData?.category_id_name as any,
-  //     limit: 20,
-  //     page: 1,
-  //   });
-
-  //   setfinalData(templates_?.datas);
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, [showingData]);
   return (
     <div>
       <BootstrapDialog
@@ -199,11 +189,8 @@ export default function TemplateModel({
                           className="col-xl-8 col-lg-7 col-12"
                           style={{ height: "100%" }}
                         >
-                          {" "}
                           {isloading ? (
                             <Skeleton
-                              // width={"65%"}
-                              // height={"800px"}
                               sx={{
                                 borderRadius: "30px",
                                 height: "800px",
@@ -216,6 +203,7 @@ export default function TemplateModel({
                                 <div className="swiper-wrapper">
                                   <div className="swiper-slide d-flex justify-content-center align-items-center">
                                     <img
+                                      crossOrigin="anonymous"
                                       src={finalData[page]?.template_thumb}
                                       alt="templateinsta"
                                       style={{ objectFit: "contain" }}
@@ -238,7 +226,7 @@ export default function TemplateModel({
                               window.history.replaceState(
                                 {},
                                 "",
-                                `/p/${finalData[page + 1]?.id_name}`
+                                `/templates/p/${finalData[page + 1]?.id_name}`
                               );
                               const myElement = document.getElementById("myId");
                               if (myElement) {
@@ -265,7 +253,7 @@ export default function TemplateModel({
                               window.history.replaceState(
                                 {},
                                 "",
-                                `/p/${finalData[page - 1]?.id_name}`
+                                `/templates/p/${finalData[page - 1]?.id_name}`
                               );
                               const myElement = document.getElementById("myId");
                               if (myElement) {
@@ -304,24 +292,49 @@ export default function TemplateModel({
                               <h5 className="fw-normal my-3">
                                 {finalData[page]?.category_size}
                               </h5>
-                              <p
-                                className="use_template_btn d-none d-lg-block"
-                                onClick={() => {
-                                  window.open(
-                                    `https://editor.craftyartapp.com/${finalData[page]?.id_name}`
-                                  );
-                                }}
-                              >
-                                <a
-                                  href="javscript:;"
-                                  className="text-decoration-none text-white"
+
+                              {finalData[page]?.is_premium && !token ? (
+                                <button
+                                  type="button"
+                                  className="use_template_btn d-none d-lg-block"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#loginModal"
+                                  role="button"
+                                  style={{ border: "none" }}
                                 >
-                                  {finalData[page]?.is_premium && (
+                                  <a
+                                    href="javscript:;"
+                                    className="text-decoration-none text-white"
+                                  >
                                     <i className="fa-solid fa-crown text-warning pe-2" />
-                                  )}
-                                  <span> Use this Template</span>
-                                </a>
-                              </p>
+
+                                    <span> Use this Template</span>
+                                  </a>
+                                </button>
+                              ) : (
+                                <p
+                                  className="use_template_btn d-none d-lg-block"
+                                  onClick={() => {
+                                    if (finalData[page]?.is_premium) {
+                                      navigate("/pricePlans");
+                                    } else
+                                      window.open(
+                                        `https://editor.craftyartapp.com/${finalData[page]?.id_name}`
+                                      );
+                                  }}
+                                >
+                                  <a
+                                    href="javscript:;"
+                                    className="text-decoration-none text-white"
+                                  >
+                                    {finalData[page]?.is_premium && (
+                                      <i className="fa-solid fa-crown text-warning pe-2" />
+                                    )}
+                                    <span> Use this Template</span>
+                                  </a>
+                                </p>
+                              )}
+
                               <p className="mb-3">
                                 <span className="pe-2">
                                   <img
@@ -380,14 +393,6 @@ export default function TemplateModel({
                                       More info
                                     </a>
                                   </p>
-                                  {/* <p className="text-center mb-2">
-                                <a
-                                  href="javascript:;"
-                                  className="text-decoration-none color_slate_blue"
-                                >
-                                  How to edit template ?
-                                </a>
-                              </p> */}
                                 </>
                               )}
                             </div>
@@ -446,7 +451,7 @@ export default function TemplateModel({
                                     window.history.replaceState(
                                       {},
                                       "",
-                                      `/p/${item?.id_name}`
+                                      `/templates/p/${item?.id_name}`
                                     );
                                   }}
                                 >
@@ -461,18 +466,16 @@ export default function TemplateModel({
                                       alignItems: "center",
                                       justifyContent: "center",
                                     }}
-                                    // style={{ display: isLoadedImage ? "flex" : "none" }}
-                                    // onClick={() => setOpen(true)}
                                   >
                                     <img
                                       className={`${
                                         mainId < 0
-                                          ? " no_width "
+                                          ? "no_width"
                                           : `img_width_187px border_radius this_template_width`
-                                      }  `}
+                                      }`}
+                                      crossOrigin="anonymous"
                                       src={item?.template_thumb}
                                       alt={item?.template_name}
-                                      // onLoad={handleImageLoad}
                                       style={{
                                         height: `${calculateHeight(
                                           item?.width,

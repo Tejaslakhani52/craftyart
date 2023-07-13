@@ -1,24 +1,13 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
-import {
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import api from "../../../../services/api";
 import { CatDataRoot } from "../../../../interfaces/CatDataObject";
 import TemplateModel from "../tempateModal/TemplateModel";
-import { consoleShow } from "../../../../commonFunction/console";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 export const ImageComponent = ({ state, item, height, isNotFix }: any) => {
-  const [isLoadedImage, setIsLoadedImage] = useState(false);
-
-  const handleImageLoad = (event: any) => {
-    setIsLoadedImage(true);
-  };
-
   function calculateHeight(width: number, height: number, newWidth: number) {
     return (height / width) * newWidth;
   }
@@ -28,23 +17,35 @@ export const ImageComponent = ({ state, item, height, isNotFix }: any) => {
       <div
         className={`${
           !isNotFix ? "background_light_green padding_10 min_h_240" : "h_auto"
-        } gallery_img position-relative`}
-        style={{ display: isLoadedImage ? "flex" : "none" }}
+        } gallery_img position-relative `}
+        style={{
+          // display: isLoadedImage ? "flex" : "none",
+          display: "flex",
+          alignItems: "center",
+        }}
       >
-        <img
+        <div
           className={`${
             !isNotFix
-              ? " no_width "
-              : "img_width_187px border_radius this_template_width"
-          }  `}
-          src={item?.template_thumb}
-          alt={item?.template_name}
-          onLoad={handleImageLoad}
+              ? "no_width"
+              : "img_width_187px border_radius this_template_width background_light_green"
+          }`}
           style={{
-            height: `${calculateHeight(item?.width, item?.height, height)}px`,
+            height: isNotFix
+              ? `${calculateHeight(item?.width, item?.height, height)}px`
+              : "",
             width: "auto",
           }}
-        />
+        >
+          <LazyLoadImage
+            src={item?.template_thumb}
+            alt={item?.template_name}
+            height={100}
+            width={100}
+            effect="blur"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </div>
 
         {item.is_premium ? (
           <div className="pricing_option">
@@ -56,78 +57,79 @@ export const ImageComponent = ({ state, item, height, isNotFix }: any) => {
           <div></div>
         )}
       </div>
-      <div
-        className={`${
-          !isNotFix ? "background_light_green padding_10 min_h_240" : "h_auto"
-        } gallery_img position-relative`}
-        style={{
-          backgroundColor: "#497dec26",
-          display: isLoadedImage ? "none" : "block",
-          borderRadius: "10px",
-          height: `${calculateHeight(item?.width, item?.height, height)}px`,
-        }}
-      ></div>
     </>
   );
 };
 
-export default function Templete({ setId }: any) {
+export default function Templete() {
   const location = useLocation();
   const currentPathname = location.pathname;
-  const lastItemRef = useRef(null);
   const { categoryId } = useParams();
-  consoleShow("categoryId: ", categoryId);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [templates, setTemplates] = useState<CatDataRoot>();
   const [isloading, setIsloading] = React.useState(true);
-  const [mainLoading, setMainLoading] = useState<any>(false);
   const [apiData, setapiData] = useState<any>([]);
+  console.log("apiData: ", apiData);
   const [page, setPage] = useState<number>(1);
+  console.log("page: ", page);
   const [open, setOpen] = useState(false);
   const [dataPass, setDataPaas] = useState({});
   const [isNotFix, setIsNotFix] = useState<boolean>(false);
 
+  // const [uniqueApiData, setUniqueApiData] = useState<any>([]);
+
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
-      setScreenHeight(window.innerHeight);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (pages: number) => {
     const templates_ = await api.getCategoryDatas({
       debug_key: "debug",
       cat_id: categoryId as any,
       limit: 50,
-      page: page,
+      page: pages,
     });
-    consoleShow("templates_: ", templates_);
-    setIsNotFix(templates_?.cat_id >= 0);
+    setIsloading(true);
     const newItems = templates_?.datas;
-    setPage(page + 1);
-    setTemplates(templates_);
+    setapiData((prevData: any) => [...prevData, ...newItems]);
+    setPage((prevPage) => prevPage + 1);
     setIsloading(false);
-    setId(
-      templates_?.cat_id < 0
-        ? templates_?.cat_id
-        : templates_?.datas[0]?.category_id
-    );
-
-    if (page > 1) {
-      setapiData([...apiData, ...newItems]);
-    } else {
-      setapiData(newItems);
-    }
+    setTemplates(templates_);
+    setIsNotFix(templates_?.cat_id >= 0);
   };
 
   useEffect(() => {
-    fetchData();
-    setIsloading(true);
-    setPage(1);
-  }, [categoryId]);
+    fetchData(page);
+  }, []);
+
+  useEffect(() => {
+    let debounceTimer: any;
+
+    const handleScroll = () => {
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+      }
+
+      debounceTimer = setTimeout(() => {
+        const { scrollTop, clientHeight, scrollHeight } =
+          document.documentElement;
+        const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+
+        if (distanceFromBottom < 1200 && !isloading) {
+          fetchData(page);
+        }
+      }, 700);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [page, isloading]);
 
   const multiSize = useMemo(() => {
     switch (true) {
@@ -148,25 +150,6 @@ export default function Templete({ setId }: any) {
     }
   }, [screenWidth]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchData();
-        }
-      },
-      { threshold: 1 }
-    );
-    if (lastItemRef.current) {
-      observer.observe(lastItemRef.current);
-    }
-    return () => {
-      if (lastItemRef.current) {
-        observer.unobserve(lastItemRef.current);
-      }
-    };
-  }, [lastItemRef, page]);
-
   function calculateHeight(width: number, height: number, newWidth: number) {
     return (height / width) * newWidth;
   }
@@ -179,19 +162,29 @@ export default function Templete({ setId }: any) {
         return 150;
     }
   }, [screenWidth]);
-  // const handleClose = () => {
-  //   navigate(`/templates/ip/p/`, { replace: true });
-  //   // Close the dialog
-  //   setOpen(false);
-  // };
 
   window.addEventListener("popstate", function (event) {
     setOpen(false);
   });
 
+  // useEffect(() => {
+  //   const uniqueApiData = Object.values(
+  //     apiData.reduce((uniqueItems: any, item: any) => {
+  //       if (!uniqueItems[item.template_id]) {
+  //         uniqueItems[item.template_id] = item;
+  //       }
+  //       return uniqueItems;
+  //     }, {})
+  //   );
+
+  //   const sortedApiData = uniqueApiData.reverse(); // Reverse the array
+
+  //   setUniqueApiData(sortedApiData);
+  // }, [apiData]);
+
   return (
     <div
-      className="template_main mt-4 mt-lg-0 template_design  "
+      className="template_main mt-4 mt-lg-0 template_design"
       id="scrollableDiv"
     >
       {isloading ? (
@@ -221,7 +214,7 @@ export default function Templete({ setId }: any) {
                       setOpen(true);
                     }, 200);
 
-                    const newPath = `p/${item?.id_name}`;
+                    const newPath = `/templates/p/${item?.id_name}`;
                     window.history.pushState({}, "", newPath);
                   }}
                 >
@@ -247,7 +240,6 @@ export default function Templete({ setId }: any) {
               new Array(multiSize).fill("#497dec26").map((item, index) => (
                 <div
                   key={index}
-                  ref={lastItemRef}
                   style={{
                     backgroundColor: "#497dec26",
                     borderRadius: "10px",
@@ -260,7 +252,8 @@ export default function Templete({ setId }: any) {
                   }}
                   className={` ${
                     !isNotFix ? "min_h_240" : ""
-                  } skeleton-loader img_width_187px this_template_width`}
+                  }  skeleton-loader img_width_187px this_template_width`}
+                  //
                 ></div>
               ))
             ) : (

@@ -15,10 +15,10 @@ import api from "../../../../../services/api";
 export default function CreateDeckstockAcount() {
   const navigate = useNavigate();
   const [createAcount, setcreateAcount] = useState<any>({
-    name: "tejas",
-    email: "tejaslakhani42@gmail.com",
-    password: "tejas42@123",
-    confirmPassword: "tejas42@123",
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState<any>(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -113,6 +113,7 @@ export default function CreateDeckstockAcount() {
       user_id: finalUser?.uid,
       name: finalUser?.displayName,
       email: finalUser?.email,
+      photo_uri: "",
       login_type: "email",
       device_id: "",
       utm_medium: "craftyart",

@@ -30,6 +30,7 @@ export const MarkText = ({ text }: any) => {
 };
 
 export const CustomeButton = ({ text }: any) => {
+  const navigate = useNavigate();
   return (
     <button
       style={{
@@ -45,6 +46,7 @@ export const CustomeButton = ({ text }: any) => {
         borderRadius: "4px",
         marginLeft: "40px",
       }}
+      onClick={() => navigate("/")}
     >
       <Typography
         sx={{
@@ -165,7 +167,6 @@ export default function InvitationPage() {
               <MarkText text="Preview the invitation to ensure it looks clean, professional, and error-free." />
               <MarkText text="Share the invitation via social media, email, or print to reach your desired audience." />
             </Box>
-
             <CustomeButton text="Start Designing" />
           </Box>
         </Box>

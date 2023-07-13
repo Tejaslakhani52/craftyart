@@ -29,7 +29,7 @@ export default function Payment({
   razorpayDetails,
   countryCode,
 }: any) {
-  consoleShow("selectPaln: ", selectPaln);
+  consoleShow("selectPaln: ", razorpayDetails);
 
   useEffect(() => {
     loadScript("https://checkout.razorpay.com/v1/checkout.js");
@@ -142,7 +142,7 @@ export default function Payment({
                     {countryCode === "IN" && (
                       <>
                         <div className="d-flex align-items-center justify-content-around flex-wrap payment-image">
-                          <a href="javscript:;" onClick={handleSubmit}>
+                          <a onClick={handleSubmit}>
                             <img
                               src="assets/images/Icons/razorpay_img.png"
                               alt="razorypay"
