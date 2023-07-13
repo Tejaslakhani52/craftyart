@@ -44,6 +44,7 @@ import store from "./store";
 // import Sitemap from "./sitemap";
 import { Provider, useSelector } from "react-redux";
 import NotFound from "./pages/NotFound";
+import LandingPage from "./pages/landingPage/LandingPage";
 
 const PrivateWrapper = () => {
   const token = localStorage.getItem("userProfile");
@@ -80,12 +81,15 @@ function App() {
   //   generateSitemap();
   // }, []);
 
+  const token = localStorage.getItem("userProfile");
+
   return (
     <Provider store={store}>
       <Header />
       <Toaster />
+
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={token ? <Home /> : <LandingPage />} />
         <Route path="/createblog" element={<CreateBlog />} />
         {/* <Route path="/contactus" element={<ContactUs />} /> */}
         <Route path="/faqs" element={<FAQs />} />
@@ -113,6 +117,7 @@ function App() {
         <Route path="/subTemplate" element={<SubTemplates />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
       <ChatBox />
       <Footer />
     </Provider>
