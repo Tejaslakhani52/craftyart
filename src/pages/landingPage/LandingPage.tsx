@@ -14,6 +14,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FAQs from "../faqs/faqs";
 import FaqsBox from "../categoryPage/components/Faqs";
 import Banner from "../categoryPage/components/Banner";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const token = localStorage.getItem("userProfile");
 
@@ -256,39 +258,46 @@ export function GetTemplates(props: any) {
 export function InvitationBox() {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentPathname = location.pathname;
-  const [open, setOpen] = useState(false);
-  const [templates, setTemplates] = useState<any>();
-  const [dataPass, setDataPaas] = useState({});
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  const [data, setData] = useState<any>([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [data, setData] = useState<any>([]);
+  const [data2, setData2] = useState<any>([]);
+  const [data3, setData3] = useState<any>([]);
 
   const fetchData = async () => {
     const templates_ = await api.getCategoryDatas({
       debug_key: "debug",
-      cat_id: "invitation-card" as any,
-      limit: 20,
+      cat_id: "a4-invitation" as any,
+      limit: 7,
       page: 1,
     });
     setData(templates_?.datas);
-    setTemplates(templates_);
   };
 
-  window.addEventListener("popstate", function (event) {
-    setOpen(false);
-  });
+  const fetchData2 = async () => {
+    const templates_ = await api.getCategoryDatas({
+      debug_key: "debug",
+      cat_id: "invitation-portrait" as any,
+      limit: 7,
+      page: 1,
+    });
+    setData2(templates_?.datas);
+  };
 
+  const fetchData3 = async () => {
+    const templates_ = await api.getCategoryDatas({
+      debug_key: "debug",
+      cat_id: "a4-greeting" as any,
+      limit: 7,
+      page: 1,
+    });
+    setData3(templates_?.datas);
+  };
+
+  useEffect(() => {
+    fetchData();
+    fetchData2();
+    fetchData3();
+  }, []);
   return (
     <>
       <Box sx={{ width: "90%", margin: "50px auto" }}>
@@ -328,24 +337,39 @@ export function InvitationBox() {
             .map((item: any, index: number) => (
               <Box
                 key={index}
-                sx={{ width: "18%", cursor: "pointer" }}
+                className="background_light_green"
+                sx={{
+                  width: "18%",
+                  cursor: "pointer",
+                  height: "287px",
+                  marginBottom: "15px",
+                }}
                 onClick={() => {
-                  setDataPaas(item);
-                  setTimeout(() => {
-                    setOpen(true);
-                  }, 200);
-                  window.history.replaceState(
-                    {},
-                    "",
+                  localStorage.setItem(
+                    "navigate",
                     `/templates/p/${item.id_name}`
                   );
                 }}
               >
-                <img
+                {/* <img
                   src={item.template_thumb}
                   alt=""
                   style={{ width: "100%" }}
-                />
+                /> */}
+                <a
+                  className="text-decoration-none"
+                  data-bs-toggle="modal"
+                  href="#loginModal"
+                  role="button"
+                >
+                  <LazyLoadImage
+                    src={item.template_thumb}
+                    alt={"image"}
+                    width={100}
+                    effect="blur"
+                    style={{ width: "100%" }}
+                  />
+                </a>
               </Box>
             ))}
         </Box>
@@ -357,29 +381,52 @@ export function InvitationBox() {
             margin: "auto",
           }}
         >
-          {data
-            ?.filter((e: any, index: number) => index > 5 && index < 12)
+          {data2
+            ?.filter((e: any, index: number) => index < 6)
             .map((item: any, index: number) => (
               <Box
                 key={index}
-                sx={{ width: "14.66%", cursor: "pointer", my: "20px" }}
+                className="background_light_green"
+                sx={{
+                  width: "14.66%",
+                  cursor: "pointer",
+                  my: "20px",
+                  height: "247px",
+                }}
                 onClick={() => {
-                  setDataPaas(item);
-                  setTimeout(() => {
-                    setOpen(true);
-                  }, 200);
-                  window.history.replaceState(
-                    {},
-                    "",
+                  localStorage.setItem(
+                    "navigate",
                     `/templates/p/${item.id_name}`
                   );
                 }}
               >
-                <img
+                <a
+                  className="text-decoration-none"
+                  data-bs-toggle="modal"
+                  href="#loginModal"
+                  role="button"
+                >
+                  <LazyLoadImage
+                    src={item.template_thumb}
+                    alt={"image"}
+                    width={100}
+                    effect="blur"
+                    style={{ width: "100%" }}
+                  />
+                </a>
+                {/* <img
                   src={item.template_thumb}
                   alt=""
                   style={{ width: "100%" }}
-                />
+                /> */}
+                {/* 
+                <LazyLoadImage
+                  src={item.template_thumb}
+                  alt={"image"}
+                  width={100}
+                  effect="blur"
+                  style={{ width: "100%" }}
+                /> */}
               </Box>
             ))}
         </Box>
@@ -392,38 +439,71 @@ export function InvitationBox() {
             margin: "auto",
           }}
         >
-          {data
-            ?.filter((e: any, index: number) => index > 12 && index < 18)
+          {data3
+            ?.filter((e: any, index: number) => index < 5)
             .map((item: any, index: number) => (
               <Box
                 key={index}
-                sx={{ width: "18%", cursor: "pointer", my: "20px" }}
+                className="background_light_green"
+                sx={{
+                  width: "18%",
+                  cursor: "pointer",
+                  my: "20px",
+                  height: "286px",
+                }}
+                onClick={() => {
+                  localStorage.setItem(
+                    "navigate",
+                    `/templates/p/${item.id_name}`
+                  );
+                }}
               >
-                <img
+                <a
+                  className="text-decoration-none"
+                  data-bs-toggle="modal"
+                  href="#loginModal"
+                  role="button"
+                >
+                  <LazyLoadImage
+                    src={item.template_thumb}
+                    alt={"image"}
+                    width={100}
+                    effect="blur"
+                    style={{ width: "100%" }}
+                  />
+                </a>
+                {/* <img
                   src={item.template_thumb}
                   alt=""
                   style={{ width: "100%" }}
-                />
+                /> */}
               </Box>
             ))}
         </Box>
         <Box sx={{ display: "flex", justifyContent: "center", p: "30px" }}>
-          {token ? (
-            <button
-              style={{
-                background:
-                  "linear-gradient(268.03deg, #5961F8 -0.66%, #15D8C5 100%, #15D8C5 100%)",
-                width: "203px",
-                fontSize: "20px",
-                textTransform: "unset",
-                filter:
-                  "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-                border: "none",
-                padding: "5px 10px",
-                borderRadius: "4px",
-                margin: "auto",
-              }}
-              onClick={() => navigate(`/templates/invitation-card`)}
+          <button
+            style={{
+              background:
+                "linear-gradient(268.03deg, #5961F8 -0.66%, #15D8C5 100%, #15D8C5 100%)",
+              width: "203px",
+              fontSize: "20px",
+              textTransform: "unset",
+              filter:
+                "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+              border: "none",
+              padding: "5px 10px",
+              borderRadius: "4px",
+              margin: "auto",
+            }}
+            onClick={() =>
+              localStorage.setItem("navigate", `/templates/invitation-card`)
+            }
+          >
+            <a
+              className="text-decoration-none"
+              data-bs-toggle="modal"
+              href="#loginModal"
+              role="button"
             >
               <Typography
                 sx={{
@@ -435,52 +515,9 @@ export function InvitationBox() {
               >
                 Get All Templates
               </Typography>
-            </button>
-          ) : (
-            <button
-              style={{
-                background:
-                  "linear-gradient(268.03deg, #5961F8 -0.66%, #15D8C5 100%, #15D8C5 100%)",
-                width: "203px",
-                fontSize: "20px",
-                textTransform: "unset",
-                filter:
-                  "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-                border: "none",
-                padding: "5px 10px",
-                borderRadius: "4px",
-                margin: "auto",
-              }}
-            >
-              <a
-                className="text-decoration-none"
-                data-bs-toggle="modal"
-                href="#loginModal"
-                role="button"
-              >
-                <Typography
-                  sx={{
-                    fontSize: "20px",
-                    color: "white",
-                    width: "100%",
-                    fontWeight: "500",
-                  }}
-                >
-                  Get All Templates
-                </Typography>
-              </a>
-            </button>
-          )}
+            </a>
+          </button>
         </Box>
-        {/* <TemplateModel
-          open={open}
-          setOpen={setOpen}
-          templateData={dataPass}
-          templates={data}
-          screenWidth={screenWidth}
-          mainId={templates?.cat_id}
-          currentPathname={currentPathname}
-        /> */}
       </Box>
     </>
   );

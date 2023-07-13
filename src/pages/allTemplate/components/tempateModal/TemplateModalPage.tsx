@@ -26,6 +26,8 @@ export default function TemplateModelPage({ mainId }: any) {
   const [dataPass, setDataPaas] = useState({});
 
   useEffect(() => {
+    localStorage.setItem("navigate", "");
+
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };

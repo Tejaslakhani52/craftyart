@@ -16,6 +16,15 @@ import { templatesData } from "../../redux/reducer/apiDataReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home(): JSX.Element {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("userProfile");
+  const urlNavigate = localStorage.getItem("navigate");
+
+  useEffect(() => {
+    if (urlNavigate !== null) {
+      navigate(urlNavigate);
+    }
+  }, [urlNavigate]);
   const dispatch = useDispatch();
   const [templates, setTemplates] = useState<AllDataRoot>();
 

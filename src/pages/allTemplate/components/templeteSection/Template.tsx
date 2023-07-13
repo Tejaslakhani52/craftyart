@@ -79,6 +79,7 @@ export default function Templete() {
   // const [uniqueApiData, setUniqueApiData] = useState<any>([]);
 
   useEffect(() => {
+    localStorage.setItem("navigate", ``);
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
