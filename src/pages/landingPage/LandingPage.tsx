@@ -4,10 +4,10 @@ import logo1 from "../../assets/images/logo1.svg";
 import logo2 from "../../assets/images/logo2.svg";
 import logo3 from "../../assets/images/logo3.svg";
 // import logoGroup from "../../assets/images/happyRes.svg";
-import logoGroup from "../../assets/images/perfactInvitation.png";
-import stunning from "../../assets/images/stunningInvitation.png";
-import custome from "../../assets/images/customeInvitation.png";
-import mainLogo from "../../assets/images/invitationMainGroup.png";
+import logoGroup from "../../assets/images/perfactInvitation-min.png";
+import stunning from "../../assets/images/stunningInvitation-min.png";
+import custome from "../../assets/images/customeInvitation-min.png";
+import mainLogo from "../../assets/images/invitationMainGroup-min.png";
 import mark from "../../assets/images/rightMarks.svg";
 import api from "../../services/api";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -351,24 +351,24 @@ export function InvitationBox() {
                   );
                 }}
               >
-                {/* <img
-                  src={item.template_thumb}
-                  alt=""
-                  style={{ width: "100%" }}
-                /> */}
                 <a
                   className="text-decoration-none"
                   data-bs-toggle="modal"
                   href="#loginModal"
                   role="button"
                 >
-                  <LazyLoadImage
+                  <img
+                    src={item.template_thumb}
+                    alt=""
+                    style={{ width: "100%" }}
+                  />
+                  {/* <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
                     width={100}
                     effect="blur"
                     style={{ width: "100%" }}
-                  />
+                  /> */}
                 </a>
               </Box>
             ))}
@@ -406,19 +406,20 @@ export function InvitationBox() {
                   href="#loginModal"
                   role="button"
                 >
-                  <LazyLoadImage
+                  <img
+                    src={item.template_thumb}
+                    alt=""
+                    style={{ width: "100%" }}
+                  />
+                  {/* <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
                     width={100}
                     effect="blur"
                     style={{ width: "100%" }}
-                  />
+                  /> */}
                 </a>
-                {/* <img
-                  src={item.template_thumb}
-                  alt=""
-                  style={{ width: "100%" }}
-                /> */}
+                {/*  */}
                 {/* 
                 <LazyLoadImage
                   src={item.template_thumb}
@@ -464,13 +465,18 @@ export function InvitationBox() {
                   href="#loginModal"
                   role="button"
                 >
-                  <LazyLoadImage
+                  <img
+                    src={item.template_thumb}
+                    alt=""
+                    style={{ width: "100%" }}
+                  />
+                  {/* <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
                     width={100}
                     effect="blur"
                     style={{ width: "100%" }}
-                  />
+                  /> */}
                 </a>
                 {/* <img
                   src={item.template_thumb}

@@ -16,6 +16,7 @@ export default function TemplateModelPage({ mainId }: any) {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPathname = location.pathname;
+  console.log("currentPathname: ", currentPathname);
   const { slug } = useParams();
   console.log("slug: ", slug);
   const [finalData, setfinalData] = React.useState<any>([]);
@@ -26,6 +27,7 @@ export default function TemplateModelPage({ mainId }: any) {
   const [dataPass, setDataPaas] = useState({});
 
   useEffect(() => {
+    setIsloading(true);
     localStorage.setItem("navigate", "");
 
     const handleResize = () => {
@@ -70,8 +72,6 @@ export default function TemplateModelPage({ mainId }: any) {
   }, [screenWidth]);
 
   useEffect(() => {
-    setIsloading(true);
-
     axios
       .post(
         "https://story.craftyartapp.com/my-posterPage",

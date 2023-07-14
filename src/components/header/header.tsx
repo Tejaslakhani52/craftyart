@@ -316,15 +316,19 @@ export default function Header() {
                   ) : (
                     <>
                       <div className="login_btn d-flex justify-content-between align-items-center">
-                        <a
-                          className="text-decoration-none"
-                          data-bs-toggle="modal"
-                          href="#loginModal"
-                          role="button"
+                        <div
+                          onClick={() => localStorage.setItem("navigate", ``)}
                         >
-                          <i className="fa-regular fa-circle-user user_icon me-2" />
-                          <span className="login_text">Login / Register</span>
-                        </a>
+                          <a
+                            className="text-decoration-none"
+                            data-bs-toggle="modal"
+                            href="#loginModal"
+                            role="button"
+                          >
+                            <i className="fa-regular fa-circle-user user_icon me-2" />
+                            <span className="login_text">Login / Register</span>
+                          </a>
+                        </div>
                       </div>
                     </>
                   )}
