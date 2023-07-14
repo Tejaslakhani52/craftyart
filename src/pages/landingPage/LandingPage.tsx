@@ -273,30 +273,30 @@ export function InvitationBox() {
     setData(templates_?.datas);
   };
 
-  const fetchData2 = async () => {
-    const templates_ = await api.getCategoryDatas({
-      debug_key: "debug",
-      cat_id: "invitation-portrait" as any,
-      limit: 7,
-      page: 1,
-    });
-    setData2(templates_?.datas);
-  };
+  // const fetchData2 = async () => {
+  //   const templates_ = await api.getCategoryDatas({
+  //     debug_key: "debug",
+  //     cat_id: "invitation-portrait" as any,
+  //     limit: 7,
+  //     page: 1,
+  //   });
+  //   setData2(templates_?.datas);
+  // };
 
-  const fetchData3 = async () => {
-    const templates_ = await api.getCategoryDatas({
-      debug_key: "debug",
-      cat_id: "a4-greeting" as any,
-      limit: 7,
-      page: 1,
-    });
-    setData3(templates_?.datas);
-  };
+  // const fetchData3 = async () => {
+  //   const templates_ = await api.getCategoryDatas({
+  //     debug_key: "debug",
+  //     cat_id: "a4-greeting" as any,
+  //     limit: 7,
+  //     page: 1,
+  //   });
+  //   setData3(templates_?.datas);
+  // };
 
   useEffect(() => {
     fetchData();
-    fetchData2();
-    fetchData3();
+    // fetchData2();
+    // fetchData3();
   }, []);
   return (
     <>
@@ -351,24 +351,24 @@ export function InvitationBox() {
                   );
                 }}
               >
+                {/* <img
+                  src={item.template_thumb}
+                  alt=""
+                  style={{ width: "100%" }}
+                /> */}
                 <a
                   className="text-decoration-none"
                   data-bs-toggle="modal"
                   href="#loginModal"
                   role="button"
                 >
-                  <img
-                    src={item.template_thumb}
-                    alt=""
-                    style={{ width: "100%" }}
-                  />
-                  {/* <LazyLoadImage
+                  <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
                     width={100}
                     effect="blur"
                     style={{ width: "100%" }}
-                  /> */}
+                  />
                 </a>
               </Box>
             ))}
@@ -381,7 +381,7 @@ export function InvitationBox() {
             margin: "auto",
           }}
         >
-          {data2
+          {data
             ?.filter((e: any, index: number) => index < 6)
             .map((item: any, index: number) => (
               <Box
@@ -406,20 +406,19 @@ export function InvitationBox() {
                   href="#loginModal"
                   role="button"
                 >
-                  <img
-                    src={item.template_thumb}
-                    alt=""
-                    style={{ width: "100%" }}
-                  />
-                  {/* <LazyLoadImage
+                  <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
                     width={100}
                     effect="blur"
                     style={{ width: "100%" }}
-                  /> */}
+                  />
                 </a>
-                {/*  */}
+                {/* <img
+                  src={item.template_thumb}
+                  alt=""
+                  style={{ width: "100%" }}
+                /> */}
                 {/* 
                 <LazyLoadImage
                   src={item.template_thumb}
@@ -440,7 +439,7 @@ export function InvitationBox() {
             margin: "auto",
           }}
         >
-          {data3
+          {data
             ?.filter((e: any, index: number) => index < 5)
             .map((item: any, index: number) => (
               <Box
@@ -465,18 +464,13 @@ export function InvitationBox() {
                   href="#loginModal"
                   role="button"
                 >
-                  <img
-                    src={item.template_thumb}
-                    alt=""
-                    style={{ width: "100%" }}
-                  />
-                  {/* <LazyLoadImage
+                  <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
                     width={100}
                     effect="blur"
                     style={{ width: "100%" }}
-                  /> */}
+                  />
                 </a>
                 {/* <img
                   src={item.template_thumb}
