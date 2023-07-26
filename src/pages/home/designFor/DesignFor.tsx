@@ -64,7 +64,7 @@ export default function DesignFor({
                       <img src={item.category_thumb} alt={item.category_name} />
                     </div>
                     <div className="samll_card_text text-center mt-2">
-                      <h6 className="  font_11 ">{item.category_name}</h6>
+                      <h6 className="font_11">{item.category_name}</h6>
                     </div>
                   </div>
                 </div>

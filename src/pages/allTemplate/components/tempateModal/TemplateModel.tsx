@@ -38,6 +38,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+// localStorage.clear();
+
 export interface DialogTitleProps {
   id: string;
   children?: React.ReactNode;
