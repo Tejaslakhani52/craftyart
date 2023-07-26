@@ -16,7 +16,7 @@ import { templatesData } from "../../redux/reducer/apiDataReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home(): JSX.Element {
-  const apiKey = process.env.REACT_APP_API_KEY;
+  // const apiKey = process.env.REACT_APP_API_KEY;
   const navigate = useNavigate();
   const token = localStorage.getItem("userProfile");
   const urlNavigate = localStorage.getItem("navigate");
@@ -38,7 +38,7 @@ export default function Home(): JSX.Element {
   const fetchData = React.useCallback(async () => {
     setIsloading(true);
     const newImages = await api.getDatas({
-      key: apiKey as string,
+      key: process.env.REACT_APP_API_KEY as string,
       page: 1,
       count: 0,
     });
