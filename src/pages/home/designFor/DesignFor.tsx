@@ -45,7 +45,7 @@ export default function DesignFor({
         <section className="design_post mt-3 d-block d-md-none">
           <div className="design_post_inner container-fluid">
             <div className="flex_menu gap_10">
-              {templates?.cats.map((item: any, index: any) => (
+              {templates?.cats?.map((item: any, index: any) => (
                 <div
                   key={item.category_id}
                   style={{ cursor: "pointer" }}
