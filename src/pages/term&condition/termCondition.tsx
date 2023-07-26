@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function TermCondition() {
+  const [morePrivacy, setMorePrivacy] = useState<boolean>(false);
   return (
     <>
       {/* =============== SMALL SCREEEN BOTTOM ============ */}
@@ -610,12 +611,14 @@ export default function TermCondition() {
                         </li>
                       </ol>
                     </div>
-                    <div className="more_accordion_items">
+                    <div
+                      className=""
+                      style={{ display: morePrivacy ? "block" : "none" }}
+                    >
                       <div className="terms_condition_list">
                         <h5 className="fw-bold">4.Content and Designs</h5>
                         <ol style={{ listStyleType: "lower-alpha" }}>
                           <li className="mb-3 comman_para">
-                            {" "}
                             User Content. You represent and warrant that you own
                             all rights, title, and interest in and to your User
                             Content or that you have otherwise secured all
@@ -1258,6 +1261,7 @@ export default function TermCondition() {
                     <a
                       className="register_btn text-decoration-none d-inline-block px-4 fs-6 rounded-3 viewmoreless_button"
                       href="javascript:;"
+                      onClick={() => setMorePrivacy(!morePrivacy)}
                     >
                       View more
                     </a>

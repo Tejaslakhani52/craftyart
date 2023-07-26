@@ -295,18 +295,7 @@ export default function LoginDeckstock() {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-body">
-              <div className="register_header text-center">
-                <img
-                  src="../../assets/images/Icons/carftlogo.svg"
-                  className="modal_logo"
-                  alt="carftylogo"
-                />
-                <h5 className="mb-0 text-black-50">Carfty Art</h5>
-                {/* <h5 className="color_green1 fw-normal">Welcome Back!</h5> */}
-              </div>
-              <section className="mobileEmail_input">
-                <LoginEmail />
-              </section>
+              <LoginEmail />
             </div>
           </div>
         </div>

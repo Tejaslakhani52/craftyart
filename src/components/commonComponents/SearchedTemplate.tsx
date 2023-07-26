@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { searchLoading } from "../../redux/reducer/dataReducer";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import process from "process";
 
 export interface DialogTitleProps {
   id: string;
@@ -25,7 +26,7 @@ export default function SearchBox() {
   const currentPathname = location.pathname;
   const { name } = useParams();
   const modifiedName = name?.replace(/-/g, " ");
-
+  const apiKey = process.env.REACT_APP_API_KEY;
   const { id } = useParams();
   console.log("id: ", currentPathname);
   const [value, setValue] = useState<any>(modifiedName);
@@ -92,12 +93,12 @@ export default function SearchBox() {
   const getSearchList = (pages: number) => {
     axios
       .post("https://story.craftyartapp.com/search-template", {
-        key: "qwfsegxdhbxfjhncf",
+        key: apiKey as string,
         app_id: "1",
         cat_id: id?.toString() ?? "-1",
         keywords: value?.toString(),
         device: "0",
-        refWidth: "1080",
+        refWidth: "1080", 
         refHeight: "1080",
         page: pages,
         debug: "debug",

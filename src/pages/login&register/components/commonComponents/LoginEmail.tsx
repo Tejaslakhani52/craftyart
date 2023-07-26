@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { consoleShow } from "../../../../commonFunction/console";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQP7F26DBVJvXWNgwS3lerBUCGcbH2z4U",
@@ -40,6 +41,8 @@ export default function LoginEmail() {
   });
   const [emailDialogShow, setEmailDialogShow] = useState<boolean>(false);
   const [enterNewPass, setEnterNewPass] = useState<boolean>(false);
+
+  const [process, setProcess] = useState<boolean>(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user: any) => {
@@ -95,18 +98,9 @@ export default function LoginEmail() {
     }
   };
 
-  // const getUserEmail = async (uid: any) => {
-  //   try {
-  //     const userRecord = await auth.getUser(uid);
-  //     return userRecord.email;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return null;
-  //   }
-  // };
   const handleResetPassSubmit = async (e: any) => {
     e.preventDefault(); // prevent page refresh
-
+    setProcess(true);
     sendPasswordResetEmail(auth, emailPassword?.email)
       .then((res) => {
         console.log("res: ", res);
@@ -114,159 +108,182 @@ export default function LoginEmail() {
         setEnterNewPass(true);
         toast.success("Password reset email sent.");
         setEmailDialogShow(true);
+        setProcess(false);
         // Show success message to user
       })
       .catch((error: any) => {
         toast.error(error.message);
+        setProcess(false);
         // Show error message to user
       });
   };
-  // const handleChangePassword = (e: any) => {
-  //   e.preventDefault();
-  //   if (true) {
-  //     auth.currentUser
-  //       .updatePassword("newPassword")
-  //       .then(() => {
-  //         toast.success("Success Login");
-  //         console.log("Password updated successfully");
-  //       })
-  //       .catch((error: any) => {
-  //         toast.success(error.message);
-  //       });
-  //   } else {
-  //     toast.success("Passwords do not match");
-  //   }
-  // };
 
   return (
     <>
-      <div className="form-area">
-        {forgotPass ? (
-          emailDialogShow ? (
-            <div>
+      {forgotPass && (
+        <KeyboardBackspaceIcon
+          sx={{ cursor: "pointer", fontSize: "30px" }}
+          onClick={() => setForgotPass(false)}
+        />
+      )}
+      <div className="register_header text-center">
+        <img
+          src="../../assets/images/Icons/carftlogo.svg"
+          className="modal_logo"
+          alt="carftylogo"
+        />
+        <h5 className="mb-0 text-black-50">Carfty Art</h5>
+        {/* <h5 className="color_green1 fw-normal">Welcome Back!</h5> */}
+      </div>
+      <section className="mobileEmail_input">
+        <div className="form-area">
+          {forgotPass ? (
+            emailDialogShow ? (
+              <div>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    fontWeight: "600",
+                    my: 1,
+                    fontSize: "25px",
+                  }}
+                >
+                  Login With Your New Password
+                </Typography>
+
+                <div>
+                  <Typography
+                    sx={{
+                      fontSize: "15px",
+                      fontWeight: "700",
+                      textAlign: "center",
+                    }}
+                  >
+                    A Verification Reset Password has been sent to:
+                  </Typography>
+                  <Typography sx={{ fontSize: "15px", textAlign: "center" }}>
+                    {emailPassword?.email}
+                  </Typography>
+                </div>
+
+                <Typography sx={{ opacity: "0.7", textAlign: "center", mt: 2 }}>
+                  Check your email <strong>{emailPassword?.email}</strong> and
+                  create a new password and enter that password here
+                </Typography>
+              </div>
+            ) : (
               <Typography
                 sx={{
                   textAlign: "center",
                   fontWeight: "600",
-                  my: 1,
+                  my: 2,
                   fontSize: "25px",
                 }}
               >
-                Login With Your New Password
+                Forget your password?
               </Typography>
-
-              <div>
-                <Typography
-                  sx={{
-                    fontSize: "15px",
-                    fontWeight: "700",
-                    textAlign: "center",
-                  }}
-                >
-                  A Verification Reset Password has been sent to:
-                </Typography>
-                <Typography sx={{ fontSize: "15px", textAlign: "center" }}>
-                  {emailPassword?.email}
-                </Typography>
-              </div>
-
-              <Typography sx={{ opacity: "0.7", textAlign: "center", mt: 2 }}>
-                Check your email <strong>{emailPassword?.email}</strong> and
-                create a new password and enter that password here
-              </Typography>
-            </div>
+            )
           ) : (
             <Typography
               sx={{
                 textAlign: "center",
-                fontWeight: "600",
+                fontWeight: "500",
                 my: 2,
                 fontSize: "25px",
               }}
             >
-              Forget your password?
+              Welcome Back!
             </Typography>
-          )
-        ) : (
-          <Typography
-            sx={{
-              textAlign: "center",
-              fontWeight: "500",
-              my: 2,
-              fontSize: "25px",
-            }}
-          >
-            Welcome Back!
-          </Typography>
-        )}
+          )}
 
-        <div className="form-inner">
-          <form>
-            {!emailDialogShow && (
-              <div className="form-group">
-                <label htmlFor="email" className="text-muted">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className={`form-control   ${
-                    emailPassword?.email ? "" : "is-invalid"
-                  }`}
-                  value={emailPassword?.email}
-                  onChange={(e) =>
-                    setemailPassword({
-                      ...emailPassword,
-                      email: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            )}
-            {!forgotPass && (
-              <div className="form-group mt-3">
-                <label htmlFor="e_password" className="text-muted">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="e_password"
-                  className={`form-control  ${
-                    emailPassword?.password ? "" : "is-invalid"
-                  }`}
-                  onChange={(e) =>
-                    setemailPassword({
-                      ...emailPassword,
-                      password: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            )}
+          <div className="form-inner">
+            <form>
+              {!emailDialogShow && (
+                <div className="form-group">
+                  <label htmlFor="email" className="text-muted">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className={`form-control   ${
+                      emailPassword?.email ? "" : "is-invalid"
+                    }`}
+                    value={emailPassword?.email}
+                    onChange={(e) =>
+                      setemailPassword({
+                        ...emailPassword,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              )}
+              {!forgotPass && (
+                <div className="form-group mt-3">
+                  <label htmlFor="e_password" className="text-muted">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="e_password"
+                    className={`form-control  ${
+                      emailPassword?.password ? "" : "is-invalid"
+                    }`}
+                    onChange={(e) =>
+                      setemailPassword({
+                        ...emailPassword,
+                        password: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              )}
 
-            {enterNewPass && (
-              <div className="form-group mt-3">
-                <label htmlFor="e_password" className="text-muted">
-                  New Password
-                </label>
-                <input
-                  type="password"
-                  id="e_password"
-                  className={`form-control  ${
-                    emailPassword?.password ? "" : "is-invalid"
-                  }`}
-                  onChange={(e) =>
-                    setemailPassword({
-                      ...emailPassword,
-                      password: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            )}
-            <div className="mt-3">
-              {forgotPass ? (
-                enterNewPass ? (
+              {enterNewPass && (
+                <div className="form-group mt-3">
+                  <label htmlFor="e_password" className="text-muted">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="e_password"
+                    className={`form-control  ${
+                      emailPassword?.password ? "" : "is-invalid"
+                    }`}
+                    onChange={(e) =>
+                      setemailPassword({
+                        ...emailPassword,
+                        password: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              )}
+              <div className="mt-3">
+                {forgotPass ? (
+                  enterNewPass ? (
+                    <a
+                      className="w-100 register_btn text-decoration-none"
+                      onClick={handleSignIn}
+                      //   onClick={handleClick}
+                    >
+                      Sign in
+                    </a>
+                  ) : process ? (
+                    <a className="w-100 register_btn text-decoration-none">
+                      Send email
+                    </a>
+                  ) : (
+                    <a
+                      className="w-100 register_btn text-decoration-none"
+                      onClick={handleResetPassSubmit}
+                      //   onClick={handleClick}
+                    >
+                      Send email
+                    </a>
+                  )
+                ) : (
                   <a
                     className="w-100 register_btn text-decoration-none"
                     onClick={handleSignIn}
@@ -274,59 +291,43 @@ export default function LoginEmail() {
                   >
                     Sign in
                   </a>
-                ) : (
+                )}
+              </div>
+              {!forgotPass && (
+                <div className="mt-2 text-end">
                   <a
-                    className="w-100 register_btn text-decoration-none"
-                    onClick={handleResetPassSubmit}
-                    //   onClick={handleClick}
+                    href="javascript:;"
+                    className="text-decoration-none text-muted"
+                    onClick={() => setForgotPass(true)}
                   >
-                    Send email
+                    Forgot Password
                   </a>
-                )
-              ) : (
-                <a
-                  className="w-100 register_btn text-decoration-none"
-                  onClick={handleSignIn}
-                  //   onClick={handleClick}
-                >
-                  Sign in
-                </a>
+                </div>
               )}
-            </div>
-            {!forgotPass && (
-              <div className="mt-2 text-end">
+              <div className="sign_up_link d-flex align-items-center justify-content-center mt-2">
+                <p className="mb-0">Don't have an account?</p>
                 <a
-                  href="javascript:;"
-                  className="text-decoration-none text-muted"
-                  onClick={() => setForgotPass(true)}
+                  id="signUp"
+                  className="btn color_green1"
+                  data-bs-toggle="modal"
+                  href="#register_modal"
+                  role="button"
+                  ref={signUpRef}
+                  onClick={() => toast.dismiss()}
                 >
-                  Forgot Password
+                  Sign Up
                 </a>
               </div>
-            )}
-            <div className="sign_up_link d-flex align-items-center justify-content-center mt-2">
-              <p className="mb-0">Don't have an account?</p>
-              <a
-                id="signUp"
-                className="btn color_green1"
-                data-bs-toggle="modal"
-                href="#register_modal"
-                role="button"
-                ref={signUpRef}
-                onClick={() => toast.dismiss()}
-              >
-                Sign Up
-              </a>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
 
-      {isLoading && (
-        <main className="main">
-          <span className="loader"></span>
-        </main>
-      )}
+        {isLoading && (
+          <main className="main">
+            <span className="loader"></span>
+          </main>
+        )}
+      </section>
     </>
   );
 }

@@ -13,6 +13,7 @@ import { auth } from "../../../../../firebase";
 import api from "../../../../../services/api";
 
 export default function CreateDeckstockAcount() {
+  const apiKey = process.env.REACT_APP_API_KEY;
   const navigate = useNavigate();
   const [createAcount, setcreateAcount] = useState<any>({
     name: "",
@@ -109,7 +110,7 @@ export default function CreateDeckstockAcount() {
 
   const fetchData = async () => {
     const newUser: any = await api.createUser({
-      key: "qwfsegxdhbxfjhncf",
+      key: apiKey as string,
       user_id: finalUser?.uid,
       name: finalUser?.displayName,
       email: finalUser?.email,
@@ -173,18 +174,6 @@ export default function CreateDeckstockAcount() {
       >
         Follow the instruction in the email to verify your account
       </Typography>
-
-      <div className="sign_up_link d-flex align-items-center justify-content-center mt-2">
-        <p className="mb-0">Resend OTP</p>
-        <a
-          className="btn color_green1"
-          role="button"
-          style={{ padding: "5px", textDecoration: "underline" }}
-          onClick={resendEmailVerification}
-        >
-          click
-        </a>
-      </div>
     </Box>
   ) : (
     <div className="register_fields">

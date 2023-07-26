@@ -1,6 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import AppStore from "../../style/images/Icons/appstore.png";
 import PlayStore from "../../style/images/Icons/playstore.png";
+import youtubeIcon from "../../assets/icons/youtube.svg";
+import facebookIcon from "../../assets/icons/facebook.svg";
+import instagramIcon from "../../assets/icons/instagram.svg";
+import pinterestIcon from "../../assets/icons/pinterest.svg";
+import twitterIcon from "../../assets/icons/twitter.svg";
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -612,7 +617,8 @@ export default function Footer() {
                     </li> */}
                     <li className="py-2">
                       <Link
-                        to="https://blog.craftyartapp.com/"
+                        to="https://craftyartapp.com/blog"
+                        target="blank"
                         className="text-decoration-none footer_items"
                       >
                         Blog
@@ -641,6 +647,7 @@ export default function Footer() {
                         FAQ
                       </Link>
                     </li>
+
                     {/* <li className="py-2">
                       <Link
                         to="/contactus"
@@ -678,31 +685,51 @@ export default function Footer() {
                           href="https://www.instagram.com/craftyart_official/"
                           className="text-decoration-none footer_items text-white me-3 me-sm-0"
                         >
-                          <i className="fa-brands fa-instagram" />
+                          <img
+                            src={instagramIcon}
+                            alt="image"
+                            style={{ width: "22px" }}
+                          />
                         </a>
                         <a
                           href="https://www.facebook.com/people/Crafty-Art/100087508073608/"
                           className="text-decoration-none footer_items text-white me-3 me-sm-0"
                         >
-                          <i className="fa-brands fa-facebook-f" />
+                          <img
+                            src={facebookIcon}
+                            alt="image"
+                            style={{ width: "22px" }}
+                          />
                         </a>
                         <a
                           href="https://www.youtube.com/@craftyartgraphic7864"
                           className="text-decoration-none footer_items text-white me-3 me-sm-0"
                         >
-                          <i className="fa-brands fa-youtube" />
+                          <img
+                            src={youtubeIcon}
+                            alt="image"
+                            style={{ width: "22px" }}
+                          />
                         </a>
                         <a
                           href="https://twitter.com/craftyartstudio"
                           className="text-decoration-none footer_items text-white me-3 me-sm-0"
                         >
-                          <i className="fa-brands fa-twitter" />
+                          <img
+                            src={twitterIcon}
+                            alt="image"
+                            style={{ width: "22px" }}
+                          />
                         </a>
                         <a
                           href="https://in.pinterest.com/crafty_art_official/_saved/"
                           className="text-decoration-none footer_items text-white"
                         >
-                          <i className="fa-brands fa-pinterest" />
+                          <img
+                            src={pinterestIcon}
+                            alt="image"
+                            style={{ width: "22px" }}
+                          />
                         </a>
                       </div>
                     </li>

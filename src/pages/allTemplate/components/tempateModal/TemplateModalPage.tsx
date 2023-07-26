@@ -12,6 +12,7 @@ export interface DialogTitleProps {
 }
 
 export default function TemplateModelPage({ mainId }: any) {
+  const apiKey = process.env.REACT_APP_API_KEY;
   const token = localStorage.getItem("userProfile");
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,8 +21,11 @@ export default function TemplateModelPage({ mainId }: any) {
   const { slug } = useParams();
   console.log("slug: ", slug);
   const [finalData, setfinalData] = React.useState<any>([]);
+  console.log("finalData: ", finalData);
+
   const [isloading, setIsloading] = useState<boolean>(false);
   const [showingData, setshowingData] = useState<any>([]);
+  console.log("showingData: ", showingData);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [open, setOpen] = useState(false);
   const [dataPass, setDataPaas] = useState({});
@@ -76,7 +80,7 @@ export default function TemplateModelPage({ mainId }: any) {
       .post(
         "https://story.craftyartapp.com/my-posterPage",
         {
-          key: "qwfsegxdhbxfjhncf",
+          key: apiKey as string,
           id_name: slug,
         },
         { withCredentials: false }
@@ -184,6 +188,7 @@ export default function TemplateModelPage({ mainId }: any) {
                         <h5 className="fw-normal my-3">
                           {showingData?.category_size}
                         </h5>
+
                         {showingData?.is_premium && !token ? (
                           <button
                             type="button"
@@ -316,6 +321,7 @@ export default function TemplateModelPage({ mainId }: any) {
                   </div>
                 ) : (
                   <div className="you_may_like template_main my-4">
+                    <p style={{ width: "100%" }}>{showingData?.description}</p>
                     <h3 className="mb-4">You might also like</h3>
 
                     <div

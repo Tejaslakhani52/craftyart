@@ -6,6 +6,7 @@ import { consoleShow } from "../commonFunction/console";
 class ApiService {
   base: AxiosInstance;
   base2: AxiosInstance;
+  base3: AxiosInstance;
 
   constructor() {
     this.base = axios.create({
@@ -19,6 +20,15 @@ class ApiService {
 
     this.base2 = axios.create({
       baseURL: "https://panel.craftyartapp.com/payment/",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+      withCredentials: false,
+    });
+
+    this.base3 = axios.create({
+      baseURL: "https://bgremover.craftyartapp.com/payment/web_razorpay",
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",

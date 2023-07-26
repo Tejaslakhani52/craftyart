@@ -45,6 +45,8 @@ import store from "./store";
 import { Provider, useSelector } from "react-redux";
 import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/landingPage/LandingPage";
+import MobilePage from "./pages/mobile/MobilePage";
+import DynamicLandingPage from "./pages/landingPage/DynamicLandingPage";
 
 const PrivateWrapper = () => {
   const token = localStorage.getItem("userProfile");
@@ -52,6 +54,7 @@ const PrivateWrapper = () => {
 };
 
 function App() {
+  const [openMobile, setOpenMobile] = useState<boolean>(false);
   const location = useLocation();
   useLayoutEffect(() => {
     loadjs("assets/js/custom.js", () => {});
@@ -62,10 +65,11 @@ function App() {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
-      const url = new URL(
-        "https://play.google.com/store/apps/details?id=com.crafty.art"
-      );
-      window.location.assign(url);
+      // const url = new URL(
+      //   "https://play.google.com/store/apps/details?id=com.crafty.art"
+      // );
+      // window.location.assign(url);
+      setOpenMobile(true);
     }
   }, []);
 
@@ -83,13 +87,18 @@ function App() {
 
   const token = localStorage.getItem("userProfile");
 
-  return (
+  return openMobile ? (
+    <MobilePage />
+  ) : (
     <Provider store={store}>
       <Header />
-      <Toaster />
+      <div style={{ zIndex: "1000000000000000" }}>
+        <Toaster />
+      </div>
 
       <Routes>
         <Route path="/" element={token ? <Home /> : <LandingPage />} />
+        {/* <Route path="/" element={<Home />} /> */}
         <Route path="/createblog" element={<CreateBlog />} />
         {/* <Route path="/contactus" element={<ContactUs />} /> */}
         <Route path="/faqs" element={<FAQs />} />
@@ -102,12 +111,14 @@ function App() {
         <Route path="/privacy-policy" element={<TermCondition />} />
         <Route path="/copyright-information" element={<TermCondition />} />
         <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/blog" element={<Blog />} />
+        {/* <Route path="/blog" element={<Blog />} /> */}
         <Route path="/career" element={<Career />} />
         <Route path="/templates/:id/:name" element={<SearchBox />} />
         <Route path="s/:name" element={<SearchBox />} />
         <Route path="/logos" element={<LogoPage />} />
         <Route path="/invitation" element={<InvitationPage />} />
+        <Route path="k/:name" element={<DynamicLandingPage />} />
+        {/* <Route path="/k/:name/:page" element={<DynamicLandingPage />} /> */}
 
         <Route element={<PrivateWrapper />}>
           <Route path="/subscriptions" element={<Subscriptions />} />

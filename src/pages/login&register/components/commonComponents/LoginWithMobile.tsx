@@ -32,6 +32,7 @@ firebase.initializeApp(firebaseConfig);
 const auth: any = getAuth();
 
 const PhoneLogin = () => {
+  const apiKey = process.env.REACT_APP_API_KEY;
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
@@ -120,7 +121,7 @@ const PhoneLogin = () => {
 
   const fetchData = async () => {
     const newImages: any = await api.createUser({
-      key: "qwfsegxdhbxfjhncf",
+      key: apiKey as string,
       user_id: userData?.uid,
       name: "craftyart",
       email: userData?.phoneNumber,
@@ -148,6 +149,9 @@ const PhoneLogin = () => {
                 width: "100%",
                 // border: phoneNumber ? "none" : "1px solid red",
               }}
+              enableSearch
+              disableSearchIcon
+              countryCodeEditable={false}
             />
             {!phoneNumber && (
               <p style={{ color: "red" }}>please enter your number</p>

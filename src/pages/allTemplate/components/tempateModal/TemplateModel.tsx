@@ -78,7 +78,7 @@ export default function TemplateModel({
   mainId,
   currentPathname,
 }: any) {
-  console.log("currentPathname: ", currentPathname);
+  console.log("currentPathname:", currentPathname);
   const token = localStorage.getItem("userProfile");
   const navigate = useNavigate();
 

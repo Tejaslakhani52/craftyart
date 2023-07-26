@@ -1,9 +1,10 @@
 import { Elements } from "@stripe/react-stripe-js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SmallLogo from "../../../style/images/Icons/craftysmall.png";
 import { loadStripe } from "@stripe/stripe-js";
 import { consoleShow } from "../../../commonFunction/console";
 import PaymentForm from "./components/Stripe";
+import axios from "axios";
 
 const PUBLIC_KEY =
   "pk_live_51M92RVSF3l7nabbsQXTnM8YdI33NTB7FGC32dhqnwWPECcQ4LddrwsxM68TgkS5munQ9VsVtpF4m7PqGRmkVQGzF00EfT8vVbj";
@@ -24,12 +25,10 @@ const loadScript = (src: any) => {
   });
 };
 
-export default function Payment({
-  selectPaln,
-  razorpayDetails,
-  countryCode,
-}: any) {
-  consoleShow("selectPaln: ", razorpayDetails);
+export default function Payment({ selectPaln, countryCode }: any) {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const uId = localStorage.getItem("userProfile");
 
   useEffect(() => {
     loadScript("https://checkout.razorpay.com/v1/checkout.js");
@@ -38,41 +37,36 @@ export default function Payment({
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    const rzp = new (window as any).Razorpay({
-      key: razorpayDetails?.key,
-      name: razorpayDetails?.name,
-      description: razorpayDetails?.description,
-      amount: selectPaln?.price * 100,
-      image: SmallLogo,
-      // order_id: "123",
+    setLoading(true);
 
-      theme: {
-        color: "#2ec5b6",
-      },
-    });
-    consoleShow("rzp: ", rzp);
+    const formData = new FormData();
+    formData.append("user_id", uId ?? "");
+    formData.append("packageId", selectPaln?.id ?? "");
+    formData.append("packageName", selectPaln?.package_name ?? "");
+    formData.append("rate", selectPaln?.price ?? "");
+    formData.append("currency", selectPaln?.currency ?? "");
 
-    rzp.open({
-      name: razorpayDetails?.name,
-      description: razorpayDetails?.description,
-      amount: selectPaln?.price * 100,
-      currency: selectPaln?.currency,
+    axios
+      .post("https://bgremover.craftyartapp.com/payment/web_razorpay", formData)
+      .then((res) => {
+        setLoading(false);
 
-      notes: {
-        customer_id: razorpayDetails?.customer_id,
-        remember_customer: razorpayDetails?.remember_customer,
-      },
+        const rzp = new (window as any).Razorpay(res.data);
 
-      handler: function (response: any) {
-        consoleShow("res", response);
-      },
-      modal: {
-        ondismiss: function () {
-          consoleShow("err", "Payment cancelled");
-        },
-      },
-    });
-    // }
+        rzp.open({
+          handler: function (response: any) {
+            consoleShow("res", response);
+          },
+          modal: {
+            ondismiss: function () {
+              consoleShow("err", "Payment cancelled");
+            },
+          },
+        });
+      })
+      .catch((error) => {
+        console.log("gdsfgdfg: ", error);
+      });
   };
 
   return (
@@ -117,7 +111,7 @@ export default function Payment({
                       </div>
                     </div>
                     <div className="finalize-contact">
-                      <p className="mb-2">You won't be charged today</p>
+                      <p className="mb-2">You won"t be charged today</p>
                       <p className="mb-2">
                         Paid subscription starts on November 12, 2022
                       </p>
@@ -201,6 +195,11 @@ export default function Payment({
           </div>
         </div>
       </div>
+      {loading && (
+        <main className="main">
+          <span className="loader"></span>
+        </main>
+      )}
     </>
   );
 }

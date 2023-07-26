@@ -7,11 +7,10 @@ import axios from "axios";
 import { consoleShow } from "../../commonFunction/console";
 
 export default function Subscriptions() {
+  const apiKey = process.env.REACT_APP_API_KEY;
   const [userProfile, setUserProfile] = useState<any>(null);
-  console.log("userProfile: ", userProfile);
   const [uId, setuId] = useState<any>("");
   const [imagePreview, setImagePreview] = useState<any>(null);
-  console.log("imagePreview: ", imagePreview);
   const [imageBaseUrl, setImageBaseUrl] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<any>(false);
   const [currentPlan, setcurrentPlan] = useState<any>();
@@ -25,7 +24,7 @@ export default function Subscriptions() {
       .post(
         "https://story.craftyartapp.com/my-currentPlan",
         {
-          key: "qwfsegxdhbxfjhncf",
+          key: apiKey as string,
           user_id: getData,
         },
         { withCredentials: false }
@@ -50,7 +49,7 @@ export default function Subscriptions() {
 
   const fetchData = async () => {
     const getUserData: any = await api.getUser({
-      key: "qwfsegxdhbxfjhncf",
+      key: apiKey as string,
       device_id: "",
       email: uId,
     });
@@ -98,7 +97,7 @@ export default function Subscriptions() {
     setIsLoading(true);
     event.preventDefault();
     const getUpdateData: any = api.updateUser({
-      key: "qwfsegxdhbxfjhncf",
+      key: apiKey as string,
       ...acountDetail,
     });
     consoleShow("getUpdateData: ", getUpdateData);

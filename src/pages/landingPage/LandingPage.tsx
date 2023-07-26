@@ -19,6 +19,10 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 const token = localStorage.getItem("userProfile");
 
+function calculateHeight(width: number, height: number, newWidth: number) {
+  return (height / width) * newWidth;
+}
+
 export const MarkText = ({ text }: any) => {
   return (
     <Box sx={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
@@ -260,6 +264,7 @@ export function InvitationBox() {
   const location = useLocation();
 
   const [data, setData] = useState<any>([]);
+  console.log("data: ", data);
   const [data2, setData2] = useState<any>([]);
   const [data3, setData3] = useState<any>([]);
 
@@ -267,7 +272,7 @@ export function InvitationBox() {
     const templates_ = await api.getCategoryDatas({
       debug_key: "debug",
       cat_id: "a4-invitation" as any,
-      limit: 7,
+      limit: 18,
       page: 1,
     });
     setData(templates_?.datas);
@@ -330,6 +335,7 @@ export function InvitationBox() {
             justifyContent: "space-between",
             display: "flex",
             margin: "auto",
+            gap: "20px",
           }}
         >
           {data
@@ -339,9 +345,9 @@ export function InvitationBox() {
                 key={index}
                 className="background_light_green"
                 sx={{
-                  width: "18%",
+                  width: "200px",
                   cursor: "pointer",
-                  height: "287px",
+                  height: calculateHeight(item?.width, item?.height, 200),
                   marginBottom: "15px",
                 }}
                 onClick={() => {
@@ -365,9 +371,11 @@ export function InvitationBox() {
                   <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
-                    width={100}
                     effect="blur"
-                    style={{ width: "100%" }}
+                    style={{
+                      width: "100%",
+                      height: calculateHeight(item?.width, item?.height, 200),
+                    }}
                   />
                 </a>
               </Box>
@@ -379,19 +387,20 @@ export function InvitationBox() {
             justifyContent: "space-between",
             display: "flex",
             margin: "auto",
+            gap: "20px",
           }}
         >
           {data
-            ?.filter((e: any, index: number) => index < 6)
+            ?.filter((e: any, index: number) => index > 5 && index < 12)
             .map((item: any, index: number) => (
               <Box
                 key={index}
                 className="background_light_green"
                 sx={{
-                  width: "14.66%",
+                  width: "200px",
                   cursor: "pointer",
                   my: "20px",
-                  height: "247px",
+                  height: calculateHeight(item?.width, item?.height, 200),
                 }}
                 onClick={() => {
                   localStorage.setItem(
@@ -409,9 +418,11 @@ export function InvitationBox() {
                   <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
-                    width={100}
                     effect="blur"
-                    style={{ width: "100%" }}
+                    style={{
+                      width: "100%",
+                      height: calculateHeight(item?.width, item?.height, 200),
+                    }}
                   />
                 </a>
                 {/* <img
@@ -437,19 +448,20 @@ export function InvitationBox() {
             justifyContent: "space-between",
             display: "flex",
             margin: "auto",
+            gap: "20px",
           }}
         >
           {data
-            ?.filter((e: any, index: number) => index < 5)
+            ?.filter((e: any, index: number) => index > 12 && index < 18)
             .map((item: any, index: number) => (
               <Box
                 key={index}
                 className="background_light_green"
                 sx={{
-                  width: "18%",
+                  width: "200px",
                   cursor: "pointer",
                   my: "20px",
-                  height: "286px",
+                  height: calculateHeight(item?.width, item?.height, 200),
                 }}
                 onClick={() => {
                   localStorage.setItem(
@@ -467,9 +479,11 @@ export function InvitationBox() {
                   <LazyLoadImage
                     src={item.template_thumb}
                     alt={"image"}
-                    width={100}
                     effect="blur"
-                    style={{ width: "100%" }}
+                    style={{
+                      width: "100%",
+                      height: calculateHeight(item?.width, item?.height, 200),
+                    }}
                   />
                 </a>
                 {/* <img

@@ -21,6 +21,7 @@ const style = {
 };
 
 export default function ChatBox() {
+  const apiKey = process.env.REACT_APP_API_KEY;
   const [open, setOpen] = useState(false);
   const [uId, setuId] = useState<any>("");
   const [chatDataList, setChatDataList] = useState<any>([]);
@@ -53,7 +54,7 @@ export default function ChatBox() {
 
   const fetchData = async () => {
     const getChatData: any = await api.getChat({
-      key: "qwfsegxdhbxfjhncf",
+      key: apiKey as string,
       user_id: uId,
     });
     const myElement = document.getElementById("chat");
@@ -104,7 +105,7 @@ export default function ChatBox() {
     event.preventDefault();
     const getNewMessage: any = api
       .sendMessage({
-        key: "qwfsegxdhbxfjhncf",
+        key: apiKey as string,
         ...messageData,
       })
       .then((res) => {

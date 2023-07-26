@@ -23,6 +23,7 @@ firebase.initializeApp(firebaseConfig);
 const auth: any = getAuth();
 
 export default function LoginGoogle() {
+  const apiKey = process.env.REACT_APP_API_KEY;
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>({ photo_uri: null });
   console.log("userData: ", userData);
@@ -55,7 +56,7 @@ export default function LoginGoogle() {
 
   const fetchData = async () => {
     const newImages: any = await api.createUser({
-      key: "qwfsegxdhbxfjhncf",
+      key: apiKey as string,
       user_id: userData?.uid,
       name: userData?.displayName,
       email: userData?.email,

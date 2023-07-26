@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import Payment from "./payment/Payment";
+import { toast } from "react-hot-toast";
 
 const getCountryCode = async () => {
   try {
@@ -15,18 +16,23 @@ const getCountryCode = async () => {
 
 export default function PricePlan() {
   const uId = localStorage.getItem("userProfile");
-  console.log("token: ", uId);
   const [pricePlaneData, setpricePlaneData] = useState<any>();
-  console.log("pricePlaneData: ", pricePlaneData);
   const [checkedDataPlane, setcheckedDataPlane] = useState<any>(null);
+  console.log("checkedDataPlane: ", checkedDataPlane);
   const [isLoading, setIsLoading] = useState<any>(false);
-  const [razorpayDetails, setRazorpayDetails] = useState<any>({});
-  console.log("checkedDataPlane: ", razorpayDetails);
   const [countryCode, setCountryCode] = useState("");
-  console.log("countryCode: ", countryCode);
 
   useEffect(() => {
-    getCountryCode().then((code) => setCountryCode(code));
+    if (uId) {
+      localStorage.setItem("navigate", ``);
+    }
+  }, [uId]);
+
+  useEffect(() => {
+    getCountryCode().then((code) => {
+      console.log("code: ", code);
+      setCountryCode(code);
+    });
   }, []);
 
   useEffect(() => {
@@ -38,6 +44,7 @@ export default function PricePlan() {
         { withCredentials: false }
       )
       .then((response: any) => {
+        console.log("response: ", response);
         const jsonString = response.data.substring(
           response.data.indexOf("{"),
           response.data.lastIndexOf("}") + 1
@@ -47,64 +54,13 @@ export default function PricePlan() {
         const getData = JSON.parse(jsonString);
         setpricePlaneData(getData?.subs);
         setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log("error: ", error);
+        setIsLoading(false);
       });
   }, [countryCode, uId]);
 
-  const getPayment = () => {
-    axios
-      .post("https://story.craftyartapp.com/my-payment", {
-        packageId: checkedDataPlane?.id,
-        packageName: checkedDataPlane?.package_name,
-        rate: checkedDataPlane?.price,
-        currency: checkedDataPlane?.currency,
-        pay_mode: "subs",
-        fromWallet: "0",
-        user_id: uId,
-      })
-      .then((response: any) => {
-        const jsonString = response.data;
-        console.log("jsonString: ", jsonString);
-        const getData = JSON.parse(
-          jsonString.replace(/True/g, "true").replace(/'/g, '"')
-        );
-        console.log("getPayment", getData);
-        setRazorpayDetails(getData);
-        // const a = JSON.stringify(response?.data);
-        // setpricePlaneData(getData?.subs);
-        // setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log("errors: ", error);
-      });
-    axios
-      .post("https://story.craftyartapp.com/my-payment/stripe", {
-        packageId: checkedDataPlane?.id,
-        packageName: checkedDataPlane?.package_name,
-        rate: checkedDataPlane?.price,
-        currency: checkedDataPlane?.currency,
-        pay_mode: "subs",
-        fromWallet: "0",
-        user_id: uId,
-      })
-      .then((response: any) => {
-        const jsonString = response.data;
-        console.log("jsonString: ", jsonString);
-        const getData = JSON.parse(
-          jsonString.replace(/True/g, "true").replace(/'/g, '"')
-        );
-        console.log("stripeData", getData);
-        // setRazorpayDetails(getData);
-        // const a = JSON.stringify(response?.data);
-        // setpricePlaneData(getData?.subs);
-        // setIsLoading(false);
-      });
-  };
-
-  // localStorage.clear();
-
-  useEffect(() => {
-    getPayment();
-  }, [checkedDataPlane]);
   return (
     <>
       <div className="row mx-5">
@@ -319,7 +275,42 @@ export default function PricePlan() {
                   paddingRight: "0",
                 }}
               >
-                {uId ? (
+                {checkedDataPlane?.id ? (
+                  uId ? (
+                    <button
+                      type="button"
+                      className="w-100 register_btn text-decoration-none login_modal_open"
+                      data-bs-toggle="modal"
+                      data-bs-target="#payout"
+                      style={{ border: "none" }}
+                    >
+                      Continue
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="w-100 register_btn text-decoration-none login_modal_open"
+                      data-bs-toggle="modal"
+                      data-bs-target="#loginModal"
+                      role="button"
+                      style={{ border: "none" }}
+                      onClick={() => {
+                        localStorage.setItem("navigate", `/pricePlans`);
+                      }}
+                    >
+                      Continue
+                    </button>
+                  )
+                ) : (
+                  <button
+                    type="button"
+                    className="w-100 register_btn text-decoration-none login_modal_open"
+                    style={{ border: "none" }}
+                  >
+                    Continue
+                  </button>
+                )}
+                {/* {uId ? (
                   <button
                     type="button"
                     className="w-100 register_btn text-decoration-none login_modal_open"
@@ -340,7 +331,7 @@ export default function PricePlan() {
                   >
                     Continue
                   </button>
-                )}
+                )} */}
               </div>
             </div>
           </section>
@@ -348,7 +339,6 @@ export default function PricePlan() {
           {/* ========= CHOOSE PLAN MODAL START ========= */}
           <Payment
             selectPaln={checkedDataPlane}
-            razorpayDetails={razorpayDetails}
             countryCode={countryCode}
           />
           {/* ========= CHOOSE PLAN OFFCANVAS START ========= */}
