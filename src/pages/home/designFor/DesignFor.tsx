@@ -120,7 +120,7 @@ export default function DesignFor({
                   }}
                 >
                   {templates?.cats
-                    .filter((e: any, index: number) =>
+                    ?.filter((e: any, index: number) =>
                       showMore ? index > -1 : index < 12
                     )
                     .map((item: any) => (
