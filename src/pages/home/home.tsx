@@ -39,7 +39,7 @@ export default function Home(): JSX.Element {
   const fetchData = React.useCallback(async () => {
     setIsloading(true);
     const newImages = await api.getDatas({
-      key: apiKey as string,
+      key: "qwfsegxdhbxfjhncf",
       page: 1,
       count: 0,
     });
