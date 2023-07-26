@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Waiting() {
+  // localStorage.clear();
   return (
     <section className="template_design_info bg-white py-4">
       {/* create_temp_container */}
