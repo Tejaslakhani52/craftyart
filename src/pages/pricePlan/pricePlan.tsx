@@ -21,6 +21,8 @@ export default function PricePlan() {
   console.log("checkedDataPlane: ", checkedDataPlane);
   const [isLoading, setIsLoading] = useState<any>(false);
   const [countryCode, setCountryCode] = useState("");
+  const [ip, setIP] = useState("");
+  console.log("ip: ", ip);
 
   useEffect(() => {
     if (uId) {
@@ -28,11 +30,19 @@ export default function PricePlan() {
     }
   }, [uId]);
 
+  const getData = async () => {
+    const res = await axios.get("https://api.ipify.org/?format=json");
+    console.log(res.data);
+    setIP(res.data.ip);
+  };
+
   useEffect(() => {
     getCountryCode().then((code) => {
       console.log("code: ", code);
       setCountryCode(code);
     });
+
+    getData();
   }, []);
 
   useEffect(() => {
@@ -56,7 +66,7 @@ export default function PricePlan() {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log("error: ", error);
+        console.log("error:", error);
         setIsLoading(false);
       });
   }, [countryCode, uId]);
@@ -337,10 +347,7 @@ export default function PricePlan() {
           </section>
 
           {/* ========= CHOOSE PLAN MODAL START ========= */}
-          <Payment
-            selectPaln={checkedDataPlane}
-            countryCode={countryCode}
-          />
+          <Payment selectPaln={checkedDataPlane} countryCode={countryCode} />
           {/* ========= CHOOSE PLAN OFFCANVAS START ========= */}
           <div
             className="offcanvas offcanvas-end "

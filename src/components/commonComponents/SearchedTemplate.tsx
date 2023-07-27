@@ -98,7 +98,7 @@ export default function SearchBox() {
         cat_id: id?.toString() ?? "-1",
         keywords: value?.toString(),
         device: "0",
-        refWidth: "1080", 
+        refWidth: "1080",
         refHeight: "1080",
         page: pages,
         debug: "debug",
