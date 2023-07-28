@@ -81,7 +81,7 @@ export default function TemplateModelPage({ mainId }: any) {
       .post(
         "https://story.craftyartapp.com/my-posterPage",
         {
-          key: qwfsegxdhbxfjhncf,
+          key: "qwfsegxdhbxfjhncf",
           id_name: slug,
         },
         { withCredentials: false }
