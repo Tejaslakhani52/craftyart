@@ -54,7 +54,7 @@ export default function ChatBox() {
 
   const fetchData = async () => {
     const getChatData: any = await api.getChat({
-      key: apiKey as string,
+      key: qwfsegxdhbxfjhncf,
       user_id: uId,
     });
     const myElement = document.getElementById("chat");
@@ -105,7 +105,7 @@ export default function ChatBox() {
     event.preventDefault();
     const getNewMessage: any = api
       .sendMessage({
-        key: apiKey as string,
+        key: qwfsegxdhbxfjhncf,
         ...messageData,
       })
       .then((res) => {

@@ -93,7 +93,7 @@ export default function SearchBox() {
   const getSearchList = (pages: number) => {
     axios
       .post("https://story.craftyartapp.com/search-template", {
-        key: apiKey as string,
+        key: qwfsegxdhbxfjhncf,
         app_id: "1",
         cat_id: id?.toString() ?? "-1",
         keywords: value?.toString(),
