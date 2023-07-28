@@ -6,24 +6,12 @@ import Payment from "./payment/Payment";
 import { toast } from "react-hot-toast";
 // import geoip from "geoip-lite";
 
-const getCountryCode = async () => {
-  try {
-    const response = await axios.get("https://ipapi.co/json/");
-    return response.data.country_code;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export default function PricePlan() {
   const uId = localStorage.getItem("userProfile");
   const [pricePlaneData, setpricePlaneData] = useState<any>();
   const [checkedDataPlane, setcheckedDataPlane] = useState<any>(null);
   console.log("checkedDataPlane: ", checkedDataPlane);
   const [isLoading, setIsLoading] = useState<any>(false);
-  const [countryCode, setCountryCode] = useState("IN");
-  const [ip, setIP] = useState("");
-  // const [userCountryCode, setUserCountryCode] = useState("");
 
   useEffect(() => {
     if (uId) {
@@ -31,27 +19,8 @@ export default function PricePlan() {
     }
   }, [uId]);
 
-  // const getData = async () => {
-  //   const res = await axios.get("https://api.ipify.org/?format=json");
-  //   console.log(res.data);
-  //   setIP(res.data.ip);
-  // };
-
-  // useEffect(() => {
-  //   getCountryCode().then((code) => {
-  //     console.log("code: ", code);
-  //     setCountryCode(code);
-  //   });
-
-  //   getData();
-  // }, []);
-
   const [userCountryCode, setUserCountryCode] = useState("");
   console.log("userCountryCode: ", userCountryCode);
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   const getData = async () => {
     try {
@@ -59,60 +28,51 @@ export default function PricePlan() {
       const ip = res.data.ip;
       console.log("ip: ", ip);
 
-      const response = await axios.post(
-        "https://story.craftyartapp.com/api/getCountryCode",
-        { ip }
-      );
+      const response = await axios
+        .post("https://story.craftyartapp.com/api/getCountryCode", { ip })
+        .then((res: any) => {
+          axios
+            .post(
+              "https://story.craftyartapp.com/my-api",
+              {
+                user_id: uId,
+                currency: res?.data?.countryCode === "IN" ? "INR" : "USD",
+              },
+              { withCredentials: false }
+            )
+            .then((response: any) => {
+              console.log("response: ", response);
+              const jsonString = response.data.substring(
+                response.data.indexOf("{"),
+                response.data.lastIndexOf("}") + 1
+              );
+              // const a = JSON.stringify(response?.data);
+              console.log("itsData", JSON.parse(jsonString));
+              const getData = JSON.parse(jsonString);
+              setpricePlaneData(getData?.subs);
+              setIsLoading(false);
+            })
+            .catch((error) => {
+              console.log("error:", error);
+              setIsLoading(false);
+            });
+        });
       console.log("responsescsacascas: ", response);
-
-      setUserCountryCode(response.data.countryCode);
     } catch (error) {
       console.error("Error fetching country code:", error);
       setUserCountryCode("Unknown");
     }
   };
 
-  // useEffect(() => {
-  //   const getUserCountryCode = () => {
-  //     // Replace 'userIpAddress' with the actual IP address of the user
-  //     const userIpAddress = "user_ip_address_here";
-  //     const geo = geoip.lookup(userIpAddress);
-
-  //     if (geo && geo.country) {
-  //       setUserCountryCode(geo.country);
-  //     } else {
-  //       setUserCountryCode("Unknown");
-  //     }
-  //   };
-
-  //   getUserCountryCode();
-  // }, [ip]);
-
   useEffect(() => {
+    getData();
     setIsLoading(true);
-    axios
-      .post(
-        "https://story.craftyartapp.com/my-api",
-        { user_id: uId, currency: userCountryCode === "IN" ? "INR" : "USD" },
-        { withCredentials: false }
-      )
-      .then((response: any) => {
-        console.log("response: ", response);
-        const jsonString = response.data.substring(
-          response.data.indexOf("{"),
-          response.data.lastIndexOf("}") + 1
-        );
-        // const a = JSON.stringify(response?.data);
-        console.log("itsData", JSON.parse(jsonString));
-        const getData = JSON.parse(jsonString);
-        setpricePlaneData(getData?.subs);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log("error:", error);
-        setIsLoading(false);
-      });
-  }, [userCountryCode]);
+  }, []);
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+
+  // }, [userCountryCode]);
 
   return (
     <>

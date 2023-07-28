@@ -35,7 +35,7 @@ export default function Header() {
 
   const fetchData = async () => {
     const getUserData: any = await api.getUser({
-      key: "qwfsegxdhbxfjhncf",
+      key: apiKey as string,
       device_id: "",
       email: uId,
     });

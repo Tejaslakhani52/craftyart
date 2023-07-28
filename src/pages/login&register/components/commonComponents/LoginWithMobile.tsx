@@ -87,7 +87,7 @@ const PhoneLogin = () => {
       setUserData(userCredential?.user);
       const userData: any = userCredential?.user;
       api.createUser({
-        key: "qwfsegxdhbxfjhncf",
+        key: apiKey as string,
         user_id: userData?.uid,
         name: "craftyart",
         email: userData?.phoneNumber,
@@ -133,7 +133,7 @@ const PhoneLogin = () => {
 
   // const fetchData = async () => {
   //   const newImages: any = await api.createUser({
-  //     key: "qwfsegxdhbxfjhncf",
+  //     key: apiKey as string,
   //     user_id: userData?.uid,
   //     name: "craftyart",
   //     email: userData?.phoneNumber,

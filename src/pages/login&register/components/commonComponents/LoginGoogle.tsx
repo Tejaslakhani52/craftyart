@@ -38,7 +38,7 @@ export default function LoginGoogle() {
         setUserData(data?.user);
         const userData: any = data?.user;
         api.createUser({
-          key: "qwfsegxdhbxfjhncf",
+          key: apiKey as string,
           user_id: userData?.uid,
           name: userData?.displayName,
           email: userData?.email,
@@ -64,7 +64,7 @@ export default function LoginGoogle() {
 
   // const fetchData = async () => {
   //   const newImages: any = await api.createUser({
-  //     key: "qwfsegxdhbxfjhncf",
+  //     key: apiKey as string,
   //     user_id: userData?.uid,
   //     name: userData?.displayName,
   //     email: userData?.email,
