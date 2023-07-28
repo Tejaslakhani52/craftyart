@@ -38,7 +38,7 @@ export default function Home(): JSX.Element {
   const fetchData = React.useCallback(async () => {
     setIsloading(true);
     const newImages = await api.getDatas({
-      key: process.env.REACT_APP_API_KEY as string,
+      key: "qwfsegxdhbxfjhncf" as string,
       page: 1,
       count: 0,
     });
