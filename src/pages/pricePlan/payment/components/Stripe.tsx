@@ -26,7 +26,9 @@ const inputStyle = {
   },
 };
 
-export default function PaymentForm({ selectPaln, countryCode }: any) {
+export default function PaymentForm({ selectPlan, countryCode }: any) {
+  console.log("selectPaln: ", selectPlan);
+  const uId = localStorage.getItem("userProfile");
   const [success, setSuccess] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
@@ -44,19 +46,23 @@ export default function PaymentForm({ selectPaln, countryCode }: any) {
       try {
         const { id } = paymentMethod;
         const response: any = await axios.post(
-          "https://story.craftyartapp.com/payments/create",
+          "https://story.craftyartapp.com/payments/stripe",
           {
-            amount: selectPaln?.price * 100,
+            amount: selectPlan?.price * 100,
             id,
             currency: countryCode === "IN" ? "INR" : "USD",
+            userId: uId,
+            packageId: selectPlan?.id,
+            pay_mode: "subs",
+            packageName: selectPlan?.package_name,
           }
         );
 
-        if (response?.data?.next_action?.redirect_to_url?.url) {
-          window.location.href =
-            response?.data?.next_action?.redirect_to_url?.url;
-          setIsLoading(false);
-        }
+        // if (response?.data?.next_action?.redirect_to_url?.url) {
+        //   window.location.href =
+        //     response?.data?.next_action?.redirect_to_url?.url;
+        //   setIsLoading(false);
+        // }
 
         if (response.data.success) {
           toast.success("Successful payment");
@@ -192,7 +198,3 @@ export default function PaymentForm({ selectPaln, countryCode }: any) {
     </>
   );
 }
-
-// 4700 1101 0209 0703
-// 477
-// 10/26

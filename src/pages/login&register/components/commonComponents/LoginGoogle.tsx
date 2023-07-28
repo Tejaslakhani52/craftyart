@@ -36,6 +36,18 @@ export default function LoginGoogle() {
       .then((data) => {
         console.log("userProfileGoogle: ", data);
         setUserData(data?.user);
+        const userData: any = data?.user;
+        api.createUser({
+          key: "qwfsegxdhbxfjhncf",
+          user_id: userData?.uid,
+          name: userData?.displayName,
+          email: userData?.email,
+          photo_uri: userData?.photoURL,
+          login_type: "google",
+          device_id: "",
+          utm_medium: "craftyart",
+          utm_source: "craftyart",
+        });
         toast.success("Success Login");
         localStorage.setItem("userProfile", data?.user?.uid);
         navigate(`${currentPathname}`);
@@ -50,25 +62,23 @@ export default function LoginGoogle() {
 
   // localStorage.clear();
 
-  useEffect(() => {
-    fetchData();
-  }, [userData]);
+  // const fetchData = async () => {
+  //   const newImages: any = await api.createUser({
+  //     key: "qwfsegxdhbxfjhncf",
+  //     user_id: userData?.uid,
+  //     name: userData?.displayName,
+  //     email: userData?.email,
+  //     photo_uri: userData?.photoURL,
+  //     login_type: "google",
+  //     device_id: "",
+  //     utm_medium: "craftyart",
+  //     utm_source: "craftyart",
+  //   });
+  // };
 
-  const fetchData = async () => {
-    const newImages: any = await api.createUser({
-      key: apiKey as string,
-      user_id: userData?.uid,
-      name: userData?.displayName,
-      email: userData?.email,
-      photo_uri: userData?.photoURL,
-      login_type: "google",
-      device_id: "",
-      utm_medium: "craftyart",
-      utm_source: "craftyart",
-    });
-
-    console.log("userProfileGoogle2: ", newImages);
-  };
+  // useEffect(() => {
+  //   fetchData();
+  // }, [userData]);
 
   return (
     <div className="col-10">

@@ -24,7 +24,7 @@ export default function Subscriptions() {
       .post(
         "https://story.craftyartapp.com/my-currentPlan",
         {
-          key: apiKey as string,
+          key: "qwfsegxdhbxfjhncf",
           user_id: getData,
         },
         { withCredentials: false }
@@ -49,7 +49,7 @@ export default function Subscriptions() {
 
   const fetchData = async () => {
     const getUserData: any = await api.getUser({
-      key: apiKey as string,
+      key: "qwfsegxdhbxfjhncf",
       device_id: "",
       email: uId,
     });
@@ -97,7 +97,7 @@ export default function Subscriptions() {
     setIsLoading(true);
     event.preventDefault();
     const getUpdateData: any = api.updateUser({
-      key: apiKey as string,
+      key: "qwfsegxdhbxfjhncf",
       ...acountDetail,
     });
     consoleShow("getUpdateData: ", getUpdateData);

@@ -85,6 +85,18 @@ const PhoneLogin = () => {
       setOpen(false);
       const userCredential = await signInWithCredential(auth, credential);
       setUserData(userCredential?.user);
+      const userData: any = userCredential?.user;
+      api.createUser({
+        key: "qwfsegxdhbxfjhncf",
+        user_id: userData?.uid,
+        name: "craftyart",
+        email: userData?.phoneNumber,
+        photo_uri: "",
+        login_type: "Number",
+        device_id: "",
+        utm_medium: "craftyart",
+        utm_source: "craftyart",
+      });
       localStorage.setItem("userProfile", userCredential?.user?.uid);
 
       navigate("/");
@@ -99,9 +111,9 @@ const PhoneLogin = () => {
       toast.error(error.code.split("auth/")[1]);
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, [userData]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [userData]);
 
   const handleGoogleLogin = () => {
     signInWithPopup(auth, provider)
@@ -119,19 +131,19 @@ const PhoneLogin = () => {
       });
   };
 
-  const fetchData = async () => {
-    const newImages: any = await api.createUser({
-      key: apiKey as string,
-      user_id: userData?.uid,
-      name: "craftyart",
-      email: userData?.phoneNumber,
-      photo_uri: "",
-      login_type: "Number",
-      device_id: "",
-      utm_medium: "craftyart",
-      utm_source: "craftyart",
-    });
-  };
+  // const fetchData = async () => {
+  //   const newImages: any = await api.createUser({
+  //     key: "qwfsegxdhbxfjhncf",
+  //     user_id: userData?.uid,
+  //     name: "craftyart",
+  //     email: userData?.phoneNumber,
+  //     photo_uri: "",
+  //     login_type: "Number",
+  //     device_id: "",
+  //     utm_medium: "craftyart",
+  //     utm_source: "craftyart",
+  //   });
+  // };
 
   return (
     <div>

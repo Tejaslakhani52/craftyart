@@ -12,6 +12,7 @@ export interface DialogTitleProps {
 }
 
 export default function TemplateModelPage({ mainId }: any) {
+  const userPremium = localStorage.getItem("premium");
   const apiKey = process.env.REACT_APP_API_KEY;
   const token = localStorage.getItem("userProfile");
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ export default function TemplateModelPage({ mainId }: any) {
       .post(
         "https://story.craftyartapp.com/my-posterPage",
         {
-          key: apiKey as string,
+          key: "qwfsegxdhbxfjhncf",
           id_name: slug,
         },
         { withCredentials: false }
@@ -190,28 +191,56 @@ export default function TemplateModelPage({ mainId }: any) {
                         </h5>
 
                         {showingData?.is_premium && !token ? (
-                          <button
-                            type="button"
-                            className="use_template_btn d-none d-lg-block"
-                            data-bs-toggle="modal"
-                            data-bs-target="#loginModal"
-                            role="button"
-                            style={{ border: "none" }}
-                          >
-                            <a
-                              href="javscript:;"
-                              className="text-decoration-none text-white"
+                          userPremium === "true" ? (
+                            <button
+                              type="button"
+                              className="use_template_btn d-none d-lg-block"
+                              data-bs-toggle="modal"
+                              data-bs-target="#loginModal"
+                              role="button"
+                              style={{ border: "none" }}
+                              onClick={() => {
+                                window.open(
+                                  `https://editor.craftyartapp.com/${showingData?.id_name}`
+                                );
+                              }}
                             >
-                              <i className="fa-solid fa-crown text-warning pe-2" />
+                              <a
+                                href="javscript:;"
+                                className="text-decoration-none text-white"
+                              >
+                                <i className="fa-solid fa-crown text-warning pe-2" />
 
-                              <span> Use this Template</span>
-                            </a>
-                          </button>
+                                <span> Use this Template</span>
+                              </a>
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="use_template_btn d-none d-lg-block"
+                              data-bs-toggle="modal"
+                              data-bs-target="#loginModal"
+                              role="button"
+                              style={{ border: "none" }}
+                            >
+                              <a
+                                href="javscript:;"
+                                className="text-decoration-none text-white"
+                              >
+                                <i className="fa-solid fa-crown text-warning pe-2" />
+
+                                <span> Use this Template</span>
+                              </a>
+                            </button>
+                          )
                         ) : (
                           <p
                             className="use_template_btn d-none d-lg-block"
                             onClick={() => {
-                              if (showingData?.is_premium) {
+                              if (
+                                showingData?.is_premium &&
+                                userPremium !== "true"
+                              ) {
                                 navigate("/pricePlans");
                               } else
                                 window.open(

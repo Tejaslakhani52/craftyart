@@ -35,11 +35,15 @@ export default function Header() {
 
   const fetchData = async () => {
     const getUserData: any = await api.getUser({
-      key: apiKey as string,
+      key: "qwfsegxdhbxfjhncf",
       device_id: "",
       email: uId,
     });
-    consoleShow("getUserData", getUserData);
+    console.log("getUserData: ", getUserData);
+    localStorage.setItem(
+      "premium",
+      getUserData?.user?.is_premium === 1 ? "true" : "false"
+    );
     setImageBaseUrl(getUserData?.url);
     setUserProfile(getUserData?.user);
   };

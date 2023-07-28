@@ -21,6 +21,7 @@
     "axios": "^1.3.5",
     "buffer": "^6.0.3",
     "firebase": "^9.19.1",
+    "geoip-lite": "^1.4.7",
     "googleapis": "^118.0.0",
     "loadjs": "^4.3.0-rc1",
     "process": "^0.11.10",
@@ -67,6 +68,7 @@
     ]
   },
   "devDependencies": {
+    "@types/geoip-lite": "^1.4.1",
     "@types/loadjs": "^4.0.1",
     "@types/react-select-country-list": "^2.2.1",
     "babel-cli": "^6.26.0",

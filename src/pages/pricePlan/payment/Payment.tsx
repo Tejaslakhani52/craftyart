@@ -184,7 +184,7 @@ export default function Payment({ selectPaln, countryCode }: any) {
                     </div>
                     <Elements stripe={stripeTestPromise}>
                       <PaymentForm
-                        selectPaln={selectPaln}
+                        selectPlan={selectPaln}
                         countryCode={countryCode}
                       />
                     </Elements>

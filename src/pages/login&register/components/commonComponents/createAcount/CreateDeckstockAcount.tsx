@@ -110,7 +110,7 @@ export default function CreateDeckstockAcount() {
 
   const fetchData = async () => {
     const newUser: any = await api.createUser({
-      key: apiKey as string,
+      key: "qwfsegxdhbxfjhncf",
       user_id: finalUser?.uid,
       name: finalUser?.displayName,
       email: finalUser?.email,

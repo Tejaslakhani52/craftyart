@@ -81,6 +81,7 @@ export default function TemplateModel({
   currentPathname,
 }: any) {
   console.log("currentPathname:", currentPathname);
+  const userPremium = localStorage.getItem("premium");
   const token = localStorage.getItem("userProfile");
   const navigate = useNavigate();
 
@@ -317,7 +318,10 @@ export default function TemplateModel({
                                 <p
                                   className="use_template_btn d-none d-lg-block"
                                   onClick={() => {
-                                    if (finalData[page]?.is_premium) {
+                                    if (
+                                      finalData[page]?.is_premium &&
+                                      userPremium !== "true"
+                                    ) {
                                       navigate("/pricePlans");
                                     } else
                                       window.open(
