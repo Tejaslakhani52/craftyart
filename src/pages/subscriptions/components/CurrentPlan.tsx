@@ -23,10 +23,6 @@ export default function CurrentPlan({ userSubscription }: any) {
                 <h3 className="section_title mb-4">
                   {userSubscription?.current?.package_name}
                 </h3>
-                {/* <p className="comman_para mb-3 mx-auto mx-md-0">
-                  Now including the 100+ million premium template, photo,
-                  greeting, and graphics
-                </p> */}
               </div>
               <div className="col-md-3 text-center">
                 <h3 className="section_heading_title mb-4">

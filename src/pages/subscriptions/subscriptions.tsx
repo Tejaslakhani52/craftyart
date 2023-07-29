@@ -14,6 +14,7 @@ export default function Subscriptions() {
   const [imageBaseUrl, setImageBaseUrl] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<any>(false);
   const [currentPlan, setcurrentPlan] = useState<any>();
+  console.log("currentPlan: ", currentPlan);
   const [removeImage, setRemoveImage] = useState<any>(false);
 
   useEffect(() => {
@@ -34,8 +35,9 @@ export default function Subscriptions() {
           response.data.indexOf("{"),
           response.data.lastIndexOf("}") + 1
         );
-        const getData = JSON.parse(jsonString);
-        setcurrentPlan(getData);
+        const getDatas = JSON.parse(jsonString);
+        console.log("getData: ", getDatas);
+        setcurrentPlan(getDatas);
       })
       .catch((error) => consoleShow("currError: ", error));
   }, []);

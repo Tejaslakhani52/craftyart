@@ -117,7 +117,7 @@ export default function DynamicLandingPage() {
       .post(
         `https://panel.craftyartapp.com/templates/api/getKeyTemplates/?page=${page}`,
         {
-          key: apiKey,
+          key: "qwfsegxdhbxfjhncf",
           key_name: keywordName,
         }
       )
