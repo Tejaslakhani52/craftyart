@@ -764,60 +764,13 @@ export default function Footer() {
                 >
                   <div className="accordion-body text-white">
                     <div className="d-flex justify-content-sm-between footer_link">
-                      <ul className="list-unstyled me-5 me-sm-0">
+                      <ul className="list-unstyled me-5 me-sm-0 pe-5">
                         <li className="py-2">
                           <a
-                            href="alltemplate.html"
-                            className="text-decoration-none footer_items"
-                          >
-                            Templates
-                          </a>
-                        </li>
-                        <li className="py-2">
-                          <a
-                            href="javascript:;"
-                            className="text-decoration-none footer_items"
-                          >
-                            Facebook Story
-                          </a>
-                        </li>
-                        <li className="py-2">
-                          <a
-                            href="javascript:;"
-                            className="text-decoration-none footer_items"
-                          >
-                            Facebook Post
-                          </a>
-                        </li>
-                        <li className="py-2">
-                          <Link
-                            to="/"
-                            className="text-decoration-none footer_items"
-                          >
-                            Instagram Story
-                          </Link>
-                        </li>
-                      </ul>
-                      <ul className="list-unstyled">
-                        <li className="py-2">
-                          <a
-                            href="javascript:;"
-                            className="text-decoration-none footer_items"
-                          >
-                            Facebook Post
-                          </a>
-                        </li>
-                        <li className="py-2">
-                          <a
-                            href="javascript:;"
-                            className="text-decoration-none footer_items"
-                          >
-                            Youtube Thumbnail
-                          </a>
-                        </li>
-                        <li className="py-2">
-                          <a
-                            href="javascript:;"
+                            // to="/templates/invitation-card"
+                            onClick={() => {
+                              navigate("/invitation");
+                            }}
                             className="text-decoration-none footer_items"
                           >
                             Invitations
@@ -825,10 +778,55 @@ export default function Footer() {
                         </li>
                         <li className="py-2">
                           <a
-                            href="javascript:;"
+                            onClick={() => {
+                              navigate("/templates/quotes-post-square");
+                              window.location.reload();
+                            }}
                             className="text-decoration-none footer_items"
                           >
-                            Posters
+                            Quotes
+                          </a>
+                        </li>
+                        <li className="py-2">
+                          <a
+                            onClick={() => {
+                              navigate("/templates/resume-portrait");
+                              window.location.reload();
+                            }}
+                            className="text-decoration-none footer_items"
+                          >
+                            Resume
+                          </a>
+                        </li>
+                        <li className="py-2">
+                          <Link
+                            to="/"
+                            className="text-decoration-none footer_items"
+                          >
+                            Flyer
+                          </Link>
+                        </li>
+                      </ul>
+                      <ul className="list-unstyled">
+                        <li className="py-2">
+                          <a
+                            onClick={() => {
+                              navigate("/logos");
+                            }}
+                            className="text-decoration-none footer_items"
+                          >
+                            Logo
+                          </a>
+                        </li>
+                        <li className="py-2">
+                          <a
+                            onClick={() => {
+                              navigate("/templates/daily-post");
+                              window.location.reload();
+                            }}
+                            className="text-decoration-none footer_items"
+                          >
+                            Festival
                           </a>
                         </li>
                       </ul>
@@ -866,22 +864,15 @@ export default function Footer() {
                             About Us
                           </Link>
                         </li>
-                        <li className="py-2">
-                          <Link
-                            to="/contactus"
-                            className="text-decoration-none footer_items"
-                          >
-                            Contact Us
-                          </Link>
-                        </li>
-                        <li className="py-2">
-                          <Link
-                            to="/career"
-                            className="text-decoration-none footer_items"
-                          >
-                            Career
-                          </Link>
-                        </li>
+                        {/* <li className="py-2">
+                      <Link
+                        to="/contactus"
+                        className="text-decoration-none footer_items"
+                      >
+                        Contact Us
+                      </Link>
+                    </li> */}
+
                         <li className="py-2">
                           <Link
                             to="/pricePlans"
@@ -918,28 +909,28 @@ export default function Footer() {
                     <div className="footer_link">
                       <ul className="list-unstyled">
                         <li className="py-2">
-                          <a
-                            href="term&condition.html"
+                          <Link
+                            to="/privacy-policy"
                             className="text-decoration-none footer_items"
                           >
                             Privacy Policy
-                          </a>
+                          </Link>
                         </li>
                         <li className="py-2">
-                          <a
-                            href="term&condition.html"
+                          <Link
+                            to="/term-condition"
                             className="text-decoration-none footer_items"
                           >
                             Terms and Conditions
-                          </a>
+                          </Link>
                         </li>
                         <li className="py-2">
-                          <a
-                            href="javascript:;"
+                          <Link
+                            to="/copyright-information"
                             className="text-decoration-none footer_items"
                           >
                             Copyright Information
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -968,30 +959,31 @@ export default function Footer() {
                   <div className="accordion-body text-white">
                     <div className="footer_link">
                       <ul className="list-unstyled">
-                        <li className="py-2">
-                          <a
-                            href="javascript:;"
-                            className="text-decoration-none footer_items"
-                          >
-                            Tutorials
-                          </a>
-                        </li>
+                        {/* <li className="py-2">
+                      <a
+                        href="javascript:;"
+                        className="text-decoration-none footer_items"
+                      >
+                        Tutorials
+                      </a>
+                    </li> */}
                         <li className="py-2">
                           <Link
-                            to="/blog"
+                            to="https://craftyartapp.com/blog"
+                            target="blank"
                             className="text-decoration-none footer_items"
                           >
                             Blog
                           </Link>
                         </li>
-                        <li className="py-2">
-                          <a
-                            href="contactus.html"
-                            className="text-decoration-none footer_items"
-                          >
-                            Help center
-                          </a>
-                        </li>
+                        {/* <li className="py-2">
+                      <Link
+                        to="/contactus"
+                        className="text-decoration-none footer_items"
+                      >
+                        Help center
+                      </Link>
+                    </li> */}
                       </ul>
                     </div>
                   </div>
@@ -1020,22 +1012,22 @@ export default function Footer() {
                     <div className="footer_link">
                       <ul className="list-unstyled">
                         <li className="py-2">
-                          <a
-                            href="contactus.html"
+                          <Link
+                            to="/faqs"
                             className="text-decoration-none footer_items"
                           >
                             FAQ
-                          </a>
-                        </li>
-                        <li className="py-2">
-                          <Link
-                            to="/contactus"
-                            className="text-decoration-none footer_items"
-                          >
-                            Contact Us
                           </Link>
                         </li>
-                        <li></li>
+
+                        {/* <li className="py-2">
+                      <Link
+                        to="/contactus"
+                        className="text-decoration-none footer_items"
+                      >
+                        Contact Us
+                      </Link>
+                    </li> */}
                       </ul>
                     </div>
                   </div>
@@ -1050,12 +1042,6 @@ export default function Footer() {
                   className="text-decoration-none footer_items get_app me-3"
                 >
                   <img src={PlayStore} alt="playstore" />
-                </a>
-                <a
-                  href="javscript:;"
-                  className="text-decoration-none footer_items get_app"
-                >
-                  <img src={AppStore} alt="appstore" />
                 </a>
               </div>
               <div className="social_icon d-flex justify-content-center align-items-center py-4">

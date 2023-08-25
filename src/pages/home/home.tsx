@@ -14,6 +14,7 @@ import CustomeSize from "../../components/footer/customeSize/CustomeSize";
 import axios from "axios";
 import { templatesData } from "../../redux/reducer/apiDataReducer";
 import { useDispatch, useSelector } from "react-redux";
+import { consoleShow } from "../../commonFunction/console";
 
 export default function Home(): JSX.Element {
   // const apiKey = process.env.REACT_APP_API_KEY;
@@ -43,7 +44,7 @@ export default function Home(): JSX.Element {
       count: 0,
     });
     setTemplates(newImages);
-    console.log("newImages: ", newImages);
+    consoleShow("newImages: ", newImages);
     dispatch(templatesData(newImages));
     setIsloading(false);
   }, [templates]);
@@ -51,8 +52,7 @@ export default function Home(): JSX.Element {
   return (
     <>
       <div className="small_fixed_footer d-bock d-sm-none">
-        <SmallScreen />
-        <Profile />
+        <Profile /> 
         <Creation />
         <CustomeSize />
       </div>

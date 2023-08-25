@@ -48,10 +48,11 @@ export default function LogoBox() {
         <Typography
           sx={{
             color: "#1C3048",
-            fontSize: "36px",
+            fontSize: { xs: "25px", lg: "36px" },
             textAlign: "center",
             fontWeight: "500",
           }}
+          variant="h2"
         >
           Start Explore Logos :
         </Typography>
@@ -64,6 +65,7 @@ export default function LogoBox() {
             fontWeight: "500",
             my: "20px",
           }}
+          variant="h3"
         >
           Get a headstart with fully customizable Logos
         </Typography>

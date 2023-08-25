@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 import api from "../../services/api";
 import Payment from "./payment/Payment";
 import { toast } from "react-hot-toast";
+import { consoleShow } from "../../commonFunction/console";
+import { Box } from "@mui/material";
 // import geoip from "geoip-lite";
 
 export default function PricePlan() {
   const uId = localStorage.getItem("userProfile");
   const [pricePlaneData, setpricePlaneData] = useState<any>();
   const [checkedDataPlane, setcheckedDataPlane] = useState<any>(null);
-  console.log("checkedDataPlane: ", checkedDataPlane);
+  consoleShow("checkedDataPlane: ", checkedDataPlane);
   const [isLoading, setIsLoading] = useState<any>(false);
 
   useEffect(() => {
@@ -20,17 +22,17 @@ export default function PricePlan() {
   }, [uId]);
 
   const [userCountryCode, setUserCountryCode] = useState("");
-  console.log("userCountryCode: ", userCountryCode);
+  consoleShow("userCountryCode: ", userCountryCode);
 
   const getData = async () => {
     try {
-      const res = await axios.get("https://api.ipify.org/?format=json");
+      const res = await axios.get("https://story.craftyartapp.com/get-ip");
       const ip = res.data.ip;
-      console.log("ip: ", ip);
 
       const response = await axios
         .post("https://story.craftyartapp.com/api/getCountryCode", { ip })
         .then((res: any) => {
+          setUserCountryCode(res?.data?.countryCode);
           axios
             .post(
               "https://story.craftyartapp.com/my-api",
@@ -41,23 +43,23 @@ export default function PricePlan() {
               { withCredentials: false }
             )
             .then((response: any) => {
-              console.log("response: ", response);
+              consoleShow("response: ", response);
               const jsonString = response.data.substring(
                 response.data.indexOf("{"),
                 response.data.lastIndexOf("}") + 1
               );
               // const a = JSON.stringify(response?.data);
-              console.log("itsData", JSON.parse(jsonString));
+              consoleShow("itsData", JSON.parse(jsonString));
               const getData = JSON.parse(jsonString);
               setpricePlaneData(getData?.subs);
               setIsLoading(false);
             })
             .catch((error) => {
-              console.log("error:", error);
+              consoleShow("error:", error);
               setIsLoading(false);
             });
         });
-      console.log("responsescsacascas: ", response);
+      consoleShow("responsescsacascas: ", response);
     } catch (error) {
       console.error("Error fetching country code:", error);
       setUserCountryCode("Unknown");
@@ -69,16 +71,14 @@ export default function PricePlan() {
     setIsLoading(true);
   }, []);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-
-  // }, [userCountryCode]);
-
   return (
     <>
-      <div className="row mx-5">
+      <Box
+        className=" "
+        sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
+      >
         <div
-          className="faq_main  col-md-6"
+          className="faq_main col-md-6"
           style={{ backgroundColor: "#F5F5F5", paddingTop: "25px" }}
         >
           <div className="section_heading text-center mb-4 pb-2">
@@ -212,16 +212,6 @@ export default function PricePlan() {
           className="choose-plan my-5 container-fluid col-md-6"
           style={{ paddingTop: "40px" }}
         >
-          <a
-            href="javascript:;"
-            className=" btn view-choose-plan mt-4 mb-5"
-            // data-bs-toggle="offcanvas"
-            // data-bs-target="#choosePlanOffcanvas"
-            // aria-controls="choosePlanOffcanvas"
-          >
-            <i className="fa-solid fa-crown text-warning pe-2" />
-            View Subscriptions Plan
-          </a>
           <div className="choose-plan-inner px-sm-0 px-3">
             <div className="justify-content-center align-items-center flex-wrap">
               {pricePlaneData?.map((item: any) => (
@@ -323,28 +313,6 @@ export default function PricePlan() {
                     Continue
                   </button>
                 )}
-                {/* {uId ? (
-                  <button
-                    type="button"
-                    className="w-100 register_btn text-decoration-none login_modal_open"
-                    data-bs-toggle="modal"
-                    data-bs-target="#payout"
-                    style={{ border: "none" }}
-                  >
-                    Continue
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="w-100 register_btn text-decoration-none login_modal_open"
-                    data-bs-toggle="modal"
-                    data-bs-target="#loginModal"
-                    role="button"
-                    style={{ border: "none" }}
-                  >
-                    Continue
-                  </button>
-                )} */}
               </div>
             </div>
           </section>
@@ -458,280 +426,7 @@ export default function PricePlan() {
             </div>
           </div>
         </section>
-      </div>
-
-      <div className="small_fixed_footer d-bock d-sm-none">
-        <div className="small_screen_footer_link position-relative">
-          <div className="d-flex justify-content-between">
-            <div className="bottom_footer_link">
-              <a
-                href="index.html"
-                className="d-flex flex-column align-items-center text-decoration-none active"
-              >
-                <i className="fa-sharp fa-solid fa-house fs-5" />
-                <span>Home</span>
-              </a>
-            </div>
-            <div className="bottom_footer_link">
-              <a
-                href="javscript:;"
-                className="d-flex flex-column align-items-center text-decoration-none"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#creation_bottom"
-              >
-                <i className="fa-sharp fa-solid fa-folder fs-5" />
-                <span>Creation</span>
-              </a>
-            </div>
-            <div className="bottom_footer_link">
-              {/* <a
-          href="price&plan.html"
-          className="d-flex flex-column align-items-center text-decoration-none"
-        >
-          <i className="fa-sharp fa-solid fa-crown fs-5" />
-          <span>Premium</span>
-        </a> */}
-              <Link
-                to="/pricePlans"
-                className="d-flex flex-column align-items-center text-decoration-none"
-              >
-                <i className="fa-sharp fa-solid fa-crown fs-5" />
-                <span>Premium</span>
-              </Link>
-            </div>
-            <div className="bottom_footer_link">
-              <a
-                href="javscript:;"
-                className="d-flex flex-column align-items-center text-decoration-none"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#profile_bottom"
-              >
-                <i className="fa-sharp fa-solid fa-circle-user fs-5" />
-                <span>Profile</span>
-              </a>
-            </div>
-          </div>
-          <div className="bottom_footer_pluse">
-            <a
-              href="javscript:;"
-              className="text-decoration-none text-white fs-2"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#custom_size"
-            >
-              <i className="fa-sharp fa-solid fa-plus fs-2" />
-            </a>
-          </div>
-        </div>
-        {/* ======= PROFILE OFFCANVAS ========= */}
-        <div
-          className="profile_offcanvas offcanvas offcanvas-bottom"
-          tabIndex={-1}
-          id="profile_bottom"
-          aria-labelledby="offcanvasBottomLabel"
-        >
-          <div className="offcanvas-header">
-            <h5
-              className="offcanvas-title text-center w-100"
-              id="offcanvasBottomLabel"
-            >
-              Account
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            />
-          </div>
-          <div className="offcanvas-body">
-            <div className="profile_offcanvas_inner">
-              <div className="profile_single_item d-flex align-items-start mb-4">
-                <div className="single_item_icon pe-3">
-                  <img
-                    src="assets/images/Icons/accountuser.png"
-                    alt="usericon"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="single_items_text border-bottom w-100 pb-4">
-                  <h6 className="mb-2 fw-bold">Profile</h6>
-                  <p className="mb-0 text-muted fw-normal">
-                    Edit photo, display name, user name, email id
-                  </p>
-                </div>
-              </div>
-              <div className="profile_single_item d-flex align-items-start mb-4">
-                <div className="single_item_icon pe-3">
-                  <img
-                    src="assets/images/Icons/subscription.png"
-                    alt="usericon"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="single_items_text border-bottom w-100 pb-4">
-                  <h6 className="mb-2 fw-bold">Subscriptions</h6>
-                  <p className="mb-0 text-muted fw-normal">
-                    View current plan, download your invoice pdf
-                  </p>
-                </div>
-              </div>
-              <div className="profile_single_item d-flex align-items-start mb-4">
-                <div className="single_item_icon pe-3">
-                  <img
-                    src="assets/images/Icons/referuser.png"
-                    alt="usericon"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="single_items_text border-bottom w-100 pb-4">
-                  <h6 className="mb-2 fw-bold">Refer Friends</h6>
-                  <p className="mb-0 text-muted fw-normal">
-                    Easily refer and share your templates with friends
-                  </p>
-                </div>
-              </div>
-              <div className="profile_single_item d-flex align-items-start mb-4">
-                <div className="single_item_icon pe-3">
-                  <img
-                    src="assets/images/Icons/help.png"
-                    alt="usericon"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="single_items_text border-bottom w-100 pb-4">
-                  <h6 className="mb-2 fw-bold">Get Support</h6>
-                  <p className="mb-0 text-muted fw-normal">
-                    24/7 any issue instant support
-                  </p>
-                </div>
-              </div>
-              <div className="profile_single_item d-flex align-items-start mb-4">
-                <div className="single_item_icon pe-3">
-                  <img
-                    src="assets/images/Icons/file.png"
-                    alt="usericon"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="single_items_text border-bottom w-100 pb-4">
-                  <h6 className="mb-2 fw-bold">My Creation</h6>
-                  <p className="mb-0 text-muted fw-normal">
-                    View your last create design tempate
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="offcanvas-footer p-3">
-            <a
-              className="w-100 register_btn text-decoration-none"
-              href="javacript:;"
-            >
-              Logout
-            </a>
-          </div>
-        </div>
-        {/* ======= CREATION OFFCANVAS ========= */}
-        <div
-          className="profile_offcanvas creation_offcanvas offcanvas offcanvas-bottom"
-          tabIndex={-1}
-          id="creation_bottom"
-          aria-labelledby="offcanvasBottomLabel"
-        >
-          <div className="offcanvas-header">
-            <h5
-              className="offcanvas-title text-center w-100"
-              id="offcanvasBottomLabel"
-            >
-              Creation
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            />
-          </div>
-          <div className="offcanvas-body">
-            <div className="creation_offcanvas_inner template_design">
-              <div className="row">
-                <div className="col-6 mb-3">
-                  <div className="position-relative">
-                    <div className="gallery_img">
-                      <a href="javascript:;">
-                        <img
-                          src="assets/images/latest Template/LT-3.png"
-                          className="img-fluid w-100"
-                          alt="template"
-                        />
-                      </a>
-                    </div>
-                    <div className="gallery_menu">
-                      <a href="javascript:;" className="gallery_menu_icon">
-                        <i className="fa-sharp fa-solid fa-ellipsis" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 mb-3">
-                  <div className="position-relative">
-                    <div className="gallery_img">
-                      <a href="javascript:;">
-                        <img
-                          src="assets/images/latest Template/LT-5.png"
-                          className="img-fluid w-100"
-                          alt="template"
-                        />
-                      </a>
-                    </div>
-                    <div className="gallery_menu">
-                      <a href="javascript:;" className="gallery_menu_icon">
-                        <i className="fa-sharp fa-solid fa-ellipsis" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 mb-3">
-                  <div className="position-relative">
-                    <div className="gallery_img">
-                      <a href="javascript:;">
-                        <img
-                          src="assets/images/latest Template/LT-4.png"
-                          className="img-fluid w-100"
-                          alt="template"
-                        />
-                      </a>
-                    </div>
-                    <div className="gallery_menu">
-                      <a href="javascript:;" className="gallery_menu_icon">
-                        <i className="fa-sharp fa-solid fa-ellipsis" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 mb-3">
-                  <div className="position-relative">
-                    <div className="gallery_img">
-                      <a href="javascript:;">
-                        <img
-                          src="assets/images/insta story/IS-3.png"
-                          className="img-fluid w-100"
-                          alt="template"
-                        />
-                      </a>
-                    </div>
-                    <div className="gallery_menu">
-                      <a href="javascript:;" className="gallery_menu_icon">
-                        <i className="fa-sharp fa-solid fa-ellipsis" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </Box>
 
       {isLoading && (
         <main className="main">

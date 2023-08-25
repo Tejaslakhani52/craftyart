@@ -13,7 +13,6 @@ export default function CreateDeckstockAcount() {
   const [isInvalid, setisInvalid] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [messageError, setMessageError] = useState<string>("");
-  //console.log("messageError: ", messageError);
 
   const handleSubmission = () => {
     if (
@@ -36,19 +35,16 @@ export default function CreateDeckstockAcount() {
       createAcount.password
     )
       .then(async (res) => {
-        //console.log("res: ", res);
         const user = res.user;
         await updateProfile(user, {
           displayName: createAcount.name,
         });
-        //console.log("user: ", user);
         navigate("/");
         localStorage.setItem("userProfile", JSON.stringify(user));
         window.location.reload();
         setMessage("Acount created success");
       })
       .catch((err) => {
-        //console.log("err: ", err);
         setMessageError(err.message);
       });
   };

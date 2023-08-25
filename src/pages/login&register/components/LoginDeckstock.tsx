@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import PhoneLogin from "./commonComponents/LoginWithMobile";
+import { consoleShow } from "../../../commonFunction/console";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQP7F26DBVJvXWNgwS3lerBUCGcbH2z4U",
@@ -44,7 +45,7 @@ export default function LoginDeckstock() {
         appVerifier
       );
     } catch (error) {
-      console.log(error);
+      consoleShow("error", error);
     }
   };
 
@@ -114,35 +115,6 @@ export default function LoginDeckstock() {
                         className="text-decoration-none text-black"
                       >
                         Continue with email
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                {/* ======= LOGIN WITH MOBILE ====== */}
-                <div
-                  className="login_option_single"
-                  data-bs-toggle="modal"
-                  data-bs-target="#loginmobile_modal"
-                >
-                  <div className="row">
-                    <div className="col-2 text-center">
-                      <a
-                        href="javascript:;"
-                        className="text-decoration-none text-black"
-                      >
-                        <img
-                          src="../../assets/images/Icons/mobileicon.png"
-                          className="img-fluid"
-                          alt="mobileicon"
-                        />
-                      </a>
-                    </div>
-                    <div className="col-9">
-                      <a
-                        href="javascript:;"
-                        className="text-decoration-none text-black"
-                      >
-                        Login with mobile
                       </a>
                     </div>
                   </div>

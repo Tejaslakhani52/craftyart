@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Creation from "../../components/creationOffcanvas/Creation";
 import CustomeSize from "../../components/footer/customeSize/CustomeSize";
@@ -6,12 +6,17 @@ import Profile from "../../components/profile/Profile";
 import SmallScreen from "../../components/smallScreenBottom/SmallScreen";
 import Templete from "./components/templeteSection/Template";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { consoleShow } from "../../commonFunction/console";
+import { Helmet } from "react-helmet";
 
 export default function AllTemplate() {
   const navigate = useNavigate();
   const { categoryId } = useParams();
-  console.log("categoryId: ", categoryId);
+  consoleShow("categoryId: ", categoryId);
   const [value, setValue] = useState<any>("");
+
+  const [templatesData, setTemplatesData] = useState<any>(null);
+  const [description, setDescription] = useState<string>("");
 
   const handleSearch = () => {
     const modifiedValue = value.replace(/ /g, "-");
@@ -24,8 +29,26 @@ export default function AllTemplate() {
     }
   };
 
+  const [more, setMore] = useState<boolean>(false);
+
+  useEffect(() => {
+    const formattedText = templatesData?.long_desc
+      ?.replace(/\r\n\r\n/g, "\n\n")
+      ?.replace(/\r\n/g, "\n");
+    const description = formattedText || "";
+    const words = description.split(" ");
+    const truncatedDescription = words.slice(0, 40).join(" ");
+    if (more) {
+      setDescription(formattedText);
+    } else setDescription(truncatedDescription);
+  }, [templatesData, more]);
+
   return (
     <div>
+      <Helmet>
+        <title>{templatesData?.meta_title}</title>
+        <meta name="description" content={templatesData?.meta_desc} />
+      </Helmet>
       <div className="small_fixed_footer d-bock d-sm-none">
         <SmallScreen />
         <Profile />
@@ -40,14 +63,67 @@ export default function AllTemplate() {
               className="main_heading mb-3"
               style={{ textTransform: "capitalize" }}
             >
-              {categoryId} Templates
+              {templatesData?.h1_tag}
             </h1>
-            <p className="comman_para mb-0 w-75" style={{ color: "white" }}>
-              Make your Templates attract even more with stunning images.
-              Promote your brand and engage your followers with eye-catching
-              templates. With pre-designed templates, you will all stay on the
-              same page as you edit your visuals directly in Crafty Art.
-            </p>
+            <div
+              style={{
+                maxHeight: "200px",
+                overflow: "auto",
+              }}
+              className="scroll_custome"
+            >
+              <p
+                className=" "
+                style={{
+                  color: "white",
+                  whiteSpace: "pre-line",
+                  textAlign: "center",
+                }}
+              >
+                {templatesData?.short_desc}
+              </p>
+              <div
+                style={{
+                  display: more ? "flex" : "none",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <h2
+                  className="main_heading  "
+                  style={{
+                    textTransform: "capitalize",
+                    textAlign: "center",
+                    fontSize: "20px",
+                    lineHeight: "auto",
+                  }}
+                >
+                  {templatesData?.h2_tag}
+                </h2>
+                <p
+                  className="comman_para mb-0 w-75"
+                  style={{
+                    color: "white",
+                    whiteSpace: "pre-line",
+                    textAlign: "justify",
+                  }}
+                >
+                  {description}
+                </p>
+              </div>
+              <span
+                style={{
+                  color: "blue",
+                  borderBottom: "1px solid blue",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                }}
+                onClick={() => setMore(!more)}
+              >
+                {more ? "Short" : "... More"}
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -93,7 +169,7 @@ export default function AllTemplate() {
                     <span>{categoryId}</span>
                   </nav>
                 </div>
-                <Templete />
+                <Templete setTemplatesData={setTemplatesData} />
               </div>
             </div>
           </div>

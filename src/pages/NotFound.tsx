@@ -1,8 +1,16 @@
+import React, { useEffect } from "react";
 import BigLogo from "../assets/images/Icons/craftyart_main_logo.png";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { headerShowing } from "../redux/reducer/dataReducer";
 
 export default function NotFound() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(headerShowing(false));
+  }, []);
 
   return (
     <div className="not_found_page">

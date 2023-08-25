@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Dispatch } from "redux";
+import { consoleShow } from "../../commonFunction/console";
 
 export const templatesData = () => (dispatch: Dispatch<any>) => {
   axios
@@ -10,8 +11,8 @@ export const templatesData = () => (dispatch: Dispatch<any>) => {
       page: 1,
     })
     .then((res: any) => {
-      console.log("res: ", res);
+      consoleShow("res: ", res);
       // dispatch(templates(res?.data?.datas));
     })
-    .catch((err) => console.log("err: ", err));
+    .catch((err) => consoleShow("err: ", err));
 };

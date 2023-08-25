@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LoginGoogle from "../../pages/login&register/components/commonComponents/LoginGoogle";
-import LoginRegister from "../../pages/login&register/loginRegister";
-import api from "../../services/api";
-import BigLogo from "../../assets/images/Icons/craftyart_main_logo.png";
+import LoginGoogle from "../../../pages/login&register/components/commonComponents/LoginGoogle";
+import LoginRegister from "../../../pages/login&register/loginRegister";
+import api from "../../../services/api";
+import BigLogo from "../../../assets/images/Icons/craftyart_main_logo.png";
 import SmallLogo from "../../style/images/Icons/craftysmall.png";
-import MainSerchbar from "../commonComponents/MainSerchbar";
-import UserProfile from "./components/UserProfile";
-import { consoleShow } from "../../commonFunction/console";
+import MainSerchbar from "../../commonComponents/MainSerchbar";
+import UserProfile from "./UserProfile";
+import { consoleShow } from "../../../commonFunction/console";
+import { useSelector } from "react-redux";
+import Mlogo from "../../../assets/images/Mlogo.svg";
+import { Box } from "@mui/material";
 
-export default function Header() {
+export default function MainHeader() {
   const apiKey = process.env.REACT_APP_API_KEY;
   const navigate = useNavigate();
   const token = localStorage.getItem("userProfile");
@@ -18,7 +21,7 @@ export default function Header() {
   const [profileLoading, setProfileLoading] = useState<boolean>(false);
   const [imageBaseUrl, setImageBaseUrl] = useState<any>(null);
   const getData = localStorage.getItem("userProfile");
-  console.log("getData: ", getData);
+  consoleShow("getData: ", getData);
 
   useEffect(() => {
     const getData = localStorage.getItem("userProfile");
@@ -39,7 +42,7 @@ export default function Header() {
       device_id: "",
       email: uId,
     });
-    console.log("getUserData: ", getUserData);
+    consoleShow("getUserData: ", getUserData);
     localStorage.setItem(
       "premium",
       getUserData?.user?.is_premium === 1 ? "true" : "false"
@@ -54,14 +57,23 @@ export default function Header() {
         <nav className="navbar navbar-expand-lg bg-light position-relative h-100">
           <div className="container-fluid ">
             {/* ========LOGO FOR DESKTOP====== */}
-            <div className="d-none d-sm-block">
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
               <a
                 className="navbar-brand navbar_logo_desktop"
                 onClick={() => navigate(`/`, { replace: true })}
               >
                 <img src={BigLogo} alt="logo" className="img-fluid" />
               </a>
-            </div>
+            </Box>
+
+            <Box sx={{ display: { xs: "block", sm: "none" } }}>
+              <a
+                className="navbar-brand "
+                onClick={() => navigate(`/`, { replace: true })}
+              >
+                <img src={Mlogo} alt="logo" className="img-fluid" />
+              </a>
+            </Box>
 
             <div>
               <div className="">
@@ -116,16 +128,6 @@ export default function Header() {
                 </div>
               </div>
             </div>
-
-            {/* <button
-              className="navbar-toggler border-0"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasNavbar"
-              aria-controls="offcanvasNavbar"
-            >
-              <span className="navbar-toggler-icon " />
-            </button> */}
           </div>
         </nav>
       </header>

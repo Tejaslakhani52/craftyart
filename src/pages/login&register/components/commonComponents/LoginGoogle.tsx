@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../../../services/api";
 import { toast } from "react-hot-toast";
+import { consoleShow } from "../../../../commonFunction/console";
 
 const provider = new GoogleAuthProvider();
 
@@ -26,7 +27,7 @@ export default function LoginGoogle() {
   const apiKey = process.env.REACT_APP_API_KEY;
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>({ photo_uri: null });
-  console.log("userData: ", userData);
+  consoleShow("userData: ", userData);
 
   const location = useLocation();
   const currentPathname = location.pathname;
@@ -34,7 +35,7 @@ export default function LoginGoogle() {
   const handleGoogleLogin = () => {
     signInWithPopup(auth, provider)
       .then((data) => {
-        console.log("userProfileGoogle: ", data);
+        consoleShow("userProfileGoogle: ", data);
         setUserData(data?.user);
         const userData: any = data?.user;
         api.createUser({
@@ -50,7 +51,7 @@ export default function LoginGoogle() {
         });
         toast.success("Success Login");
         localStorage.setItem("userProfile", data?.user?.uid);
-        navigate(`${currentPathname}`);
+        navigate(`${currentPathname !== "/login" ? currentPathname : "/"}`);
         setTimeout(() => {
           window.location.reload();
         }, 1000);

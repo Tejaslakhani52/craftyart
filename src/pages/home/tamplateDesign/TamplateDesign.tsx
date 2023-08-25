@@ -7,6 +7,7 @@ import TemplateModel from "../../allTemplate/components/tempateModal/TemplateMod
 import { useSelector } from "react-redux";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { consoleShow } from "../../../commonFunction/console";
 
 export const ImageComponent = ({
   temp,
@@ -262,7 +263,7 @@ export default function TamplateDesign({ isloading }: any) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const templates = useSelector((state: any) => state.apiData.templatesData);
-  console.log("templatesccccc: ", templates);
+  consoleShow("templatesccccc: ", templates);
 
   useEffect(() => {
     const handleResize = () => {
@@ -298,7 +299,7 @@ export default function TamplateDesign({ isloading }: any) {
       <main className="template_design pt-sm-4">
         <div className="section_heading text-center container-fluid d-none d-sm-block">
           <h5 className="section_heading_title mb-2 pb-1">
-            Make your designs as unique as your business
+            Make your Designs as Unique as your Business
           </h5>
           <p className="comman_para w-75 mx-auto">
             Create Professional Designs Effortlessly with Our Free Online Logo

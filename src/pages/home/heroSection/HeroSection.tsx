@@ -1,9 +1,8 @@
-  import React, { useState } from "react";
+import React, { useState } from "react";
 import MainSerchbar from "../../../components/commonComponents/MainSerchbar";
 
 export default function HeroSection() {
   const [value, setValue] = useState<any>("");
-  // console.log("value: ", value);
   return (
     <section className="hero d-none d-sm-block">
       <div className="hero_inner">
@@ -27,4 +26,3 @@ export default function HeroSection() {
     </section>
   );
 }
-  

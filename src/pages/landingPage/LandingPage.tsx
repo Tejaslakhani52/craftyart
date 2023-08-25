@@ -16,6 +16,9 @@ import FaqsBox from "../categoryPage/components/Faqs";
 import Banner from "../categoryPage/components/Banner";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { consoleShow } from "../../commonFunction/console";
+import { Helmet } from "react-helmet";
+import LinkComponent from "../../components/commonComponents/LinkComponent";
 
 const token = localStorage.getItem("userProfile");
 
@@ -60,6 +63,7 @@ export const CustomeButton = ({ text }: any) => {
           width: "100%",
           fontWeight: "500",
         }}
+        variant="h1"
       >
         {text}
       </Typography>
@@ -116,10 +120,12 @@ export const DetailTitle = ({ text1, text2, text3 }: any) => {
   return (
     <Typography
       sx={{
-        fontSize: "32px",
+        fontSize: { xs: "21px", lg: "32px" },
         color: "#000",
         fontWeight: "600",
+        textAlign: { xs: "center", lg: "left" },
       }}
+      variant="h2"
     >
       {text1}
       <span
@@ -130,7 +136,7 @@ export const DetailTitle = ({ text1, text2, text3 }: any) => {
           // color: "transparent",
           WebkitTextFillColor: "transparent",
           width: "100%",
-          margin: "0 10px",
+          margin: "0 7px",
         }}
       >
         {text2}
@@ -152,8 +158,8 @@ export function GetTemplates(props: any) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          padding: "50px",
-          gap: "50px",
+          padding: { xs: "20px 10px", lg: "50px" },
+          gap: { xs: "20px", lg: "50px" },
         }}
       >
         <Box
@@ -165,24 +171,30 @@ export function GetTemplates(props: any) {
         >
           <Typography
             sx={{
-              fontSize: "32px",
+              fontSize: { xs: "25px", lg: "32px" },
               color: "#ffffff",
               fontWeight: "600",
-              lineHeight: "41px",
+              // lineHeight: "41px",
+              textAlign: "center",
             }}
+            variant="h2"
           >
-            Unlock The Creativity Of Your Inner Designer With 5000+ Invitation
-            Templates.
+            Discover Limitless Design Possibilities with Our Collection of 5000+
+            Invitation Templates.
           </Typography>
           <Typography
             sx={{
               fontSize: "18px",
               color: "#ffffff",
               fontWeight: "400",
-              lineHeight: "41px",
+              padding: { xs: "10px 0", lg: "20px 0 0 0 " },
+              textAlign: "center",
             }}
+            variant="h3"
           >
-            Create unforgettable moments with personalized invitations
+            Discover the art of unforgettable moments through invitation cards.
+            Make a Personalized and perfect invitation card for your special
+            event. Let's make memories together!
           </Typography>
         </Box>
         {token ? (
@@ -264,7 +276,7 @@ export function InvitationBox() {
   const location = useLocation();
 
   const [data, setData] = useState<any>([]);
-  console.log("data: ", data);
+  consoleShow("data: ", data);
   const [data2, setData2] = useState<any>([]);
   const [data3, setData3] = useState<any>([]);
 
@@ -304,15 +316,16 @@ export function InvitationBox() {
     // fetchData3();
   }, []);
   return (
-    <>
-      <Box sx={{ width: "90%", margin: "50px auto" }}>
+    <div>
+      <Box sx={{ width: { xs: "95%", lg: "90%" }, margin: "50px auto" }}>
         <Typography
           sx={{
             color: "#1C3048",
-            fontSize: "36px",
+            fontSize: { xs: "25px", lg: "36px" },
             textAlign: "center",
             fontWeight: "500",
           }}
+          variant="h2"
         >
           Start Explore Templates :
         </Typography>
@@ -325,6 +338,7 @@ export function InvitationBox() {
             fontWeight: "500",
             my: "20px",
           }}
+          variant="h3"
         >
           Get a headstart with fully customizable templates
         </Typography>
@@ -333,7 +347,7 @@ export function InvitationBox() {
           sx={{
             width: "75%",
             justifyContent: "space-between",
-            display: "flex",
+            display: { xs: "none", lg: "flex" },
             margin: "auto",
             gap: "20px",
           }}
@@ -383,11 +397,12 @@ export function InvitationBox() {
         </Box>
         <Box
           sx={{
-            width: "90%",
-            justifyContent: "space-between",
+            width: { xs: "100%", lg: "90%" },
+            justifyContent: { xs: "center", lg: "space-between" },
             display: "flex",
             margin: "auto",
-            gap: "20px",
+            gap: { xs: "10px", lg: "20px" },
+            flexWrap: { xs: "wrap", lg: "nowrap" },
           }}
         >
           {data
@@ -397,7 +412,7 @@ export function InvitationBox() {
                 key={index}
                 className="background_light_green"
                 sx={{
-                  width: "200px",
+                  width: { xs: "160px", lg: "200px" },
                   cursor: "pointer",
                   my: "20px",
                   height: calculateHeight(item?.width, item?.height, 200),
@@ -446,7 +461,7 @@ export function InvitationBox() {
           sx={{
             width: "75%",
             justifyContent: "space-between",
-            display: "flex",
+            display: { xs: "none", lg: "flex" },
             margin: "auto",
             gap: "20px",
           }}
@@ -533,13 +548,23 @@ export function InvitationBox() {
           </button>
         </Box>
       </Box>
-    </>
+    </div>
   );
 }
 
 export default function LandingPage() {
   return (
     <div>
+      <Helmet>
+        <title>
+          Customize Your Invitation Card in Your Style And Your Event with
+          crafty art
+        </title>
+        <meta
+          name="description"
+          content="Create Stunning Invitations card with Crafty Art Invitation Card Maker Online - Easy, Fast, & Free. Design Your Dream Invite Today!"
+        />
+      </Helmet>
       <Box
         sx={{
           background:
@@ -547,41 +572,45 @@ export default function LandingPage() {
           height: "420px",
           display: "flex",
           alignItems: "center",
-          paddingLeft: "50px",
+          paddingLeft: { xs: "10px", md: "50px" },
           borderRadius: "8px",
           margin: "10px auto",
           width: "97%",
+          // flexDirection: { sm: "column", md: "row" },
         }}
       >
         <Box
           sx={{
-            width: "57%",
+            width: { xs: "100%", md: "57%" },
             display: "flex",
             flexDirection: "column",
-            gap: "30px",
+            gap: { xs: "15px", md: "30px" },
           }}
         >
           <Typography
             sx={{
-              fontSize: "40px",
+              fontSize: { xs: "30px", md: "40px" },
               color: "#ffffff",
               width: "100%",
               fontWeight: "600",
-              lineHeight: "48px",
+              lineHeight: { xs: "35px", md: "48px" },
             }}
+            variant="h1"
           >
-            Let Your Invitation Shine with Our Smooth and Sleek Invitation Maker
+            Invitations Beyond Imagination - Welcome to Crafty Art Invitation
+            Card Maker
           </Typography>
 
           <Typography
             sx={{
-              fontSize: "20px",
+              fontSize: { xs: "17px", md: "20px" },
               color: "#1C3048",
+              // color: "#ffffff",
               width: "100%",
               fontWeight: "500",
             }}
           >
-            Make lovely invitations for birthdays, baby showers, weddings, and
+            Make lovely invitation card for birthday, baby shower, weddings, and
             save-the-dates. Regardless of the event, you can make beautiful,
             personalised invites and shop with confidence by choosing the finish
             type, size, and matching envelopes.
@@ -658,7 +687,7 @@ export default function LandingPage() {
         <Box
           sx={{
             width: "43%",
-            display: "flex",
+            display: { xs: "none", md: "flex" },
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -675,49 +704,58 @@ export default function LandingPage() {
       </Box>
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
           }}
         >
           <img
             src={logoGroup}
             alt=""
-            style={{ width: "570px", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
           />
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
-              text1={" Craft the"}
-              text2={"PERFACT INVITATION"}
+              text1={"Craft the"}
+              text2={"PERFACT INVITATION CARD"}
               text3={"with ease"}
             />
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <MarkText text="Choose a design template that matches your event's theme and purpose." />
               <MarkText text="Customise the text, font, and colour to convey your message and personality." />
-              <MarkText text="Select high-quality images or graphics to add visual appeal and context." />
-              <MarkText text="Preview the invitation to ensure it looks clean, professional, and error-free." />
-              <MarkText text="Share the invitation via social media, email, or print to reach your desired audience." />
+              <MarkText text="Select high-quality images or graphics to add visual appeal and context on invitation card." />
+              <MarkText text="Preview the invitation card to ensure it looks clean, professional, and error-free." />
+              <MarkText text="Share the invitation card via social media, email, or print to reach your desired audience." />
             </Box>
             <CustomeButton text="Start Designing" />
           </Box>
@@ -725,35 +763,43 @@ export default function LandingPage() {
       </Box>
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
+            order: { xs: "2", lg: "1" },
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
               text1={"Make"}
-              text2={"CUSTOM INVITATIONS"}
+              text2={"CUSTOM INVITATIONS CARD"}
               text3={"in minutes"}
             />
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <MarkText text="Sign up for an account or log in with your existing credentials." />
-              <MarkText text="Browse through the selection of customizable invitation templates." />
-              <MarkText text="Pick a template that aligns with your event's style and tone." />
+              <MarkText text="Browse through the selection of customizable invitation card templates." />
+              <MarkText text="Pick a invitation template that aligns with your event's style and tone." />
               <MarkText text="Add your personalised information, such as event details, date, time, location, etc." />
-              <MarkText text="Save, preview, and send the invitation to your guests." />
+              <MarkText text="Save, preview, and send the invitation card to your guests." />
             </Box>
 
             <CustomeButton text="Start Designing" />
@@ -761,65 +807,72 @@ export default function LandingPage() {
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
-            alignItems: "flex-end",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
+            order: { xs: "1", lg: "2" },
           }}
         >
-          <img
-            src={custome}
-            alt=""
-            style={{ width: "500px", height: "100%" }}
-          />
+          <img src={custome} alt="" style={{ width: "100%", height: "100%" }} />
         </Box>
       </Box>
       <InvitationBox />
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
           }}
         >
           <img
             src={stunning}
             alt=""
-            style={{ width: "550px", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
           />
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
               text1={"How to make"}
-              text2={"STUNNING INVITATIONS"}
+              text2={"STUNNING INVITATIONS CARD"}
               text3={"for free"}
             />
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <MarkText text="Start by searching for a reputable online invitation maker." />
-              <MarkText text="Explore the different design templates available and select one that fits your occasion." />
+              <MarkText text="Start by searching for a reputable online invitation card maker." />
+              <MarkText text="Explore the different invitation design templates available and select one that fits your occasion." />
               <MarkText text="Personalise your invitation by adding your own text, images, and other elements." />
-              <MarkText text="Experiment with different fonts, colours, and layouts to create a visually appealing invitation." />
+              <MarkText text="Experiment with different fonts, colours, and layouts to create a visually appealing in your invitation card." />
               <MarkText text="Preview your work before sending it out to ensure it looks polished and professional." />
             </Box>
 
@@ -829,15 +882,291 @@ export default function LandingPage() {
       </Box>
 
       <GetTemplates
-        heading="Unlock The Creativity Of Your Inner Designer With 5000+ Invitation Templates."
-        text="Create unforgettable moments with personalized invitations"
+        heading="Discover Limitless Design Possibilities with Our Collection of 5000+ Invitation Templates."
+        text="Discover the art of unforgettable moments through invitation cards. Make a Personalized and perfect invitation card for your special event. Let's make memories together!"
         path="/templates/invitation-card"
       />
 
       <Box
         sx={{
-          width: "60%",
-          my: "100px",
+          width: { xs: "95%", lg: "60%" },
+          my: { xs: "50px", lg: "100px" },
+          mx: "auto",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <DetailTitle text1={"Our"} text2={"Invitation"} text3={"Services"} />
+
+        <Typography sx={{ pt: 2, width: "100%" }}>
+          At Crafty Art, we offer a wide range of invitation services designed
+          to make your special moments truly exceptional.
+        </Typography>
+
+        <Box>
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "20px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Wedding Invitations :
+            </Typography>{" "}
+            From classic elegance to modern charm, our invitation card for
+            wedding are tailored to capture the essence of your love story.
+            Explore our wedding invitation background and design it today!
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "20px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Birthday Invitation :
+            </Typography>{" "}
+            Make every birthday a memorable event with our personalized birthday
+            invitation card . Choose from a variety of themes and styles to suit
+            your birthday celebration.
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "20px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Corporate Events :
+            </Typography>{" "}
+            Set the tone for your corporate events with our professional and
+            customizable invitation cards. Impress your clients and partners
+            with our sleek designs.
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "20px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Baby Showers :
+            </Typography>{" "}
+            Celebrate the upcoming arrival of your little one with our adorable
+            baby shower invitation card maker template. We offer cute and
+            creative baby shower designs for this special occasion.
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "20px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Custom Design :
+            </Typography>{" "}
+            Bring your vision to life with our custom invitation card design
+            services. Our team of talented designers will work closely with you
+            to create a one-of-a-kind invitation card for your wedding,
+            engagement, anniversary, reception, birthday, baby shower, opening
+            ceremony etc.
+          </Typography>
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          width: { xs: "95%", lg: "60%" },
+          my: { xs: "50px", lg: "100px" },
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <DetailTitle text1={"Why"} text2={"Choose"} text3={"Us"} />
+
+        <Box sx={{ p: "5px" }}></Box>
+        <div style={{ width: "100%" }}>
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "10px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Unparalleled Creativity :
+            </Typography>{" "}
+            Crafty Art is known for their creativity and attention to detail.
+            Expect invitation card that stand out from the rest.
+          </Typography>
+          <Typography
+            variant="h3"
+            sx={{ fontSize: "20px", mt: "30px", fontWeight: "500" }}
+          ></Typography>
+
+          <Typography sx={{ pt: 0 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Customization :
+            </Typography>{" "}
+            Your vision is our priority. We offer fully customized designs to
+            match your unique style and preferences.
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "10px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Exceptional Service :
+            </Typography>{" "}
+            Crafty Art is here to assist you at every step, making the process
+            enjoyable and stress-free.
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "10px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Quality :
+            </Typography>{" "}
+            We provide a high resolution e- invitation card for your special
+            event
+          </Typography>
+        </div>
+      </Box>
+
+      <Box
+        sx={{
+          width: { xs: "95%", lg: "60%" },
+          my: { xs: "50px", lg: "100px" },
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <DetailTitle text1={"We"} text2={"Are"} text3={"Unique"} />
+
+        <Typography sx={{ pt: 2, width: "100%" }}>
+          At Crafty Art we go beyond the ordinary to make your invitation card
+          extraordinary. What sets us apart:
+        </Typography>
+
+        <div>
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "10px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Innovation :
+            </Typography>{" "}
+            We stay ahead of the latest trends to offer fresh and innovative
+            invitation card designs.
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "10px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Personal Touch :
+            </Typography>{" "}
+            Each invitation Card is crafted with care, ensuring it reflects the
+            personality of the host.
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "10px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Affordability :
+            </Typography>{" "}
+            Quality invitations need not break the bank. We offer competitive
+            pricing to fit your budget.
+          </Typography>
+
+          <Typography sx={{ pt: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "20px",
+                mt: "10px",
+                fontWeight: "500",
+                display: "inline-block",
+              }}
+            >
+              Sustainability :
+            </Typography>{" "}
+            We are committed to eco-friendly practices, using E- invitation card
+            for your event. Satisfaction Guaranteed: Your satisfaction is our
+            top priority. We aren't happy unless you're delighted with your
+            invitations.
+          </Typography>
+        </div>
+      </Box>
+
+      <Box
+        sx={{
+          width: { xs: "95%", lg: "60%" },
+          my: { xs: "50px", lg: "100px" },
           mx: "auto",
           display: "flex",
           alignItems: "center",
@@ -847,30 +1176,133 @@ export default function LandingPage() {
         <DetailTitle text1={"Some Popular"} text2={"Questions/Answered"} />
         <Box sx={{ p: "20px" }}></Box>
         <FaqsBox
-          heding="1. What are the available design templates for invitations? "
-          text="Our invitation maker offers a wide range of design templates to choose from, including options for birthdays, weddings,
-          baby showers, graduations, and more."
+          heding="1. How to write invitation card in english? "
+          text={
+            <p style={{ marginBottom: "0" }}>
+              In{" "}
+              <LinkComponent
+                text={"Crafty Art"}
+                link="https://www.craftyartapp.com/"
+              />{" "}
+              you can write{" "}
+              <LinkComponent
+                text={"invitation card"}
+                link="https://www.craftyartapp.com/templates/invitation"
+              />{" "}
+              in english very easily and effortlessly.
+            </p>
+          }
         />
         <FaqsBox
-          heding="2. Can I customise the text and images on the invitations?"
-          text="Yes, our invitation maker allows you to personalise your invitations with your own text and images. You can also
-          experiment with different fonts, colours, and layouts to create a unique look that matches your event."
+          heding="2. How do I invite my friends for my wedding?"
+          text={
+            <div>
+              <h3 style={{ fontSize: "16px" }}>
+                To invite your friends to your wedding, follow these steps:
+              </h3>
+              <Box sx={{ padding: "0 20px" }}>
+                <p style={{ marginBottom: "0" }}>
+                  1. Create a guest list: Make a list of all the friends you
+                  want to invite.
+                </p>
+                <p style={{ marginBottom: "0" }}>
+                  2. Choose invitations: Select{" "}
+                  <LinkComponent
+                    text={"wedding invitations template "}
+                    link="https://www.craftyartapp.com/k/wedding-invitation-template/"
+                  />{" "}
+                  that match your theme and style.
+                </p>
+                <p style={{ marginBottom: "0" }}>
+                  3. Collect contact information: Ensure you have the current
+                  addresses or email addresses of your friends.
+                </p>
+                <p style={{ marginBottom: "0" }}>
+                  4. Send invitations: Mail physical invitations or use{" "}
+                  <LinkComponent
+                    text={" digital invites"}
+                    link="https://www.craftyartapp.com/templates/invitation"
+                  />{" "}
+                  via email or social media.
+                </p>
+                <p style={{ marginBottom: "0" }}>
+                  5. Include RSVP details: Specify the deadline and method for
+                  RSVPs to confirm attendance.
+                </p>
+              </Box>
+            </div>
+          }
         />
         <FaqsBox
-          heding="3. How can I share my invitations with guests?"
-          text="You can share your invitations via email, social media, or print. Our platform makes it easy to send your invitations
-          directly to your guests' inboxes or share them on your social media accounts."
+          heding="3. What should I include in a baby shower invitation card?"
+          text={
+            <p style={{ marginBottom: "0" }}>
+              A{" "}
+              <LinkComponent
+                text={"baby shower invitation"}
+                link="https://www.craftyartapp.com/s/baby-shower-invitation"
+              />{" "}
+              should include the date, time, location, RSVP details, and any
+              specific requests such as bringing a gift or a dish to share.
+            </p>
+          }
         />
         <FaqsBox
-          heding="4. Can I preview my invitations before sending them out?"
-          text="Yes, our invitation maker comes with a preview feature that allows you to see how your finished invitations will look. You
-          can make any necessary changes before sending them out to ensure they are error-free and visually appealing."
+          heding="4. Can I send digital invitation card for a formal corporate event?"
+          text={
+            <p style={{ marginBottom: "0" }}>
+              While{" "}
+              <LinkComponent
+                text={"digital invitations"}
+                link="https://www.craftyartapp.com/invitation"
+              />{" "}
+              are convenient, formal corporate events typically warrant printed
+              invitations. However, you can send digital save-the-date cards to
+              announce the event in advance.
+            </p>
+          }
         />
         <FaqsBox
-          heding="5. Is the invitation maker free to use?"
-          text="We offer both free and paid options for using our invitation maker. The free version allows you to access basic features
-          and templates, while the paid version offers advanced customization options and premium templates."
+          heding="5. Can I create custom invitation cards?"
+          text={
+            <p style={{ marginBottom: "0" }}>
+              Absolutely! Crafty Art{" "}
+              <LinkComponent
+                text={"Invitation Card Maker"}
+                link="https://www.craftyartapp.com/invitation"
+              />{" "}
+              empowers you to unleash your creativity and design{" "}
+              <LinkComponent
+                text={"custom invitation cards"}
+                link="https://www.craftyartapp.com/templates/invitation"
+              />{" "}
+              that perfectly match your vision and event theme. With our
+              user-friendly interface and a wide array of design elements, you
+              can craft invitation cards that are as unique as your celebration.
+            </p>
+          }
         />
+      </Box>
+
+      <Box
+        sx={{
+          width: { xs: "95%", lg: "60%" },
+          my: { xs: "50px", lg: "100px" },
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <DetailTitle text1={"About "} text2={"Us"} />
+
+        <Typography sx={{ pt: 2 }}>
+          At Crafty Art we are passionate about turning life's moments into
+          beautiful memories. With years of experience in the industry, we
+          understand the importance of make perfect invitation card for your
+          special event. Our commitment to quality, creativity, and customer
+          satisfaction sets us apart.
+        </Typography>
       </Box>
     </div>
   );

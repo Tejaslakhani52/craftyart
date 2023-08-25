@@ -482,7 +482,7 @@
     height: 100vh;
   }
   footer {
-    height: calc(100vh - 260px);
+    /* height: calc(100vh - 260px); */
   }
   .custom_size_dropdown .select {
     margin-top: 15px;

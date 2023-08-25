@@ -14,8 +14,8 @@ export default function GetTemplates(props: any) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          padding: "50px",
-          gap: "50px",
+          padding: { xs: "20px 10px", lg: "50px" },
+          gap: { xs: "20px", lg: "50px" },
         }}
       >
         <Box
@@ -27,11 +27,13 @@ export default function GetTemplates(props: any) {
         >
           <Typography
             sx={{
-              fontSize: "32px",
+              fontSize: { xs: "25px", lg: "32px" },
               color: "#ffffff",
               fontWeight: "600",
-              lineHeight: "41px",
+              // lineHeight: "41px",
+              textAlign: "center",
             }}
+            variant="h2"
           >
             {props?.heading}
           </Typography>
@@ -40,7 +42,8 @@ export default function GetTemplates(props: any) {
               fontSize: "18px",
               color: "#ffffff",
               fontWeight: "400",
-              lineHeight: "41px",
+              padding: { xs: "10px 0", lg: "" },
+              textAlign: "center",
             }}
           >
             {props?.text}

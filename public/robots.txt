@@ -1,17 +1,6 @@
 User-agent: *
 
 Disallow: https://editor.craftyartapp.com
- 
-Disallow: /pricePlans
-Disallow: /subscriptions
-Disallow: /contactus.html
-Disallow: /javascript
-Disallow: /createblog
-Disallow: /invoice
-Disallow: /term-condition
-Disallow: /privacy-policy
-Disallow: /copyright-information
-Disallow: /career    
 
 User-agent: AdsBot-Google
 User-agent: AdsIdxBot

@@ -363,8 +363,8 @@
     max-height: 50px;
   }
   .container-fluid {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   .design_post .design_post_inner .small_card_icon {
     width: 60px;
@@ -500,7 +500,7 @@
     height: 100vh;
   }
   footer {
-    height: calc(100vh - 260px);
+    /* height: calc(100vh - 260px); */
   }
   .custom_size_dropdown .select {
     margin-top: 15px;
@@ -511,6 +511,19 @@
     flex: 0 0 47%;
     max-width: 47%;
     margin: 0 10px 0 0;
+  }
+  .header .login_btn {
+    width: 150px;
+    padding: 6px;
+  }
+  .header .login_btn .login_text {
+    font-size: 12px;
+  }
+  .header .navbar_logo_desktop img {
+    width: 130px;
+  }
+  .mobile {
+    display: none;
   }
 }
 @media screen and (max-width: 480px) {

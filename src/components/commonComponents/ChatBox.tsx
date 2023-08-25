@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import api from "../../services/api";
 import SmallLogo from "../../style/images/Icons/craftysmall.png";
 import { consoleShow } from "../../commonFunction/console";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,6 +22,9 @@ const style = {
 };
 
 export default function ChatBox() {
+  const headerShow = useSelector((state: any) => state?.data?.headerShowing);
+  consoleShow("headerShow: ", headerShow);
+
   const apiKey = process.env.REACT_APP_API_KEY;
   const [open, setOpen] = useState(false);
   const [uId, setuId] = useState<any>("");
@@ -67,11 +71,13 @@ export default function ChatBox() {
     }
     setChatDataList(getChatData?.data);
     consoleShow("getChatData", getChatData);
-  };
+  };    
 
   useEffect(() => {
-    fetchData();
-  }, [uId]);
+    if (headerShow) {
+      fetchData();
+    }
+  }, [uId, headerShow]);
 
   const handleIconClick = () => {
     if (inputRef.current) {
@@ -145,7 +151,7 @@ export default function ChatBox() {
             color: "white",
             fontSize: "50px",
             position: "fixed",
-            bottom: "20px",
+            bottom: { xs: "70px", md: "20px" },
             right: "20px",
             background:
               "linear-gradient(268.03deg, #5961F8 -0.66%, #5961F8 -0.65%, #497DEC 22.41%, #15D8C5 100%, #15D8C5 100%)",

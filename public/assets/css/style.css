@@ -1000,7 +1000,7 @@ input[type="number"] {
     rgba(255, 222, 233, 0.48) 87.94%
   );
   height: 100%;
-  max-height: 240px;
+  /* max-height: 240px; */
   min-height: 240px;
   width: 100%;
   position: relative;
@@ -2169,4 +2169,3 @@ input[type="radio"]:checked ~ label {
 a:hover {
   cursor: pointer;
 }
-

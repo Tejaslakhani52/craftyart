@@ -4,9 +4,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Box, Divider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { consoleShow } from "../../../commonFunction/console";
 
 export default function UserProfile({ userProfile, imageBaseUrl }: any) {
-  console.log("userProfile: ", userProfile);
+  consoleShow("userProfile: ", userProfile);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -70,6 +71,7 @@ export default function UserProfile({ userProfile, imageBaseUrl }: any) {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        sx={{ padding: "2px 2px", minWidth: "auto" }}
       >
         <div
           style={{

@@ -88,6 +88,15 @@ export default function TemplateModel({
   const [page, setPage] = React.useState<number>(0);
   const [isloading, setIsloading] = useState<boolean>(true);
   const [showingData, setshowingData] = useState<any>(templateData);
+  const [mobile, setmobile] = useState<any>(false);
+
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      setmobile(true);
+    }
+  }, []);
 
   useEffect(() => {
     setshowingData(templateData);
@@ -188,7 +197,7 @@ export default function TemplateModel({
                         }}
                       >
                         <div
-                          className="col-xl-8 col-lg-7 col-12"
+                          className="col-xl-8 col-lg-7 col-12 padding_none"
                           style={{ height: "100%" }}
                         >
                           {isloading ? (
@@ -270,7 +279,7 @@ export default function TemplateModel({
                             }}
                           />
                         )}
-                        <div className="col-xl-4 col-lg-5 col-12 mt-4 mt-lg-0">
+                        <div className="col-xl-4 col-lg-5 col-12 mt-4 mt-lg-0 padding_none">
                           {isloading ? (
                             <>
                               <Skeleton
@@ -288,21 +297,27 @@ export default function TemplateModel({
                             </>
                           ) : (
                             <div className="template_details">
-                              <h3 className="teamplate_heading">
+                              <h1
+                                className="teamplate_heading"
+                                style={{ fontSize: "25px" }}
+                              >
                                 {finalData[page]?.template_name}
-                              </h3>
+                              </h1>
                               <h5 className="fw-normal my-3">
                                 {finalData[page]?.category_size}
                               </h5>
 
                               {finalData[page]?.is_premium && !token ? (
                                 <button
-                                  type="button"
-                                  className="use_template_btn d-none d-lg-block"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#loginModal"
-                                  role="button"
+                                  className="use_template_btn "
                                   style={{ border: "none" }}
+                                  onClick={() => {
+                                    navigate("/login");
+                                    localStorage.setItem(
+                                      "navigate",
+                                      `/templates/p/${finalData[page]?.id_name}`
+                                    );
+                                  }}
                                 >
                                   <a
                                     href="javscript:;"
@@ -315,17 +330,23 @@ export default function TemplateModel({
                                 </button>
                               ) : (
                                 <p
-                                  className="use_template_btn d-none d-lg-block"
+                                  className="use_template_btn "
                                   onClick={() => {
-                                    if (
-                                      finalData[page]?.is_premium &&
-                                      userPremium !== "true"
-                                    ) {
-                                      navigate("/pricePlans");
-                                    } else
+                                    if (mobile) {
                                       window.open(
-                                        `https://editor.craftyartapp.com/${finalData[page]?.id_name}`
+                                        `https://play.google.com/store/apps/details?id=com.crafty.art`
                                       );
+                                    } else {
+                                      if (
+                                        finalData[page]?.is_premium &&
+                                        userPremium !== "true"
+                                      ) {
+                                        navigate("/pricePlans");
+                                      } else
+                                        window.open(
+                                          `https://editor.craftyartapp.com/${finalData[page]?.id_name}`
+                                        );
+                                    }
                                   }}
                                 >
                                   <a
@@ -382,22 +403,6 @@ export default function TemplateModel({
                                     </span>
                                     <span> File Type: JPG, PNG,PDF</span>
                                   </p>
-                                  <p className="mb-3">
-                                    <span className="pe-2">
-                                      <img
-                                        src="../../../../assets/images/Icons/shield.svg"
-                                        className="template_details_icon"
-                                        alt="shield"
-                                      />
-                                    </span>
-                                    <span>Premium license </span>
-                                    <a
-                                      href="javascript:;"
-                                      className="text-decoration-none color_slate_blue"
-                                    >
-                                      More info
-                                    </a>
-                                  </p>
                                 </>
                               )}
                             </div>
@@ -449,7 +454,7 @@ export default function TemplateModel({
                               return (
                                 <div
                                   key={index}
-                                  className="single_template_card see_all  "
+                                  className="single_template_card see_all mobile_temp "
                                   style={{ cursor: "pointer" }}
                                   onClick={() => {
                                     handleShowing(item);
@@ -463,8 +468,8 @@ export default function TemplateModel({
                                   <div
                                     className={`${
                                       mainId < 0
-                                        ? "background_light_green padding_10 min_h_240"
-                                        : "h_auto"
+                                        ? "background_light_green padding_10 min_h_240 mobile_temp "
+                                        : "h_auto mobile_temp"
                                     } gallery_img position-relative`}
                                     style={{
                                       display: "flex",
@@ -475,8 +480,8 @@ export default function TemplateModel({
                                     <img
                                       className={`${
                                         mainId < 0
-                                          ? "no_width"
-                                          : `img_width_187px border_radius this_template_width`
+                                          ? "no_width mobile_temp_h"
+                                          : `img_width_187px border_radius this_template_width mobile_temp_h`
                                       }`}
                                       crossOrigin="anonymous"
                                       src={item?.template_thumb}
@@ -501,7 +506,7 @@ export default function TemplateModel({
                                     )}
                                   </div>
                                   <div
-                                    className={`img_small_title mt-3 pb-3 ${"img_small_title_template_width"} `}
+                                    className={`img_small_title mt-3 pb-3 mobile_temp ${"img_small_title_template_width"} `}
                                   >
                                     <h6 className="mb-0">
                                       {item.template_name}

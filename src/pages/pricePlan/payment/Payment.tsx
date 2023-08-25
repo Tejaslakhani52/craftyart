@@ -26,6 +26,7 @@ const loadScript = (src: any) => {
 };
 
 export default function Payment({ selectPaln, countryCode }: any) {
+  consoleShow("countryCode: ", countryCode);
   const [loading, setLoading] = useState<boolean>(false);
 
   const uId = localStorage.getItem("userProfile");
@@ -56,6 +57,7 @@ export default function Payment({ selectPaln, countryCode }: any) {
         rzp.open({
           handler: function (response: any) {
             consoleShow("res", response);
+            window.location.reload();
           },
           modal: {
             ondismiss: function () {
@@ -65,7 +67,7 @@ export default function Payment({ selectPaln, countryCode }: any) {
         });
       })
       .catch((error) => {
-        console.log("gdsfgdfg: ", error);
+        consoleShow("gdsfgdfg: ", error);
       });
   };
 
@@ -111,15 +113,26 @@ export default function Payment({ selectPaln, countryCode }: any) {
                       </div>
                     </div>
                     <div className="finalize-contact">
-                      <p className="mb-2">You won"t be charged today</p>
+                      <p className="mb-2">Watermark Remover</p>
+                      <p className="mb-2">Background Remover</p>
+                      <p className="mb-2">Get high resolution templates</p>
+                      <p className="mb-2">Access to over 5,000+ templates</p>
+                      <p className="mb-2">Full access of Latest Designs</p>
                       <p className="mb-2">
-                        Paid subscription starts on November 12, 2022
+                        Access to over 5,00+ variety of Backgrounds
                       </p>
-                      <p className="mb-2">Pay once upfront. No auto-renew.</p>
-                      <p className="mb-2">Top up whenever you want.</p>
+                      <p className="mb-2">Smooth and Sleek Editor</p>
                       <p className="mb-2">
-                        You can cancel the premium anytime in your account
-                        settingsp
+                        Ability to upload your own images and assets
+                      </p>
+                      <p className="mb-2">Design with custom dimensions</p>
+                      <p className="mb-2">Resize anything with resize tool</p>
+                      <p className="mb-2">
+                        Access to over 3,000+ design elements
+                      </p>
+                      <p className="mb-2">Ads-free content</p>
+                      <p className="mb-2">
+                        Access to over 1,000+ different font styles
                       </p>
                     </div>
                     <div className="d-flex align-items-center justify-content-between border-top pt-3">

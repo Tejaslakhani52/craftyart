@@ -26,7 +26,7 @@ export default function CreateDeckstockAcount() {
   const [verifiedDone, setverifiedDone] = useState<boolean>(false);
   const [emailDialogShow, setEmailDialogShow] = useState<boolean>(false);
   const [finalUser, setFinalUser] = useState<any>(null);
-  console.log("currentUser: ", finalUser);
+  consoleShow("currentUser: ", finalUser);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user: any) => {
@@ -77,7 +77,7 @@ export default function CreateDeckstockAcount() {
     )
       .then(async (res: any) => {
         const user = res?.user;
-        console.log("user: ", user);
+        consoleShow("user: ", user);
         updateProfile(user, {
           displayName: createAcount.name,
         });
@@ -120,7 +120,7 @@ export default function CreateDeckstockAcount() {
       utm_medium: "craftyart",
       utm_source: "craftyart",
     });
-    console.log("newUser: ", newUser);
+    consoleShow("newUser: ", newUser);
     if (newUser?.user?.uid) {
       localStorage.setItem("userProfile", newUser?.user?.uid);
       toast.success("User created successfully");

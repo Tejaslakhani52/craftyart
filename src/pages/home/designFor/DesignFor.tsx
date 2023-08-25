@@ -50,14 +50,7 @@ export default function DesignFor({
                   key={item.category_id}
                   style={{ cursor: "pointer" }}
                   className="mt-2 designfor_logo_inner"
-                  onClick={() =>
-                    navigate(`/template/${item?.category_id}`, {
-                      state: {
-                        id: item?.category_id,
-                        name: item?.category_name,
-                      },
-                    })
-                  }
+                  onClick={() => navigate(`/templates/${item?.id_name}`)}
                 >
                   <div className="single_small_card">
                     <div className="small_card_icon">

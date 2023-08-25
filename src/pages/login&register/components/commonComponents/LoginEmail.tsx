@@ -32,9 +32,9 @@ export default function LoginEmail() {
   const [forgotPass, setForgotPass] = useState<any>(false);
   const [isLoading, setIsLoading] = useState<any>(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
-  console.log("currentUser: ", currentUser);
+  consoleShow("currentUser: ", currentUser);
   const [uid, setUid] = useState<any>(null);
-  console.log("uid: ", uid);
+  consoleShow("uid: ", uid);
   const [emailPassword, setemailPassword] = useState<any>({
     email: "",
     password: "",
@@ -46,7 +46,7 @@ export default function LoginEmail() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user: any) => {
-      console.log("user: ", user);
+      consoleShow("user: ", user);
       setCurrentUser(user);
     });
   }, []);
@@ -83,7 +83,7 @@ export default function LoginEmail() {
         emailPassword.email,
         emailPassword.password
       );
-      console.log("userCredential: ", userCredential);
+      consoleShow("userCredential: ", userCredential);
 
       toast.success("Success Login");
       localStorage.setItem("userProfile", userCredential?.user?.uid);
@@ -103,7 +103,7 @@ export default function LoginEmail() {
     setProcess(true);
     sendPasswordResetEmail(auth, emailPassword?.email)
       .then((res) => {
-        console.log("res: ", res);
+        consoleShow("res: ", res);
         // Email sent.
         setEnterNewPass(true);
         toast.success("Password reset email sent.");

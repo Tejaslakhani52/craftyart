@@ -8,6 +8,7 @@ import { searchLoading } from "../../redux/reducer/dataReducer";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import process from "process";
+import { consoleShow } from "../../commonFunction/console";
 
 export interface DialogTitleProps {
   id: string;
@@ -28,17 +29,17 @@ export default function SearchBox() {
   const modifiedName = name?.replace(/-/g, " ");
   const apiKey = process.env.REACT_APP_API_KEY;
   const { id } = useParams();
-  console.log("id: ", currentPathname);
+  consoleShow("id: ", currentPathname);
   const [value, setValue] = useState<any>(modifiedName);
   const [finalData, setfinalData] = React.useState<any>([]);
-  console.log("finalData: ", finalData);
+  consoleShow("finalData: ", finalData);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   // const [uniqueApiData, setUniqueApiData] = useState<any>([]);
   const [open, setOpen] = useState(false);
   const [dataPass, setDataPaas] = useState({});
   const [page, setPage] = useState<number>(1);
-  console.log("page: ", page);
+  consoleShow("page: ", page);
   const [templates, setTemplates] = useState<CatDataRoot>();
 
   const searchLoadingValue = useSelector(
@@ -82,7 +83,7 @@ export default function SearchBox() {
 
   const replaceURL = (url: string) => {
     const modifiedURL = url.replace(/%20/g, "-");
-    console.log("modifiedURL: ", modifiedURL);
+    consoleShow("modifiedURL: ", modifiedURL);
     navigate(modifiedURL);
   };
 
@@ -121,7 +122,7 @@ export default function SearchBox() {
 
         dispatch(searchLoading(false));
       })
-      .catch((error: any) => console.log("error: ", error));
+      .catch((error: any) => consoleShow("error: ", error));
   };
 
   useEffect(() => {
@@ -189,7 +190,7 @@ export default function SearchBox() {
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
                           const modifiedValue = value.replace(/ /g, "-");
-                          console.log("modifiedValue: ", modifiedValue);
+                          consoleShow("modifiedValue: ", modifiedValue);
                           if (value !== "") {
                             if (id && id !== "latest" && id !== "trending") {
                               window.history.replaceState(

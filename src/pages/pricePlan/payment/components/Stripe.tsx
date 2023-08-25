@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import { consoleShow } from "../../../../commonFunction/console";
 
 const inputStyle = {
   // iconColor: "#c4f0ff",
@@ -27,12 +28,22 @@ const inputStyle = {
 };
 
 export default function PaymentForm({ selectPlan, countryCode }: any) {
-  console.log("selectPaln: ", selectPlan);
+  consoleShow("selectPaln: ", selectPlan);
   const uId = localStorage.getItem("userProfile");
   const [success, setSuccess] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const protocol = window.location.protocol;
+  const hostname = window.location.hostname;
+  const location = window.location;
+  const domain = `${protocol}//${hostname}${
+    location.port ? ":" + location.port : ""
+  }`;
+
+  const currentUrl = window.location.href;
+  const returnUrl = `${domain}/payment/success/done?return_url=${currentUrl}`;
 
   const handleSubmit = async (e: any) => {
     setIsLoading(true);
@@ -55,21 +66,22 @@ export default function PaymentForm({ selectPlan, countryCode }: any) {
             packageId: selectPlan?.id,
             pay_mode: "subs",
             packageName: selectPlan?.package_name,
+            returnUrl: returnUrl,
           }
         );
 
-        // if (response?.data?.next_action?.redirect_to_url?.url) {
-        //   window.location.href =
-        //     response?.data?.next_action?.redirect_to_url?.url;
-        //   setIsLoading(false);
-        // }
+        if (response?.data?.next_action?.redirect_to_url?.url) {
+          window.location.href =
+            response?.data?.next_action?.redirect_to_url?.url;
+          setIsLoading(false);
+        }
 
         if (response.data.success) {
           toast.success("Successful payment");
           setSuccess(true);
         }
       } catch (error) {
-        console.log("Error", error);
+        consoleShow("Error", error);
       }
     } else {
       toast.error(error.message);
@@ -95,6 +107,7 @@ export default function PaymentForm({ selectPlan, countryCode }: any) {
                         border: "1px solid  #ced4da",
                         padding: "10px",
                         borderRadius: ".375rem",
+                        height: "44px",
                       }}
                     >
                       <CardNumberElement
@@ -124,6 +137,7 @@ export default function PaymentForm({ selectPlan, countryCode }: any) {
                         border: "1px solid  #ced4da",
                         padding: "10px",
                         borderRadius: ".375rem",
+                        height: "44px",
                       }}
                     >
                       <CardExpiryElement
@@ -146,6 +160,7 @@ export default function PaymentForm({ selectPlan, countryCode }: any) {
                         border: "1px solid  #ced4da",
                         padding: "10px",
                         borderRadius: ".375rem",
+                        height: "44px",
                       }}
                     >
                       <CardCvcElement

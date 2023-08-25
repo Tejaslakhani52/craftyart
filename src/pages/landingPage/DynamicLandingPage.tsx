@@ -12,6 +12,10 @@ import Pagination from "@mui/material/Pagination";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { toast } from "react-hot-toast";
+import BigLogo from "../../assets/images/Icons/craftyart_main_logo.png";
+import NotFound from "../NotFound";
+import { consoleShow } from "../../commonFunction/console";
+// import BigLogo from "../assets/images/Icons/craftyart_main_logo.png";
 
 export const ImageComponent = ({ state, item, height, isNotFix }: any) => {
   function calculateHeight(width: number, height: number, newWidth: number) {
@@ -73,32 +77,36 @@ export default function DynamicLandingPage() {
   const navigate = useNavigate();
   const { categoryId } = useParams();
   const location = useLocation();
-  console.log("location: ", location);
+  consoleShow("location: ", location);
   const currentPathname = location.pathname;
-  console.log("categoryId: ", location);
+  consoleShow("categoryId: ", location);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [templates, setTemplates] = useState<any>([]);
+  const [templates, setTemplates] = useState<any>(undefined);
+  consoleShow("templates: ", templates);
   const [isloading, setIsloading] = React.useState(true);
   const [apiData, setapiData] = useState<any>([]);
-  console.log("apiData: ", templates);
+  consoleShow("apiData: ", templates);
   const [page, setPage] = useState<any>(1);
-  console.log("page: ", page);
+  consoleShow("page: ", page);
   const [open, setOpen] = useState(false);
   const [dataPass, setDataPaas] = useState({});
   const [isNotFix, setIsNotFix] = useState<boolean>(false);
   const [keywordName, setKeywordName] = useState<string>("");
-  console.log("keywordName: ", keywordName);
+  const [proccess, setProccess] = useState<boolean>(true);
+  const [description, setDescription] = useState<string>("");
+
+  consoleShow("proccess: ", proccess);
+  consoleShow("keywordName: ", templates?.title);
 
   useEffect(() => {
-    const modifiedURL = currentPathname.replace(/%20/g, "-");
-    console.log("modifiedURLxzc: ", modifiedURL.split("=")[1]);
+    const formattedText = templates?.long_desc?.replace(/\n/g, "\n\n");
 
-    setKeywordName(modifiedURL.split("/")[2]);
-  }, [currentPathname]);
+    setDescription(formattedText);
+  }, [templates]);
 
   useEffect(() => {
     if (location?.search) {
-      console.log("categoryIddcd: ", (location?.search as any).split("=")[1]);
+      consoleShow("categoryIddcd: ", (location?.search as any).split("=")[1]);
       setPage((location?.search as any).split("=")[1]);
     }
   }, [location]);
@@ -113,6 +121,10 @@ export default function DynamicLandingPage() {
   }, []);
 
   useEffect(() => {
+    const modifiedURL = currentPathname.replace(/%20/g, "-");
+    consoleShow("modifiedURLxzc: ", modifiedURL.split("=")[1]);
+
+    const keywordName = modifiedURL.split("/")[2];
     axios
       .post(
         `https://panel.craftyartapp.com/templates/api/getKeyTemplates/?page=${page}`,
@@ -122,23 +134,20 @@ export default function DynamicLandingPage() {
         }
       )
       .then((res: any) => {
-        console.log("redscsds", res);
-
-        if (page > res?.data?.total_page) {
-          navigate("/notFound");
-        }
-
         setapiData(res?.data?.datas);
-
         setIsloading(false);
+        setProccess(false);
         setTemplates(res?.data);
       })
       .catch((error) => {
-        console.log("error: ", error);
-        navigate("/notFound");
         setIsloading(false);
+        setProccess(false);
       });
-  }, [page, keywordName]);
+  }, [page]);
+
+  // useEffect(() => {
+
+  // }, [templates]);
 
   const multiSize = useMemo(() => {
     switch (true) {
@@ -187,11 +196,12 @@ export default function DynamicLandingPage() {
     window.history.pushState({ path: newUrl }, "", newUrl);
   };
 
-  return (
+  return proccess ? ( // Check if "templates" is still null
+    <div className="white_screen" />
+  ) : templates?.current_page ? (
     <div>
       <Helmet>
         <title>{templates?.title}</title>
-        <meta name="title" content={templates?.meta_title} />
         <meta name="description" content={templates?.meta_desc} />
       </Helmet>
       <Box
@@ -200,18 +210,19 @@ export default function DynamicLandingPage() {
           height: "330px",
           display: "flex",
           alignItems: "center",
-          paddingLeft: "50px",
+          paddingLeft: { xs: "10px", lg: "50px" },
           borderRadius: "8px",
           margin: "10px auto",
           width: "97%",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           justifyContent: "center",
+          paddingRight: "10px",
         }}
       >
         <Box
           sx={{
-            width: "57%",
+            width: { xs: "100%", lg: "57%" },
             display: "flex",
             flexDirection: "column",
             gap: "30px",
@@ -219,19 +230,33 @@ export default function DynamicLandingPage() {
         >
           <Typography
             sx={{
-              fontSize: "40px",
+              fontSize: { xs: "30px", lg: "40px" },
               color: "#ffffff",
               fontWeight: "600",
               lineHeight: "48px",
               textAlign: "center",
             }}
+            variant="h1"
           >
             {templates?.title}
           </Typography>
 
           <Typography
             sx={{
-              fontSize: "20px",
+              fontSize: { xs: "20px", lg: "30px" },
+              color: "#ffffff",
+              fontWeight: "600",
+              lineHeight: "30px",
+              textAlign: "center",
+            }}
+            variant="h2"
+          >
+            {templates?.h2_tag}
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: { xs: "17px", lg: "20px" },
               color: "#ffffff",
               width: "100%",
               fontWeight: "500",
@@ -328,7 +353,11 @@ export default function DynamicLandingPage() {
         onClick={(e, p) => setPage(p)}
       /> */}
       <div
-        style={{ display: "flex", justifyContent: "center", padding: "40px 0" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "40px 0",
+        }}
       >
         <Pagination
           count={templates?.total_page}
@@ -340,7 +369,13 @@ export default function DynamicLandingPage() {
         />
       </div>
 
-      <div style={{ width: "75%", margin: "auto", padding: "20px 0" }}>
+      <Box
+        sx={{
+          width: { xs: "98%", lg: "75%" },
+          margin: "auto",
+          padding: "20px 0",
+        }}
+      >
         <h2
           style={{
             textAlign: "center",
@@ -351,8 +386,12 @@ export default function DynamicLandingPage() {
         >
           {templates?.title}
         </h2>
-        <p style={{ textAlign: "center" }}>{templates?.long_desc}</p>
-      </div>
+        <p style={{ textAlign: "justify", whiteSpace: "pre-line" }}>
+          {description}
+        </p>
+      </Box>
     </div>
+  ) : (
+    <NotFound />
   );
 }

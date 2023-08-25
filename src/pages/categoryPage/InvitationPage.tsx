@@ -55,6 +55,7 @@ export const CustomeButton = ({ text }: any) => {
           width: "100%",
           fontWeight: "500",
         }}
+        variant="h1"
       >
         {text}
       </Typography>
@@ -66,10 +67,12 @@ export const DetailTitle = ({ text1, text2, text3 }: any) => {
   return (
     <Typography
       sx={{
-        fontSize: "32px",
+        fontSize: { xs: "21px", lg: "32px" },
         color: "#000",
         fontWeight: "600",
+        textAlign: { xs: "center", lg: "left" },
       }}
+      variant="h2"
     >
       {text1}
       <span
@@ -96,12 +99,13 @@ export default function InvitationPage() {
         heading={
           <Typography
             sx={{
-              fontSize: "40px",
+              fontSize: { xs: "30px", md: "40px" },
               color: "#ffffff",
               width: "100%",
               fontWeight: "600",
-              lineHeight: "48px",
+              lineHeight: { xs: "35px", md: "48px" },
             }}
+            variant="h1"
           >
             Let Your Invitation Shine with Our Smooth and Sleek Invitation Maker
           </Typography>
@@ -123,37 +127,46 @@ export default function InvitationPage() {
       />
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
           }}
         >
           <img
             src={logoGroup}
             alt=""
-            style={{ width: "570px", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
           />
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
               text1={" Craft the"}
               text2={"PERFACT INVITATION"}
@@ -173,23 +186,31 @@ export default function InvitationPage() {
       </Box>
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
+            order: { xs: "2", lg: "1" },
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
               text1={"Make"}
               text2={"CUSTOM INVITATIONS"}
@@ -199,9 +220,9 @@ export default function InvitationPage() {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <MarkText text="Sign up for an account or log in with your existing credentials." />
               <MarkText text="Browse through the selection of customizable invitation templates." />
-              <MarkText text="Pick a template that aligns with your event's style and tone." />
+              <MarkText text="Pick a invitation template that aligns with your event's style and tone." />
               <MarkText text="Add your personalised information, such as event details, date, time, location, etc." />
-              <MarkText text="Save, preview, and send the invitation to your guests." />
+              <MarkText text="Save, preview, and send the invitation card to your guests." />
             </Box>
 
             <CustomeButton text="Start Designing" />
@@ -209,54 +230,61 @@ export default function InvitationPage() {
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
-            alignItems: "flex-end",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
+            order: { xs: "1", lg: "2" },
           }}
         >
-          <img
-            src={custome}
-            alt=""
-            style={{ width: "500px", height: "100%" }}
-          />
+          <img src={custome} alt="" style={{ width: "100%", height: "100%" }} />
         </Box>
       </Box>
       <InvitationBox />
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
           }}
         >
           <img
             src={stunning}
             alt=""
-            style={{ width: "550px", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
           />
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
               text1={"How to make"}
               text2={"STUNNING INVITATIONS"}
@@ -284,8 +312,8 @@ export default function InvitationPage() {
 
       <Box
         sx={{
-          width: "60%",
-          my: "100px",
+          width: { xs: "95%", lg: "60%" },
+          my: { xs: "50px", lg: "100px" },
           mx: "auto",
           display: "flex",
           alignItems: "center",

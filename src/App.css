@@ -1,6 +1,11 @@
-* {
+/* * {
   user-select: none;
+} */
+
+.modal {
+  z-index: 50000000000;
 }
+
 .main {
   display: flex;
   justify-content: center;
@@ -386,4 +391,59 @@ html {
 
 .max_w_120 {
   max-width: 150px;
+}
+
+.white_screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 50000000;
+}
+
+/* width */
+.scroll_custome::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.scroll_custome::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+.scroll_custome::-webkit-scrollbar-thumb {
+  background: #ffffff;  
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+.scroll_custome::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@media screen and (max-width: 520px) {
+  .chat {
+    width: 100%;
+    left: 10px;
+    height: 28rem;
+  }
+  .padding_none {
+    padding: 0;
+  }
+  .mobile_temp {
+    width: 100px !important;
+  }
+  .mobile_temp_h {
+    height: auto !important;
+    width: 100px !important;
+  }
+  .swiper-button-prev {
+    left: 3% !important;
+  }
+  .swiper-button-next {
+    right: 3% !important;
+  }
 }

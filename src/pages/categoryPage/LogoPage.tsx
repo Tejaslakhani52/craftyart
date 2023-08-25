@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
- import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logoGroup from "../../assets/images/Grouplogo.png";
 import custome from "../../assets/images/customLogos.png";
 import mainLogo from "../../assets/images/logoMainGroup.png";
@@ -58,10 +58,12 @@ export const DetailTitle = ({ text1, text2, text3 }: any) => {
   return (
     <Typography
       sx={{
-        fontSize: "32px",
+        fontSize: { xs: "21px", lg: "32px" },
         color: "#000",
         fontWeight: "600",
+        textAlign: { xs: "center", lg: "left" },
       }}
+      variant="h2"
     >
       {text1}
       <span
@@ -88,12 +90,13 @@ export default function LogoPage() {
         heading={
           <Typography
             sx={{
-              fontSize: "40px",
+              fontSize: { xs: "30px", md: "40px" },
               color: "#ffffff",
-              width: "70%",
+              width: "100%",
               fontWeight: "600",
-              lineHeight: "48px",
+              lineHeight: { xs: "35px", md: "48px" },
             }}
+            variant="h1"
           >
             Let Your Brand Shine with Our Custom Logo Design
           </Typography>
@@ -115,37 +118,46 @@ export default function LogoPage() {
       />
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
           }}
         >
           <img
             src={logoGroup}
             alt=""
-            style={{ width: "500px", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
           />
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
               text1={" Craft the"}
               text2={"PERFACT LOGO"}
@@ -166,23 +178,31 @@ export default function LogoPage() {
       </Box>
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
+            order: { xs: "2", lg: "1" },
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
               text1={"Make"}
               text2={"CUSTOM LOGOS"}
@@ -202,54 +222,61 @@ export default function LogoPage() {
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
-            alignItems: "flex-end",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
+            order: { xs: "1", lg: "2" },
           }}
         >
-          <img
-            src={custome}
-            alt=""
-            style={{ width: "550px", height: "100%" }}
-          />
+          <img src={custome} alt="" style={{ width: "100%", height: "100%" }} />
         </Box>
       </Box>
       <LogoBox />
       <Box
         sx={{
-          height: "500px",
           display: "flex",
           alignItems: "center",
           padding: "0 0px",
-          width: "80%",
+          width: { xs: "95%", lg: "80%" },
           margin: "auto",
           justifyContent: "space-between",
           marginY: "50px",
+          flexDirection: { xs: "column", lg: "row" },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
             flexDirection: "column",
             gap: "30px",
+            width: { xs: "90%", xl: "570px" },
+            height: "100%",
           }}
         >
           <img
             src={stunning}
             alt=""
-            style={{ width: "550px", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
           />
         </Box>
         <Box
           sx={{
-            width: "50%",
+            flex: "1",
             display: "flex",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: { xs: "30px", xl: "0" },
+            }}
+          >
             <DetailTitle
               text1={"How to make"}
               text2={"STUNNING LOGO"}
@@ -278,8 +305,8 @@ export default function LogoPage() {
 
       <Box
         sx={{
-          width: "60%",
-          my: "100px",
+          width: { xs: "95%", lg: "60%" },
+          my: { xs: "50px", lg: "100px" },
           mx: "auto",
           display: "flex",
           alignItems: "center",

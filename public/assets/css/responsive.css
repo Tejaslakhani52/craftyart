@@ -482,7 +482,7 @@
     height: 100vh;
   }
   footer {
-    height: calc(100vh - 260px);
+    /* height: calc(100vh - 260px); */
   }
   .custom_size_dropdown .select {
     margin-top: 15px;
@@ -493,6 +493,9 @@
     flex: 0 0 47%;
     max-width: 47%;
     margin: 0 10px 0 0;
+  }
+  .header .login_btn {
+    width: 150px;
   }
 }
 @media screen and (max-width: 480px) {

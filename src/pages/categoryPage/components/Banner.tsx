@@ -13,26 +13,28 @@ export default function Banner(props: any) {
           height: "420px",
           display: "flex",
           alignItems: "center",
-          paddingLeft: "50px",
+          paddingLeft: { xs: "10px", md: "50px" },
           borderRadius: "8px",
           margin: "10px auto",
           width: "97%",
+          // flexDirection: { sm: "column", md: "row" },
         }}
       >
         <Box
           sx={{
-            width: "57%",
+            width: { xs: "100%", md: "57%" },
             display: "flex",
             flexDirection: "column",
-            gap: "30px",
+            gap: { xs: "15px", md: "30px" },
           }}
         >
           {props?.heading}
 
           <Typography
             sx={{
-              fontSize: "20px",
+              fontSize: { xs: "17px", md: "20px" },
               color: "#1C3048",
+              // color: "#ffffff",
               width: "100%",
               fontWeight: "500",
             }}
@@ -73,7 +75,7 @@ export default function Banner(props: any) {
         <Box
           sx={{
             width: "43%",
-            display: "flex",
+            display: { xs: "none", md: "flex" },
             alignItems: "center",
             justifyContent: "center",
           }}

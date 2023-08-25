@@ -25,7 +25,12 @@ export default function FaqsBox(props: any) {
         onClick={() => setopen(!open)}
       >
         <Typography
-          sx={{ color: "#1C3048", fontWeight: "500", fontSize: "20px" }}
+          sx={{
+            color: "#1C3048",
+            fontWeight: "500",
+            fontSize: { xs: "18px", lg: "20px" },
+          }}
+          variant="h3"
         >
           {props?.heding}
         </Typography>
